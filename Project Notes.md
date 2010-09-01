@@ -148,13 +148,29 @@ Settings
 How to use  
 About DERP  
 
-####Aoeu?
+####Editor Feature Description
 
 _Preview_
 
+The final rendering from the output component is sent back to the editor and displayed in a preview window.
+The preview window can be displayed in target size (output texture size), fullscreen mode or manually resized.
+Since preview data is sent via network communication, the editor will need a resource stream technique to avoid GUI hangup.
+We could perhaps segment the data into chunks and transfer these over several frames.
+The preview window could then be periodically updated with this information to display partial output.
+This could enable the user to abort the preview transfer before the data is finished, if he is not satisfied with the results.
+I'm freeballin' this one guys!
+
 _Timing Info_
 
+When rendering the output, the backend profiles each component and sends this data along with the finished frame back to the editor. The timing information is displayed somewhere on the component itself in the editor window. 
+
 _Compiler Info_
+
+When the render compiles each component to GLSL code, the backend checks the compile result for errors.
+In the case that an error has occured, the renderer will be unable to execute the pipeline and must therefore notify
+the editor which component in the chain that failed. The faulty component will then display an error icon somewhere on the
+widget that tells the user which one is incorrect. The renderer should also send the actual error messages back to the editor
+so that the user knows whats wrong and what line produced it. 
 
 ##Renderer Description
 
