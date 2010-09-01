@@ -48,21 +48,21 @@ Compiler Info
         
 **_Auxiliary Types_**
 
-Texture - "texture"  
-Lua Script - "script"  
-Const - "const"  
+Texture - `"texture"`  
+Lua Script - `"script"`  
+Const - `"const"`  
 
 **_Output Types_**
 
-Texture - "texture"  
-Integer - "int"  
-Boolean - "bool"  
-Float - "float"  
-Vec2 - "vec2"  
-Vec3 - "vec3"  
-Mat2 - "mat2"  
-Mat3 - "mat3"  
-Mat4 - "mat4"
+Texture - `"texture"`  
+Integer - `"int"`  
+Boolean - `"bool"`  
+Float - `"float"`  
+Vec2 - `"vec2"`  
+Vec3 - `"vec3"`  
+Mat2 - `"mat2"`  
+Mat3 - `"mat3"`  
+Mat4 - `"mat4"`
 
 ###Render Component
 **_JSON Expamle_**
