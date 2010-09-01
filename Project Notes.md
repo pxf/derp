@@ -34,7 +34,7 @@ Should be able to drag multiple wires from one output to different inputs
 On/Off button. Possible extension: Collapse / minimize GUI box when component is offline  
 
 ####Auxiliary Component
-**_JSON Expamles_**
+**_JSON Examples_**
 
 **AuxComp - Texture:**
 
@@ -86,7 +86,7 @@ Mat3 - `"mat3"`
 Mat4 - `"mat4"`
 
 ###Render Component
-**_JSON Expamle_**
+**_JSON Examples_**
 
         {"blockName" : "render1",
          "blockType" : "Render",
@@ -102,7 +102,7 @@ Mat4 - `"mat4"`
         }
         
 ###Post-Process Component
-**_JSON Expamle_**
+**_JSON Examples_**
 
         {"blockName" : "postprocess1",
          "blockType" : "Post-Process",
@@ -115,7 +115,7 @@ Mat4 - `"mat4"`
         }
         
 ###Output Component
-**_JSON Example_**
+**_JSON Examples_**
 
         {"blockName" : "output1",
          "blockType" : "Output",
