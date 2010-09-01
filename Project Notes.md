@@ -1,3 +1,4 @@
+
 Project Notes
 =============
 ----------------
@@ -10,6 +11,7 @@ Preview
 Timing Info  
 Compiler Info  
 * _Renderer_
+Pipeline Tree
 
 ##Component Description
 Components sent from the editor to the renderer are specified in JSON 
@@ -21,10 +23,19 @@ and are structured in the following way:
         "blockOutput" : ...  
        }
 
-`blockName` is the name of the component and used to identify itself in the pipeline tree. `blockType` specifies the type of the component and can be one of; `AuxComp`, `Render`, `Post-Process`, `Output` and `PipelineTree`.
-       
+`blockName` is the name of the component and used to identify itself in the pipeline tree. `blockType` specifies the type of the component and can be one of; `AuxComp`, `Render`, `Post-Process`, `Output` and `PipelineTree`. `blockData` hold the component specific data
+
+####Component Feature List
 ###Auxiliary Component
 **_JSON Expamles_**
+
+User should be able to move components around on the workspace area
+Component minimization: component is collapsed / minimized to a smaller GUI box with only the component name and expand button visible  
+Should be able to drag multiple wires from one output to different inputs  
+On/Off button. Possible extension: Collapse / minimize GUI box when component is offline  
+
+####Auxiliary Component
+_Output Types_
 
 **AuxComp - Texture:**
 
@@ -121,4 +132,31 @@ Mat4 - `"mat4"`
         
 ##Editor Description
 
+####Editor Feature List
+
+Editor menu options: 
+
+* File  
+New  
+Save  
+Load  
+Exit
+* Edit  
+Undo  
+Redo  
+Settings
+* Help(maybe excessive work, but adds to the completeness of program.. less priority)  
+How to use  
+About DERP  
+
+####Aoeu?
+
+_Preview_
+
+_Timing Info_
+
+_Compiler Info_
+
 ##Renderer Description
+
+_Pipeline Tree_
