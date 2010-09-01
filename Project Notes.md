@@ -18,12 +18,13 @@ Components sent from the editor to the renderer are specified in JSON
 and are structured in the following way:
 
        {"blockName" : "...",  
-        "blockType" : "...",  
+        "blockType" : "...", 
+        "blockInput" : ..., 
         "blockData" : {...},  
         "blockOutput" : ...  
        }
 
-`blockName` is the name of the component and used to identify itself in the pipeline tree. `blockType` specifies the type of the component and can be one of; `AuxComp`, `Render`, `Post-Process`, `Output` and `PipelineTree`. `blockData` hold the component specific data
+`blockName` is the name of the component and used to identify itself in the pipeline tree. `blockType` specifies the type of the component and can be one of; `AuxComp`, `Render`, `Post-Process`, `Output` and `PipelineTree`. `blockInput` (optional) is a list of inputs / prerequisites. `blockData` hold the component specific data for each component type. `blockOutput` holds a list of the different outputs.
 
 ####Component Feature List  
 
