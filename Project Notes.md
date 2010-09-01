@@ -15,16 +15,16 @@ Compiler Info
 ####Auxiliary Component
 _Output Types_
 
-Texture
-Script Result
-Integer
-Boolean
-Float
-Vec2
-Vec3
-Mat2
-Mat3
-Mat4
+Texture 
+Script Result 
+Integer 
+Boolean 
+Float 
+Vec2 
+Vec3 
+Mat2 
+Mat3 
+Mat4 
 
 ####Render Component
 
