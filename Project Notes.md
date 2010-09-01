@@ -25,9 +25,7 @@ and are structured in the following way:
 
 `blockName` is the name of the component and used to identify itself in the pipeline tree. `blockType` specifies the type of the component and can be one of; `AuxComp`, `Render`, `Post-Process`, `Output` and `PipelineTree`. `blockData` hold the component specific data
 
-####Component Feature List
-###Auxiliary Component
-**_JSON Expamles_**
+####Component Feature List  
 
 User should be able to move components around on the workspace area
 Component minimization: component is collapsed / minimized to a smaller GUI box with only the component name and expand button visible  
@@ -35,7 +33,7 @@ Should be able to drag multiple wires from one output to different inputs
 On/Off button. Possible extension: Collapse / minimize GUI box when component is offline  
 
 ####Auxiliary Component
-_Output Types_
+**_JSON Expamles_**
 
 **AuxComp - Texture:**
 
