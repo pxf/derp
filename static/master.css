@@ -2,10 +2,39 @@
 	
 }
 
-body {
+@font-face {
 	font-family: 'CandelaBook';
-	src: url('/static/CandelaBook-webfont.eot');
-	src: local('☺'), url('/static/CandelaBook-webfont.woff') format('woff'), url('/static/CandelaBook-webfont.ttf') format('truetype'), url('/static/CandelaBook-webfont.svg#webfontAxeluF0D') format('svg');
+	src: url('CandelaBook-webfont.eot');
+	src: local('☺'), url('CandelaBook-webfont.woff') format('woff'), url('CandelaBook-webfont.ttf') format('truetype'), url('CandelaBook-webfont.svg#webfontAxeluF0D') format('svg');
 	font-weight: normal;
 	font-style: normal;
+}
+
+@font-face {
+	font-family: 'CandelaBookItalic';
+	src: url('CandelaItalic-webfont.eot');
+	src: local('☺'), url('CandelaItalic-webfont.woff') format('woff'), url('CandelaItalic-webfont.ttf') format('truetype'), url('CandelaItalic-webfont.svg#webfontPtKKV1Ve') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'CandelaBold';
+	src: url('CandelaBold-webfont.eot');
+	src: local('☺'), url('CandelaBold-webfont.woff') format('woff'), url('CandelaBold-webfont.ttf') format('truetype'), url('CandelaBold-webfont.svg#webfontxIceGTRS') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'CandelaBoldItalic';
+	src: url('CandelaBoldItalic-webfont.eot');
+	src: local('☺'), url('CandelaBoldItalic-webfont.woff') format('woff'), url('CandelaBoldItalic-webfont.ttf') format('truetype'), url('CandelaBoldItalic-webfont.svg#webfont6DKgVboq') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	font-family: 'CandelaBook';
+	background-color: #eee;
 }
