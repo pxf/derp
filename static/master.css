@@ -1,0 +1,11 @@
+* {
+	
+}
+
+body {
+	font-family: 'CandelaBook';
+	src: url('/static/CandelaBook-webfont.eot');
+	src: local('☺'), url('/static/CandelaBook-webfont.woff') format('woff'), url('/static/CandelaBook-webfont.ttf') format('truetype'), url('/static/CandelaBook-webfont.svg#webfontAxeluF0D') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
