@@ -1,3 +1,35 @@
 
 \chapter{Engine}
- blah blah tech2
+\section{Introduction}
+This project uses a custom made game engine with focus on modularity and portability. The engine relies heavily on open source libraries, and the game engine is built in such a way that adding additional libraries is trivial. With the engines module system, each component can easily be updated or replaced, and support for new resource formats can be added without the need to replace the entire executable.
+
+ \section{Features}
+ \begin{itemize}
+ \item Audio
+ \item Graphics (using OpenGL)
+ \item Input (keyboard and mouse)
+ \item Network
+ \item Resource loading
+ 	\begin{itemize}
+ 		\item Audio (ogg)
+ 		\item Image (bmp, png, jpg, tga, dds, psd, hdr)
+ 		\item Mesh (ctm)
+ 		 \item Data Interchange (json)
+ 	\end{itemize}
+ \end{itemize}
+
+We also use a couple of cross-platform libraries that aren't fully integrated with the game engine yet, giving us features such as
+\begin{itemize}
+\item Scripting with Lua, angelscript or scheme
+\item Input for USB Gamepad devices such as the Xbox 360 controller.
+\item Physics using Box2D
+\end{itemize}
+
+\section{Supported platforms}
+Currently supported platforms include
+\begin{itemize}
+\item Microsoft Windows
+\item Mac OS X
+\item Linux (other unices are untested)
+\end{itemize}
+Future work will add support for iOS and possibly Android.
