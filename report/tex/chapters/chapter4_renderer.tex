@@ -1,12 +1,13 @@
 
 \chapter{Renderer}
 
-\subsection{Decoupled Rendering}
+\section{Decoupled Rendering}
 There are several reasons why decoupled rendering is justified in this project. As the editor will be developed using an OpenGL context, rendering the GUI will be directly dependent on frame rate. In effect, this means that rendering the output of a large pipeline might result in an unresponsive GUI.
-Most importantly, this module enables users with low-end hardware to create and test pipelines with advanced functionality, not supported on their graphics processor. Users will be able to push changes to a central rendering back-end. This renderer may be running on a different computer with better hardware, to speed up the process and the interaction between multiple users. 
-Primarily, this functionality will focus on single-frame processing, but hopefully we will be able to support multiple-frame continuous rendering, such as animation loops. 
-\subsection{Rendering Back-end}
+Most importantly, this module enables users with low-end hardware to create and test pipelines with advanced functionality, not supported on their graphics processor. Users will be able to push changes to a central rendering back-end. This renderer may be running on a different computer with better hardware, to speed up the process and the interaction between multiple users.  Primarily, this functionality will focus on single-frame processing, but hopefully we will be able to support multiple-frame continuous rendering, such as animation loops. 
 
-The rendering back-end does the rendering of the pipeline described using the editor front-end. The pipeline will be described using JSON, which is a popular and lightweight data-interchange format. 
-The pipeline describes a series of render passes that each outputs and feeds a texture into another render pass, which finally is outputted to the screen.
-The back-end will be integrated with our custom-tailored game engine, which supports several platforms such as Microsoft Windows, MacOSX and Linux as well as iPhone and iPad devices.  
+\section{Rendering Back-end}
+The rendering back-end does the rendering of the pipeline described using the editor front-end. The pipeline will be described using JSON, which is a popular and lightweight data-interchange format.
+
+The pipeline describes a series of render passes that each outputs and feeds a texture into another render pass, which finally is outputted to the screen. The final image is then captured and sent back to the editor.
+
+The backend also sends back the result of each render-pass, making it possible to inspect each step of the pipeline down to each individual pixel.
