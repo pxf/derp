@@ -8,3 +8,33 @@ The editor supports simple user interaction via either keyboard or mouse input; 
 
 \subsection{Component Graph}
 The user constructs the rendering pipeline by using a component graph. A component is a black box that performs transformations on geometry and pixel fragments, displayed as GUI widgets that contains data inputs/outputs and various properties and settings for the component itself. The user connects the component’s input and output channels together in order to create the data flow of the pipeline. 
+
+Each component contains a table of JSON data that describes the behaviour of that specific component, by meta-data and raw shader code that is ultimately used to render the outcome of the component as a texture. The render server sends this texture for each individual pass back to the editor, together with timing information for said pass. This enables the user to view the result of each component in 
+
+The components are divided into four basic subclasses: Render, Auxiliary, Post-Process and Output respectively. Each category 
+gives the user an indication of the functionality of said subclass. 
+
+Render block
+The render block contains information and data to control a 3D scene and currently comes in two flavors, blinn-phong and advanced. The blinn-phong render block requires atleast 6 standard inputs in order to render properly: Camera Position, Camera Lookat, Light Position, Light Color, Model and Texture, where the last two inputs must be that of the Texture/Model auxiliary compoent blocks. The other four can, as with any component block, need only numeric values and can thus be connected by script blocks, static numeric blocks or basically anything that yields data in vec3 form. For example, the camera position can be designed to follow a certain node-path calculated by a spline algorithm, built in a lua script. 
+
+The advanced render block is a further expansion upon the blinn-phong render block, which enables the user to access diffuse,depth  and normal values in separate texture channels from the component block. These texture channels can then be connected individually to other parts of the component graph. 
+
+Layout/Design
+The basic layout of the editor is divided in four parts/areas, each which provides specific functionality to the user. 
+
+[ lägga till någon "future versions" eller liknande?]
+Originially, it was intended to include user custom color schemes, manipulated by a hue-shift shader. The purpose of which is to enable users to customize the look of the whole editor to better suit the users needs, such as light-dark contrast as well as general color preference. This idea is a common element in various modern visual editors, but will be implemented in a further version. 
+
+Workspace
+The workspace is the central area of the editor. This is where the user creates, and otherwise manipulate the components and their connections. The user selects and adds components from a list of sub-classes from a drop-down menu, accessible by right-cllicking the workspace area. 
+
+Several workspace layouts can be loaded in memory simultaniously, wich enables users to test several concepts at once, against servers with different hardware capabilities, for example. (Note, this is currently disabled as it was added quite late in the project, and is therefore not entierly bug-free.)
+
+Menu
+
+Inspector
+The inspector is used to display various information about a selected component, and is spawned and attached as a widget on to the inspector panel. What information to display is up to the component designer to decide, and is thus constituted by whatever the programmer finds intuitive to the user to know. Currently, the inspector is used to display the result of the selected component, as well as timing information from the render pass.
+
+Toolbar
+The toolbar contains a set of tools that manipulate the workspace. Currently, six basic tools are implemented: Undo,Redo,Move Workspace, Move Select, Rectangular Move and Delete component. However a small set, due to the flexible design of the editor, tools can easily be designed and added to the toolbar with little effort. 
+ 
