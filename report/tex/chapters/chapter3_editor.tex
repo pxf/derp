@@ -6,9 +6,25 @@ Each component’s behaviour is described by scripts, interpreted on run-time by
 In large projects when the workspace gets cluttered from wires and boxes, a user can batch components together in groups. These groups can then be minimized or collapsed in order to achieve a better overview of the project. This functionality also serves as a performance increase, as each component and wire require processing power to visualise. 
 The editor supports simple user interaction via either keyboard or mouse input; the user can manipulate component properties and preview results of either each individual output channel, component group channels or the final output of the pipeline. Since the rendering is decoupled, a user can create individual effect chains and distribute these over different servers without severe performance decrease. 
 
-\section{GUI Scripts}
+\section{Editor Core}
 
-\section{Component Graph}
+
+
+\subsection{GUI Backend}
+
+
+
+\subsection{GUI Scripts}
+The editor is built entierly by scripts, programmed in LUA. AOEOEOEOE
+
+-- Tree structure
+
+
+-- 
+
+Every widget type is derived from a single basic widget table, with several basic functions for drawing,hittesting,attaching/detaching widgets etc. Due to the architechture of LUA, each of these functions are seen as virtual functions and can thus easily be overwritten to enable a specific behaviour. For example, the basic draw function simply calls draw on each of the widgets attached to that widget, and nothing else. In most cases, the user might want specific graphics and can simply do so by overshadowing the draw function of the widget in the script. 
+
+\subsection{Component Graph}
 The user constructs the rendering pipeline by using a component graph. A component is a black box that performs transformations on geometry and pixel fragments, displayed as GUI widgets that contains data inputs/outputs and various properties and settings for the component itself. The user connects the component’s input and output channels together in order to create the data flow of the pipeline. 
 
 Each component contains a table of JSON data that describes the behaviour of that specific component, by meta-data and raw shader code that is ultimately used to render the outcome of the component as a texture. The render server sends this texture for each individual pass back to the editor, together with timing information for said pass. This enables the user to view the result of each component in 
