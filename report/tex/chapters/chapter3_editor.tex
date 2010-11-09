@@ -6,6 +6,17 @@ Each component’s behaviour is described by scripts, interpreted on run-time by
 In large projects when the workspace gets cluttered from wires and boxes, a user can batch components together in groups. These groups can then be minimized or collapsed in order to achieve a better overview of the project. This functionality also serves as a performance increase, as each component and wire require processing power to visualise. 
 The editor supports simple user interaction via either keyboard or mouse input; the user can manipulate component properties and preview results of either each individual output channel, component group channels or the final output of the pipeline. Since the rendering is decoupled, a user can create individual effect chains and distribute these over different servers without severe performance decrease. 
 
+\section{Editor Core}
+
+
+
+\subsection{GUI Backend}
+
+
+
+\subsection{GUI Scripts}
+aoe
+
 \subsection{Component Graph}
 The user constructs the rendering pipeline by using a component graph. A component is a black box that performs transformations on geometry and pixel fragments, displayed as GUI widgets that contains data inputs/outputs and various properties and settings for the component itself. The user connects the component’s input and output channels together in order to create the data flow of the pipeline. 
 
