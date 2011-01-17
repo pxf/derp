@@ -42,10 +42,17 @@ Future work will add support for iOS and possibly Android.
 
 \section{Network}
 It's always considered good practice to use already existing libraries and solutions for common problems, and in this case we were in need of fast and reliable network transmissions.
-We found ENet which looked very promising, and of course it was open source. It sends data using UDP packets and have built in support for sequencing.
 The network is divided into four subsystems; a network device, a client, a server and packets.
+[uppdeling server/klient, varför?]
+[taggar för typ av data]
+[uppdelat i paket (stöd för arbitrary data osv)]
+[stöd för flera servrar / clienter på samma gång]
+[inte riktigt anslutna, iom UDP]
 \subsection{ENet}
+We found ENet which looked very promising, and of course it was open source. It sends data using UDP packets and have built in support for sequencing.
 \subsection{Server}
 \subsection{Client}
 \subsection{Packet}
+[push object / read object... vad som helst]
+[id på alla paket, återkoppling mot vad som skickades]
 
