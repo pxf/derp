@@ -1,7 +1,13 @@
 
 \chapter{Engine}
 \section{Introduction}
-This project uses a custom made game engine with focus on modularity and portability. The engine relies heavily on open source libraries, and the game engine is built in such a way that adding additional libraries is trivial. With the engines module system, each component can easily be updated or replaced, and support for new resource formats can be added without the need to replace the entire executable.
+This project uses a custom made game engine with focus on modularity and portability. The engine relies heavily on open source libraries, and is built in such a way that adding additional libraries is trivial.
+
+The engine has a proper module system, and requires advanced components to be implemented as dynamically linked libraries. By moving all implementation details out of the core engine, the main source tree is kept clean and more easily maintainable. Inheritly because of the module system, components can easily be replaced with other implementations (e.g. support for the Xbox 360 could be provided
+by creating components using the Xbox Developer Kit).
+
+The resource manager within the engine also uses modules, which makes it possible to add support for new resource formats without replacing an entire executable. It can even
+be done "on-demand" during runtime, i.e. "only load the ogg decoder if an ogg-file is requested".
 
  \section{Features}
  \begin{itemize}
