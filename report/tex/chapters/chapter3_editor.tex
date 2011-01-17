@@ -3,11 +3,11 @@
  
 By using our custom made editor, the user will be able to design and control a layout for any type of graphical effect or behaviour. The editor will be able to load and store these designs directly from within the editor and distribute them to other users of this product, or preview them using the rendering backend. 
 Each component’s behaviour is described by scripts, interpreted on run-time by the engine. This feature adds to the extendability of the program. New components does not need to be compiled within the binary and can be designed and written by anyone with a basic understanding of programming.
-In large projects when the workspace gets cluttered from wires and boxes, a user can batch components together in groups. These groups can then be minimized or collapsed in order to achieve a better overview of the project. This functionality also serves as a performance increase, as each component and wire require processing power to visualise. 
+In large projects when the workspace gets cluttered from wires and boxes, a user can batch components together in groups. These groups can then be minimized or collapsed in order to achieve a better overview of the project. This functionality also serves as a performance increase, as each component and wire require processing power to visualize. 
 The editor supports simple user interaction via either keyboard or mouse input; the user can manipulate component properties and preview results of either each individual output channel, component group channels or the final output of the pipeline. Since the rendering is decoupled, a user can create individual effect chains and distribute these over different servers without severe performance decrease. 
 
 \section{Editor Core}
-
+To enable us to have greatest possible freedom when creating the pipline components later on, in regards to look and functionality, we decided to create our own GUI system for the editor. This however meant that we would have to recreate standard GUI widgets such as labels, textboxes and buttons. 
 
 
 \subsection{GUI Backend}
