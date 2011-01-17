@@ -17,7 +17,14 @@ The focus of the backend itself was providing input/output for the scripts in in
 All input functionality (ie. mouse and keyboard input) are done by exposing functions from the input managing component of GLFW.
 
 \subsection{GUI Scripts}
-aoe
+The editor is built entierly by scripts, programmed in LUA. AOEOEOEOE
+
+-- Tree structure
+
+
+-- 
+
+Every widget type is derived from a single basic widget table, with several basic functions for drawing,hittesting,attaching/detaching widgets etc. Due to the architechture of LUA, each of these functions are seen as virtual functions and can thus easily be overwritten to enable a specific behaviour. For example, the basic draw function simply calls draw on each of the widgets attached to that widget, and nothing else. In most cases, the user might want specific graphics and can simply do so by overshadowing the draw function of the widget in the script. 
 
 \subsection{Component Graph}
 The user constructs the rendering pipeline by using a component graph. A component is a black box that performs transformations on geometry and pixel fragments, displayed as GUI widgets that contains data inputs/outputs and various properties and settings for the component itself. The user connects the component’s input and output channels together in order to create the data flow of the pipeline. 
