@@ -1,4 +1,129 @@
 \chapter{Appendix A}
 \section{JSON component description format}
+All components sent from the editor to the renderer are specified using JSON. The general
+structure used by the component blocks are described below.
 
-https://github.com/pxf/derp/blob/master/Project%20Notes.md
+\begin{lstlisting}
+    {"blockName" : "...",
+     "blockType" : "...",
+     "blockInput" : ...,
+     "blockData" : {...},
+     "blockOutput" : ...
+    }
+\end{lstlisting}
+
+\begin{itemize}
+\item{\textbf{blockName}} is the name of the component and used to identify itself in the pipeline tree.
+\item{\textbf{blockType}} specifies the type of the component and can be one of; \textit{AuxComp}, \textit{Render}, \textit{Post-Process}, \textit{Output} or \textit{Pipeline}Tree.
+\item{\textbf{blockInput}} (optional) is a list of inputs / prerequisites.
+\item{\textbf{blockData}} hold the component specific data for each component type.
+\item{\textbf{blockOutput}} holds a list of the different outputs.
+\end{itemize}
+
+\newpage
+
+\subsection{Examples}
+\subsubsection{Auxiliary Components}
+\begin{lstlisting}
+/* Texture */
+
+    {"blockName" : "auxinput1",  
+     "blockType" : "AuxComp",  
+     "blockData" : {"auxType" : "texture",  
+                    "filepath" : "sampletexture.png",  
+                    "minfilter" : "nearest"  
+                   },  
+     "blockOutput" : "texture"  
+    }  
+\end{lstlisting}
+
+\begin{lstlisting}
+/* Lua script */
+
+    {"blockName" : "auxinput2",  
+     "blockType" : "AuxComp",  
+     "blockData" : {"auxType" : "script",  
+                    "script" : "math.sin(os.time() * 0.2)"  
+                   } ,  
+     "blockOutput" : "float"  
+    }  
+\end{lstlisting}
+
+\begin{lstlisting}
+/* Integer constant */
+
+    {"blockName" : "auxinput3",  
+     "blockType" : "AuxComp",  
+     "blockData" : {"auxType" : "const",  
+                    "value" : 1  
+                   } ,  
+     "blockOutput" : "int"  
+    }  
+\end{lstlisting}
+
+\newpage
+
+\subsubsection{Auxiliary Types}
+\begin{tabular}{ l l }
+Texture & "texture" \\
+Lua Script & "script" \\
+Const & "const" \\
+\end{tabular}
+
+\subsubsection{Output Types}
+\begin{tabular}{ l l }
+Texture & "texture" \\
+Integer & "int" \\
+Boolean & "bool" \\
+Float & "float" \\
+Vector2D & "vec2" \\
+Vector3D & "vec3" \\
+Matrix2D & "mat2" \\
+Matrix3D & "mat3" \\
+Matrix4 & "mat4" \\
+\end{tabular}
+
+\subsubsection{Render Component}
+\begin{lstlisting}
+    {"blockName" : "render1",
+     "blockType" : "Render",
+     "blockInput" : {"cameraPos" : "auxinput1",
+                     "cameraDirection" : "auxinput2"
+                    },
+     "blockData" : {"sceneFile" : "aoeu.scn",
+                    "shaderVert" : ".......",
+                    "shaderFrag" : "......."
+                   },
+     "blockOutput" : {"texture1" : "texture",
+                      "texture2" : "texture"}
+    }
+\end{lstlisting}
+
+\subsubsection{Post-Process Component}
+\begin{lstlisting}
+    {"blockName" : "postprocess1",
+     "blockType" : "Post-Process",
+     "blockOutput" : {"texture1" : "texture",
+                      "texture2" : "texture"}
+     "blockData" : {"shaderVert" : ".......",
+                    "shaderFrag" : "......."
+                   },
+     "blockOutput" : {"texture3" : "texture"}
+    }
+\end{lstlisting}
+
+\subsubsection{Output Component}
+\begin{lstlisting}
+    {"blockName" : "output1",
+     "blockType" : "Output",
+     "blockInput" : "texture3"
+     "blockData" : {"host" : "localhost",
+                    "port" : "4632",
+                    "feedback" : true,
+                    "realtime" : false,
+                    "shaderVert" : ".......",
+                    "shaderFrag" : "......."
+                   }
+    }
+\end{lstlisting}
+
