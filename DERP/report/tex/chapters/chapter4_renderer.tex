@@ -1,0 +1,12 @@
+
+\chapter{Renderer}
+
+\section{Decoupled Rendering}
+There are several reasons why decoupled rendering is justified in this project. As the editor will be developed using an OpenGL context, rendering the GUI will be directly dependent on frame rate. In effect, this means that rendering the output of a large pipeline might result in an unresponsive GUI.
+Most importantly, this module enables users with low-end hardware to create and test pipelines with advanced functionality, not supported on their graphics processor. Users will be able to push changes to a central rendering back-end. This renderer may be running on a different computer with better hardware, to speed up the process and the interaction between multiple users.  Primarily, this functionality will focus on single-frame processing, but hopefully we will be able to support multiple-frame continuous rendering, such as animation loops. 
+
+\section{Rendering Back-end}
+
+[förklaras pipeline någonstans redan?]
+
+The rendering back-end executes the rendering of the pipeline layout constructed using the editor front-end. A pipeline is a set of connected devices, analogous to that of a black box schematic, with inputs,outputs and programmable transfer functionality. The structure of these render components is described by JSON, a popular and lightweight data-interchange format with simple and understandable syntax. After performing each render pass in the pipeline, the renderer sends the result of each individual block back to the editor, making it possible for the user to inspect each step directly. 
