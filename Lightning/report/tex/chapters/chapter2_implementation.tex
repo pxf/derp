@@ -1,0 +1,18 @@
+\chapter{Implementation}
+ 
+\section{Lightning Tracker}
+[similar to bittorrent tracker]
+The Lightning tracker is a central piece of software that manages and coordinates a large set
+of Lightning clients. The main task of the tracker is to split large incomming problem sets into smaller pieces and delegate work to available clients.
+
+\section{Lightning Client}
+In an idle state, i.e. when no work is being done by the network, a star topology is implemented where each client is only connected to a central node, similar to how a tracker works in BitTorrent.
+
+When a job initiator makes a request to the network, the tracker will work as a “team leader”,  with a certain degree of involvement in the actual work being performed. The general idea is that the tracker conveys available workers to the job initiator, and lets “them” sort out the rest.
+
+--
+The Lightning client is responsible for processing data. 
+... is an independent and dedicated worker. 
+
+\section{Client (end-user)}
+Job initiator
