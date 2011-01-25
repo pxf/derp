@@ -1,17 +1,17 @@
 
 \chapter{Editor}
  
-By using the editor front-end, the user creates and controls effect schematics for any type of graphical effect or behaviour by organizing a set of interconnected components with different functionality. Each component’s behavior is described by scripts, interpreted on run-time by the engine. This feature adds to the extendability of the program, new components does not need to be compiled within the binary and can be designed and written by the users themselves.
+By using the editor front-end, the user creates and controls effect schematics for any type of graphical effect or behaviour by organizing components with different functionality. Each component’s behavior is described by scripts, interpreted on run-time by the engine. This feature adds to the extendability of the program, new components does not need to be compiled within the binary and can be designed and written by the users themselves.
 
 The editor supports simple user interaction via either keyboard or mouse input; the user can manipulate component properties and preview results of either each individual output channel or the final output of the pipeline. Since the rendering is decoupled, a user can create individual effect chains and distribute these over different servers without performance decrease. 
 
 \section{Core}
-In order to gain the greatest possible freedom when developing the pipeline components in terms of look and functionality, a GUI system was specially built for the editor. This opened up endless design possibilties, but ment that standard GUI widgets such as labels, text boxes and buttons had to be created. The GUI backend includes a set of fully scriptable and runtime modifiable components, that acts as a simple widget library for the editor. The GUI base can easily be ported to other application that is implemented with the PXF2 framework, providing the exact same service in any project. 
+In order to gain the greatest possible freedom when developing the pipeline components in terms of look and functionality, a GUI system was specially built for the editor. This opened up endless design possibilties, but ment that standard GUI widgets such as labels, text boxes and buttons had to be created. The GUI backend includes a set of fully scriptable components, that acts as a simple widget library for the editor. The GUI base can easily be ported to other application that is implemented with the PXF2 framework, providing the exact same service in any project. 
 
 \subsection{Application and GUI Backend}
-The application backend is designed in such way that it will have minimal impact on the editor functionality and look. Instead it acts more as a generic application, providing drawing and input functionality via scripting. The functionality and design can be scripted and changed/updated at runtime, which enables us to develop the editor without having to recompile the main application every time a change is made. The application backend does not have any prebuilt GUI functionality on it's own, as everything is implemented via external scripts. To maintain platform independence, OpenGL is used for all rendering purposes and window handling. The scripting language chosen was Lua, due to its simple grammar and already widespread use in the gaming industry.
+The application backend is designed in such way that it will have minimal impact on the editor. It acts more as a generic application, providing drawing and input functionality via scripting. The functionality and design can be scripted and changed/updated at runtime, which enables us to develop the editor without having to recompile the main application every time a change is made. The application backend does not have any prebuilt GUI functionality on it's own, everything is implemented via external scripts. To maintain platform independence, OpenGL is used for all rendering purposes and window handling. The scripting language chosen was Lua, due to its simple grammar and already widespread use in the gaming industry.
 
-The focus of the backend itself was providing input/output for the scripts intuitively, without losing efficiency and speed. For example, all drawing calls are cached and only executed/rendered when explicitly needed. Ultimately, it is up to the user to specify the whole window or only a part of it when rendering is needed, and thus hopefully limiting the amount of fill needed to update the window each frame. This is accomplished inside the backend by using the stencil buffer as a mask to specify regions where to draw.
+The focus of the backend itself is providing input/output for the scripts intuitively, without losing efficiency and speed. For example, all drawing calls are cached and only executed/rendered when explicitly needed. Ultimately, it is up to the user to specify the whole window or only a part of it when rendering is needed, and thus hopefully limiting the amount of fill needed to update the window each frame. This is accomplished inside the backend by using the stencil buffer as a mask to specify regions where to draw.
 
 All input functionality (ie. mouse and keyboard input) are done by exposing functions from the input managing component of GLFW.
 
@@ -34,6 +34,7 @@ We implemented a basic GUI system that was able to handle all our needs. The sys
 \end{enumerate}
 
 Every widget type is derived from a single basic widget table, with several basic functions for drawing, hit-testing, attaching/detaching widgets etc. Due to the architecture of LUA, each of these functions are seen as virtual functions and can thus easily be overwritten to enable a specific behavior. For example, the basic draw function simply calls draw on each of the widgets attached to that widget, and nothing else. In most cases, the user might want specific graphics and can simply do so by overshadowing the draw function of the widget in the script. 
+
 \pic[0.7]{img/gui_widgets.png}{Core components of a GUI widget.}
 \begin{enumerate}
   \item \texttt{widget:draw()} will be called when the GUI system needs to redraw a specific widget. This in turn calls the \texttt{draw()} function on all the child widgets.
@@ -52,13 +53,8 @@ Every widget type is derived from a single basic widget table, with several basi
 
 The basic layout of the editor is divided in three main areas, each with specific functionality.  
 
-[ lägga till någon "future versions" eller liknande?]
-Originally, it was intended to include user custom color schemes, manipulated by a hue-shift shader. The purpose of which is to enable users to customize the look of the whole editor to better suit the users needs, such as light-dark contrast as well as general color preference. This idea is a common element in various modern visual editors, but will be implemented in a further version. 
-
-It is worth noting that everything visible in the editor is created via scripts, and is in fact part of the GUI tree mentioned above, and thus can be modified and reloaded at runtime.
-
 \subsubsection{Workspace}
-The workspace is the central area of the editor. It's the area where the actual component graph/tree is displayed. This is where the user creates, and otherwise manipulate the components and their connections. The user selects and adds components from a list of sub-classes from a drop-down menu, accessible by right-clicking the workspace area. 
+The workspace is the central area of the editor where the actual component pipeline is constructed and displayed. This is where the user creates, and otherwise manipulate the components and their connections. The user selects and adds components from a list of sub-classes from a drop-down menu, accessible by right-clicking the workspace area. 
 
 Several workspace layouts can be loaded in memory simultaneously, which enables users to test several concepts at once, against servers with different hardware capabilities, for example. (Note, this is currently disabled as it was added quite late in the project, and is therefore not entirely bug-free.)
 
@@ -72,13 +68,13 @@ The components are divided into four basic subclasses: Render, Auxiliary, Post-P
 \pic[0.65]{img/rendercomponent.png}{\emph{Left:} The basic render component. \emph{Right:} The advanced version of the render component, which has two extra outputs.}
 The render block is the central component when rendering a 3D scene, however not required to produce an output. The prototype currently contains two simple render blocks: blinn-phong and advanced. The blinn-phong render block requires at least six standard inputs in order to render: Camera Position, Camera Lookat, Light Position, Light Color, Model and Texture, with the constraint that the last two inputs must be either Texture or Model auxiliary component blocks. The other four inputs can consist of only numeric values and can thus be connected by script blocks, static numeric blocks or basically anything that yields data in Vec3 form. For example, the camera position can be designed to follow a certain node-path calculated by a spline algorithm, a sinus function, mouse coordinates or anything you can think of that is supported by the script engine. 
 
-The advanced render block is an extension of the blinn-phong render block, which provides the user with access to diffuse, depth and normal values in separate texture channels from the component block. These texture channels can then be connected individually to other parts of the component graph.
+The advanced render block is an extension of the blinn-phong render block, which enables access to diffuse, depth and normal values in separate texture channels from the component block. These texture channels can then be connected individually to other parts of the component graph. 
 
 \subsubsection{Toolbar}
-The toolbar contains a set of tools that manipulate the workspace. Currently, six basic tools are implemented: Undo,Redo,Move Workspace, Move Select, Rectangular Move and Delete component. However a small set, due to the flexible design of the editor, tools can easily be designed and added to the toolbar with little effort.
+The toolbar contains a set of tools that manipulate the workspace. Currently, six basic tools are implemented: Undo,Redo,Move Workspace, Move Select, Rectangular Move and Delete component. The current toolset was consciously designed, in terms of both functionality and visual aspect, to mimic tools that are present in various other applications in order to quickly familiarize a user with them.
 
 \subsubsection{Inspector}
-The inspector is used to display various information about a selected component, and is spawned and attached as a widget on to the inspector panel. What information to display is up to the component designer to decide, and is thus constituted by whatever the programmer finds intuitive to the user to know. Currently, the inspector is used to display the result of the selected component, as well as timing information from the render pass.
+The inspector is used to display various information about a selected component and is spawned and attached as a widget on to the inspector panel. What information to display is up to the component designer to decide, and is thus constituted by whatever the programmer want the the user to know. Currently, the inspector is used to display the result of the selected component, as well as timing information from the render pass. The inspector is one of the areas that was added in the last stages during development, and is thus the one furthest from completion. 
 
 \section{Workflow}
 
@@ -90,3 +86,4 @@ The inspector is used to display various information about a selected component,
   \item \textbf{Renderer} -- When the renderer receive a new pipeline, it parses the incoming JSON data into an internal pipeline structure. The renderer then begin to execute the pipeline, starting at the end and recursively execute parts of the pipeline when needed. All parts of the pipeline are timed, which is then stored with their corresponding outputs (e.g. image results from a render/post-process component) for later usage.
   \item \textbf{Receive Results} - When the renderer has finished executing a pipeline, all outputs/images and timer results, that were previously stored, are now send back to the editor. When the editor receive this information, each of the component blocks in the component graph is now updated with the corresponding results. Results can then be inspected by selecting a component, and viewed in the inspector panel of the editor.
 \end{enumerate}
+

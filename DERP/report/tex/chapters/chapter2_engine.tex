@@ -1,14 +1,21 @@
 
 \chapter{Engine}
 \section {Introduction}
-This project uses a custom made engine for interactive real-time applications (essentially a \textit{game engine}) with focus on modularity and portability. The game engine relies heavily on open source libraries, and is built in such a way that adding additional third party libraries is trivial.
+This project uses a custom made engine for interactive real-time applications (essentially a \textit{game engine}) with focus on modularity and portability. The game engine relies heavily on non-restricted open source libraries, and is built in such a way that adding additional third party libraries is trivial.
+
+Our motivation for writing a game engine from scratch is driven by both the opportunity to learn from
+constructing such a system, and to have a solid and portable code-base on which to build future products.
 
 \section {Build system}
 A major problem when developing software for multiple target systems is a unified build system that work
 identically for all target systems. This engine uses a fast and flexible build system named \textbf{bam}\footnote{http://matricks.github.com/bam/}, and
-with this tool we have constructed a build script that automatically resolves library dependencies for each supported platform. Because of this, the game engine is just as easy to compile on either Microsoft Windows, GNU/Linux or Mac OS X.
+with this tool we have constructed a build script that automatically resolves library dependencies for each supported platform. Because of this, the game engine is just as easy to compile on either Microsoft Windows, GNU/Linux or Mac OS X. Bam can use multiple threads to decrese compilation times, and it can easily be used with Visual Studio.
 
-[något om att bygga statiskt]
+Our build script is \textit{module aware}, and it supports compiling modules directly into the engine if needed. A built-in module can ofcourse be overridden by another dynamic library. The beauty of this is that the developer can decide for himself how he want to package the resulting product.
+
+The build script provide primitives to easily get started with new projects. 
+
+\newpage
 
 \section{Module system}
 The engine has a proper module system, and requires complex components to be implemented as separate dynamically linked libraries. By moving all implementation details out of the core engine, the main source tree is kept clean and is more easily maintainable. Inheritly because of the module system, components can easily be replaced with other implementations (e.g. support for the Xbox 360 could be provided
@@ -19,23 +26,44 @@ Resource management are devided into two parts; resource loaders and resources. 
 there is a factory class \texttt{ImageLoader}, which in a couple of different way can produce instances of a class \texttt{Image}.
 
 The following resource loaders are currently available, and adding support for new resource types is trivial.
-\begin{itemize}
-\item Audio (ogg)
-\item Image (bmp, png, jpeg, tga, dds, psd, hdr)
-\item Mesh (ctm)
-\item Data Interchange (json)
-\end{itemize}
 
-The resource manager within the engine also uses the module system, which makes it possible to add support for new resource formats without the need to create a new executable with built-in support. Resource loaders can even be added "on-demand" during runtime, i.e. "only load the ogg audio decoder if an ogg audio-file is requested".
+
+\begin{tabular}{l l}
+\textbf{Type}    & \textbf{supported file formats}\\
+\hline
+Text    & txt  (any text data)                  \\
+Blob    & blob (any binary data)                \\
+Audio   & ogg  (ogg vorbis)                     \\
+Image   & bmp, png, jpeg, tga, dds, psd, hdr    \\
+Font    & pfnt (custom font format)             \\
+Mesh    & ctm  (compressed triangle mesh)       \\
+Data Interchange & json                         \\
+\end{tabular}
+
+
+The resource manager within the engine also uses the module system, which makes it possible to add support for new resource formats without the need to create a new executable with built-in support. Resource loaders can even be added \textit{on-demand} during runtime, i.e. only load the ogg audio decoder \textit{if} an ogg audio-file is requested.
+
+\newpage
 
 \section{Input}
-[...]
+The engine ships with a rudimentary input system supporting both keyboard and mouse. Nothing exciting or
+innovative going on here yet. There are currently two ways for polling keyboard and mouse status:
 
+\begin{description}
+\item[Check current status] Check if a \textit{specified} key/button is currently being held down. Return a boolean value depending on key status.
+\item[Check cache] Get the latest key/button has been both pressed and released. Return key/button that was pressed. The cache has to be explicitly cleared.
+\end{description}
+ 
 \section{Graphics}
-[...]
+GRAFIX MED OPEN GL!
+
+[aim for portability between different graphic apis]
+[opengl-implementation, support for VBO, shaders, framebuffers...]
 
 \section{Audio}
-[...] simple audio [...]
+[skriv bättre, flytta lite till future extensions]
+The game engine currently implements a very basic audio mixer. Playing sounds is very simple, and works fine
+for various sound effects (e.g \textit{click}-sound for mouse clicks) or music. Up to 16 voices can be played at once. Architecture for audio effects, or any kind of filters is currently missing (3D audio is not possible).
 
 \section{Future extensions}
 
