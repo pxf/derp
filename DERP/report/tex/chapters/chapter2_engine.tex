@@ -27,16 +27,21 @@ there is a factory class \texttt{ImageLoader}, which in a couple of different wa
 
 The following resource loaders are currently available, and adding support for new resource types is trivial.
 
-[vettigare tabell här?]
-\begin{itemize}
-\item \textbf{Type} (\textbf{supported extensions})
-\item Audio (ogg)
-\item Image (bmp, png, jpeg, tga, dds, psd, hdr)
-\item Mesh (ctm)
-\item Data Interchange (json)
-\end{itemize}
 
-The resource manager within the engine also uses the module system, which makes it possible to add support for new resource formats without the need to create a new executable with built-in support. Resource loaders can even be added "on-demand" during runtime, i.e. "only load the ogg audio decoder if an ogg audio-file is requested".
+\begin{tabular}{l l}
+\textbf{Type}    & \textbf{supported file formats}\\
+\hline
+Text    & txt  (any text data)                  \\
+Blob    & blob (any binary data)                \\
+Audio   & ogg  (ogg vorbis)                     \\
+Image   & bmp, png, jpeg, tga, dds, psd, hdr    \\
+Font    & pfnt (custom font format)             \\
+Mesh    & ctm  (compressed triangle mesh)       \\
+Data Interchange & json                         \\
+\end{tabular}
+
+
+The resource manager within the engine also uses the module system, which makes it possible to add support for new resource formats without the need to create a new executable with built-in support. Resource loaders can even be added \textit{on-demand} during runtime, i.e. only load the ogg audio decoder \textit{if} an ogg audio-file is requested.
 
 \newpage
 
