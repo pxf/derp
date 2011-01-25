@@ -12,9 +12,9 @@ To enable us to have greatest possible freedom when creating the pipeline compon
 This however ment that standard GUI widgets such as labels, text boxes and buttons had to be created. To accomplish this we decided to create our own GUI backend, where all GUI components are fully scriptable and modifiable at runtime. 
 
 \subsection{Application and GUI Backend}
-The application backend is designed in such way that it will have little to none impact on the editor functionality and look. Instead it act more as a generic application, providing drawing and input functionality via scripting. The final functionality and design can be scripted and changed/updated at runtime, which enables us to develop the editor without having to recompile the main application every time a change is made. The application backend does not have any prebuilt GUI functionality on it's own, as everything is implemented via external scripts. To keep platform independence, OpenGL is used for all rendering purposes and window handling. The scripting language chosen was Lua, due to its simple grammar and already widespread use in the gaming industry.
+The application backend is designed in such way that it will have minimal impact on the editor functionality and look. Instead it acts more as a generic application, providing drawing and input functionality via scripting. The functionality and design can be scripted and changed/updated at runtime, which enables us to develop the editor without having to recompile the main application every time a change is made. The application backend does not have any prebuilt GUI functionality on it's own, as everything is implemented via external scripts. To maintain platform independence, OpenGL is used for all rendering purposes and window handling. The scripting language chosen was Lua, due to its simple grammar and already widespread use in the gaming industry.
 
-The focus of the backend itself was providing input/output for the scripts intuitively, without losing efficiency and speed. For example, all drawing calls are cached and only executed/rendered when explicitly needed. Ultimately, it is up to the user to specify the whole window or only a part of it when and where rendering is needed, and thus hopefully limiting the amount of fill needed to update the window each frame. This is accomplished inside the backend by using the stencil buffer as a mask to specify regions where to draw.
+The focus of the backend itself was providing input/output for the scripts intuitively, without losing efficiency and speed. For example, all drawing calls are cached and only executed/rendered when explicitly needed. Ultimately, it is up to the user to specify the whole window or only a part of it when rendering is needed, and thus hopefully limiting the amount of fill needed to update the window each frame. This is accomplished inside the backend by using the stencil buffer as a mask to specify regions where to draw.
 
 All input functionality (ie. mouse and keyboard input) are done by exposing functions from the input managing component of GLFW.
 
@@ -27,7 +27,7 @@ An application script that uses our application backend only need to implement t
 \end{enumerate}
 
 \subsection{GUI Scripts}
-We implemented a basic GUI system that was able to handle all our needs. The system is design as a tree structure of GUI widgets, where the root widget is the screen/view area itself.
+We implemented a basic GUI system that was able to handle all our needs. The system is designed as a tree data structure of GUI widgets, where the root widget is the screen/view area itself.
 \pic[0.7]{img/gui_system.png}{Layout of GUI system.}
 \begin{enumerate}
   \item \texttt{gui:init()} has to be called to initiate the GUI system.
@@ -47,7 +47,7 @@ Every widget type is derived from a single basic widget table, with several basi
   \item \texttt{widget.drawbox} a set of coordinates and dimensions of where the widget has its active draw area (i.e. where it is allowed to draw during the \texttt{widget:draw()} function).
 \end{enumerate}
 
-\subsection{Editor Layout}
+\section{Editor Layout}
 
 \subsubsection{Overview}
 

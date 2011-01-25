@@ -1,0 +1,57 @@
+
+\chapter{Engine}
+\section {Introduction}
+This project uses a custom made engine for interactive real-time applications (essentially a \textit{game engine}) with focus on modularity and portability. The game engine relies heavily on open source libraries, and is built in such a way that adding additional third party libraries is trivial.
+
+\section {Build system}
+A major problem when developing software for multiple target systems is a unified build system that work
+identically for all target systems. This engine uses a fast and flexible build system named \textbf{bam}\footnote{http://matricks.github.com/bam/}, and
+with this tool we have constructed a build script that automatically resolves library dependencies for each supported platform. Because of this, the game engine is just as easy to compile on either Microsoft Windows, GNU/Linux or Mac OS X.
+
+[något om att bygga statiskt]
+
+\section{Module system}
+The engine has a proper module system, and requires complex components to be implemented as separate dynamically linked libraries. By moving all implementation details out of the core engine, the main source tree is kept clean and is more easily maintainable. Inheritly because of the module system, components can easily be replaced with other implementations (e.g. support for the Xbox 360 could be provided
+by creating components using the Xbox Developer Kit).
+
+\section{Resource management}
+Resource management are devided into two parts; resource loaders and resources. For example, for loading images
+there is a factory class \texttt{ImageLoader}, which in a couple of different way can produce instances of a class \texttt{Image}.
+
+The following resource loaders are currently available, and adding support for new resource types is trivial.
+\begin{itemize}
+\item Audio (ogg)
+\item Image (bmp, png, jpeg, tga, dds, psd, hdr)
+\item Mesh (ctm)
+\item Data Interchange (json)
+\end{itemize}
+
+The resource manager within the engine also uses the module system, which makes it possible to add support for new resource formats without the need to create a new executable with built-in support. Resource loaders can even be added "on-demand" during runtime, i.e. "only load the ogg audio decoder if an ogg audio-file is requested".
+
+\section{Input}
+[...]
+
+\section{Graphics}
+[...]
+
+\section{Audio}
+[...] simple audio [...]
+
+\section{Future extensions}
+
+We also use a couple of cross-platform libraries that aren't fully integrated with the game engine yet, giving us features such as
+\begin{itemize}
+\item Scripting with Lua, angelscript or scheme
+\item Input for USB Gamepad devices such as the Xbox 360 controller.
+\item Physics using Box2D
+\end{itemize}
+
+\section{Supported platforms}
+Currently supported platforms include
+\begin{itemize}
+\item Microsoft Windows
+\item Mac OS X
+\item Linux (other unices are untested)
+\end{itemize}
+Future work will add support for iOS and possibly Android.
+
