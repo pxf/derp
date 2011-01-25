@@ -1,0 +1,22 @@
+\chapter{Network}
+[Något om hur enkelt (hoppas jag!) det var att utöka motorn med stöd för nätverk]
+
+It's always considered good practice to use already existing libraries and solutions for common problems, and in this case we were in need of fast and reliable network transmissions.
+We found ENet which looked very promising, and of course it was open source. It sends data using UDP packets and have built in support for sequencing and connection management.
+
+The network is divided into four subsystems; a network device, a client, a server and packets.
+
+[uppdeling server/klient, varför?]
+[taggar för typ av data]
+[uppdelat i paket (stöd för arbitrary data osv)]
+[stöd för flera servrar / clienter på samma gång]
+[inte riktigt anslutna, iom UDP]
+\subsection{Network device}
+The network device is used to create new instances of servers and clients. The separation of the two is to not hinder new features, such as several servers in the same application, e.g. the renderer might want to have several editors connected at the same time.
+ENet handles all the incoming and outgoing connections in the background while waiting for new packets to arrive. 
+\subsection{Server}
+\subsection{Client}
+\subsection{Packet}
+[push object / read object... vad som helst]
+[id på alla paket, återkoppling mot vad som skickades]
+
