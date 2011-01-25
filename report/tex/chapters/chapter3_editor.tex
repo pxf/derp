@@ -36,6 +36,7 @@ We implemented a basic GUI system that was able to handle all our needs. The sys
   \item \texttt{gui.widgets} is the tree of GUI widgets, i.e. the root widget instance. Any new widget added to the GUI has to be added to this one.
 \end{enumerate}
 
+Every widget type is derived from a single basic widget table, with several basic functions for drawing, hit-testing, attaching/detaching widgets etc. Due to the architecture of LUA, each of these functions are seen as virtual functions and can thus easily be overwritten to enable a specific behavior. For example, the basic draw function simply calls draw on each of the widgets attached to that widget, and nothing else. In most cases, the user might want specific graphics and can simply do so by overshadowing the draw function of the widget in the script. 
 \pic[0.7]{img/gui_widgets.png}{Core components of a GUI widget.}
 \begin{enumerate}
   \item \texttt{widget:draw()} will be called when the GUI system needs to redraw a specific widget. This in turn calls the \texttt{draw()} function on all the child widgets.
@@ -46,43 +47,39 @@ We implemented a basic GUI system that was able to handle all our needs. The sys
   \item \texttt{widget.drawbox} a set of coordinates and dimensions of where the widget has its active draw area (i.e. where it is allowed to draw during the \texttt{widget:draw()} function).
 \end{enumerate}
 
-The editor is built entierly by scripts, programmed in LUA. AOEOEOEOE
+\subsection{Editor Layout}
 
--- Tree structure
+\subsubsection{Overview}
 
+\pic[0.3]{img/editor_overview.png}{\emph{Top:} Overview of the editor. \emph{Bottom:} Highlighting the different areas of the editor. \emph{1:} Workspace. \emph{2:} Toolbar. \emph{3:} Inspector view.}
 
--- 
+The basic layout of the editor is divided in three main areas, each with specific functionality.  
 
-Every widget type is derived from a single basic widget table, with several basic functions for drawing,hittesting,attaching/detaching widgets etc. Due to the architechture of LUA, each of these functions are seen as virtual functions and can thus easily be overwritten to enable a specific behaviour. For example, the basic draw function simply calls draw on each of the widgets attached to that widget, and nothing else. In most cases, the user might want specific graphics and can simply do so by overshadowing the draw function of the widget in the script. 
+[ lägga till någon "future versions" eller liknande?]
+Originally, it was intended to include user custom color schemes, manipulated by a hue-shift shader. The purpose of which is to enable users to customize the look of the whole editor to better suit the users needs, such as light-dark contrast as well as general color preference. This idea is a common element in various modern visual editors, but will be implemented in a further version. 
 
-\subsection{Component Graph}
+It is worth noting that everything visible in the editor is created via scripts, and is in fact part of the GUI tree mentioned above, and thus can be modified and reloaded at runtime.
+
+\subsubsection{Workspace}
+The workspace is the central area of the editor. It's the area where the actual component graph/tree is displayed. This is where the user creates, and otherwise manipulate the components and their connections. The user selects and adds components from a list of sub-classes from a drop-down menu, accessible by right-clicking the workspace area. 
+
+Several workspace layouts can be loaded in memory simultaneously, which enables users to test several concepts at once, against servers with different hardware capabilities, for example. (Note, this is currently disabled as it was added quite late in the project, and is therefore not entirely bug-free.)
+
+\subsubsection{Component Graph}
 The user constructs the rendering pipeline by using a component graph. A component is a black box that performs transformations on geometry and pixel fragments, displayed as GUI widgets that contains data inputs/outputs and various properties and settings for the component itself. The user connects the component’s input and output channels together in order to control the data flow of the pipeline. 
 
 Each component contains a table of JSON data that describes the behaviour of that specific component, by meta-data and raw shader code that is ultimately used to render the outcome of the component as a texture. The render server sends this texture for each individual pass back to the editor, together with timing information for said pass. This enables the user to view the result of each component in the editor and compare between component results or check each pixel value of a pass individually. 
 
 The components are divided into four basic subclasses: Render, Auxiliary, Post-Process and Output respectively. Each category provides the user with an indication of the functionality of a subclass. 
 
-Render block
-The render block is the central component when rendering a 3D scene, however not required to produce an output. The prototype currently contains two simple render blocks: blinn-phong and advanced. The blinn-phong render block requires atleast six standard inputs in order to render: Camera Position, Camera Lookat, Light Position, Light Color, Model and Texture, with the constraint that the last two inputs must be either Texture or Model auxiliary component blocks. The other four inputs can consist of only numeric values and can thus be connected by script blocks, static numeric blocks or basically anything that yields data in vec3 form. For example, the camera position can be designed to follow a certain node-path calculated by a spline algorithm, a sinus function, mouse coordinates or anything you can think of that is supported by the script engine. 
+\pic[0.65]{img/rendercomponent.png}{\emph{Left:} The basic render component. \emph{Right:} The advanced version of the render component, which has two extra outputs.}
+The render block is the central component when rendering a 3D scene, however not required to produce an output. The prototype currently contains two simple render blocks: blinn-phong and advanced. The blinn-phong render block requires at least six standard inputs in order to render: Camera Position, Camera Lookat, Light Position, Light Color, Model and Texture, with the constraint that the last two inputs must be either Texture or Model auxiliary component blocks. The other four inputs can consist of only numeric values and can thus be connected by script blocks, static numeric blocks or basically anything that yields data in Vec3 form. For example, the camera position can be designed to follow a certain node-path calculated by a spline algorithm, a sinus function, mouse coordinates or anything you can think of that is supported by the script engine. 
 
-The advanced render block is an extension of the blinn-phong render block, which provides the user with access to diffuse,depth  and normal values in separate texture channels from the component block. These texture channels can then be connected individually to other parts of the component graph. 
+The advanced render block is an extension of the blinn-phong render block, which provides the user with access to diffuse, depth and normal values in separate texture channels from the component block. These texture channels can then be connected individually to other parts of the component graph.
 
-Layout/Design
-The basic layout of the editor is divided in four parts/areas, each with specific functionality.  
+\subsubsection{Toolbar}
+The toolbar contains a set of tools that manipulate the workspace. Currently, six basic tools are implemented: Undo,Redo,Move Workspace, Move Select, Rectangular Move and Delete component. However a small set, due to the flexible design of the editor, tools can easily be designed and added to the toolbar with little effort.
 
-[ lägga till någon "future versions" eller liknande?]
-Originially, it was intended to include user custom color schemes, manipulated by a hue-shift shader. The purpose of which is to enable users to customize the look of the whole editor to better suit the users needs, such as light-dark contrast as well as general color preference. This idea is a common element in various modern visual editors, but will be implemented in a further version. 
-
-Workspace
-The workspace is the central area of the editor. This is where the user creates, and otherwise manipulate the components and their connections. The user selects and adds components from a list of sub-classes from a drop-down menu, accessible by right-cllicking the workspace area. 
-
-Several workspace layouts can be loaded in memory simultaniously, wich enables users to test several concepts at once, against servers with different hardware capabilities, for example. (Note, this is currently disabled as it was added quite late in the project, and is therefore not entierly bug-free.)
-
-Menu
-
-Inspector
+\subsubsection{Inspector}
 The inspector is used to display various information about a selected component, and is spawned and attached as a widget on to the inspector panel. What information to display is up to the component designer to decide, and is thus constituted by whatever the programmer finds intuitive to the user to know. Currently, the inspector is used to display the result of the selected component, as well as timing information from the render pass.
-
-Toolbar
-The toolbar contains a set of tools that manipulate the workspace. Currently, six basic tools are implemented: Undo,Redo,Move Workspace, Move Select, Rectangular Move and Delete component. However a small set, due to the flexible design of the editor, tools can easily be designed and added to the toolbar with little effort. 
  
