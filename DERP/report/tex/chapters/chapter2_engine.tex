@@ -19,7 +19,10 @@ Resource management are devided into two parts; resource loaders and resources. 
 there is a factory class \texttt{ImageLoader}, which in a couple of different way can produce instances of a class \texttt{Image}.
 
 The following resource loaders are currently available, and adding support for new resource types is trivial.
+
+[vettigare tabell här?]
 \begin{itemize}
+\item \textbf{Type} (\textbf{supported extensions})
 \item Audio (ogg)
 \item Image (bmp, png, jpeg, tga, dds, psd, hdr)
 \item Mesh (ctm)
@@ -29,13 +32,16 @@ The following resource loaders are currently available, and adding support for n
 The resource manager within the engine also uses the module system, which makes it possible to add support for new resource formats without the need to create a new executable with built-in support. Resource loaders can even be added "on-demand" during runtime, i.e. "only load the ogg audio decoder if an ogg audio-file is requested".
 
 \section{Input}
-[...]
+Basic input
 
 \section{Graphics}
-[...]
+[aim for portability between different graphic apis]
+[opengl-implementation, support for VBO, shaders, framebuffers...]
 
 \section{Audio}
-[...] simple audio [...]
+[skriv bättre, flytta lite till future extensions]
+The game engine currently implements a very basic audio mixer. Playing sounds is very simple, and works fine
+for various sound effects (e.g \textit{click}-sound for mouse clicks) or music. Up to 16 voices can be played at once. Architecture for audio effects, or any kind of filters is currently missing (3D audio is not possible).
 
 \section{Future extensions}
 
