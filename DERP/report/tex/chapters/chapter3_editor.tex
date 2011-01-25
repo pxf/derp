@@ -5,7 +5,7 @@ By using the editor front-end, the user creates and controls effect schematics f
 
 The editor supports simple user interaction via either keyboard or mouse input; the user can manipulate component properties and preview results of either each individual output channel or the final output of the pipeline. Since the rendering is decoupled, a user can create individual effect chains and distribute these over different servers without performance decrease. 
 
-\section{Editor Core}
+\section{Core}
 In order to gain the greatest possible freedom when developing the pipeline components in terms of look and functionality, a GUI system was specially built for the editor. This opened up endless design possibilties, but ment that standard GUI widgets such as labels, text boxes and buttons had to be created. The GUI backend includes a set of fully scriptable and runtime modifiable components, that acts as a simple widget library for the editor. The GUI base can easily be ported to other application that is implemented with the PXF2 framework, providing the exact same service in any project. 
 
 \subsection{Application and GUI Backend}
@@ -44,7 +44,7 @@ Every widget type is derived from a single basic widget table, with several basi
   \item \texttt{widget.drawbox} a set of coordinates and dimensions of where the widget has its active draw area (i.e. where it is allowed to draw during the \texttt{widget:draw()} function).
 \end{enumerate}
 
-\section{Editor Layout}
+\section{Layout}
 
 \subsubsection{Overview}
 
@@ -79,4 +79,14 @@ The toolbar contains a set of tools that manipulate the workspace. Currently, si
 
 \subsubsection{Inspector}
 The inspector is used to display various information about a selected component, and is spawned and attached as a widget on to the inspector panel. What information to display is up to the component designer to decide, and is thus constituted by whatever the programmer finds intuitive to the user to know. Currently, the inspector is used to display the result of the selected component, as well as timing information from the render pass.
- 
+
+\section{Workflow}
+
+\pic[0.45]{img/workflow.png}{}
+
+\begin{enumerate}
+  \item \textbf{Editor} -- The user creates a pipeline/component graph of his liking in the workspace. Each pipeline has to end with an output component, which in turn handles the connection to the renderer. There can be more than one output component on a pipeline, an example of such a case would be if you want to test the same pipeline but on different computers and compare the results.
+  \item \textbf{Send Pipeline} -- When the user want to execute the pipeline, he/she presses the Render-button on the output component, which then connects to corresponding Renderer-client via the network. As soon as the connection is established, the editor serialize the pipeline as JSON (see Appendix A) and sends it to the Renderer-client.
+  \item \textbf{Renderer} -- When the renderer receive a new pipeline, it parses the incoming JSON data into an internal pipeline structure. The renderer then begin to execute the pipeline, starting at the end and recursively execute parts of the pipeline when needed. All parts of the pipeline are timed, which is then stored with their corresponding outputs (e.g. image results from a render/post-process component) for later usage.
+  \item \textbf{Receive Results} - When the renderer has finished executing a pipeline, all outputs/images and timer results, that were previously stored, are now send back to the editor. When the editor receive this information, each of the component blocks in the component graph is now updated with the corresponding results. Results can then be inspected by selecting a component, and viewed in the inspector panel of the editor.
+\end{enumerate}
