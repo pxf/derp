@@ -47,18 +47,22 @@ The resource manager within the engine also uses the module system, which makes 
 
 \section{Input}
 The engine ships with a rudimentary input system supporting both keyboard and mouse. Nothing exciting or
-innovative going on here yet. There are currently two ways for polling keyboard and mouse status:
-
+innovative going on here yet. The API currently support two ways for polling keyboard and mouse status:
 \begin{description}
 \item[Check current status] Check if a \textit{specified} key/button is currently being held down. Return a boolean value depending on key status.
-\item[Check cache] Get the latest key/button has been both pressed and released. Return key/button that was pressed. The cache has to be explicitly cleared.
+\item[Check cache] Get the latest key/button that has been pressed and released. Return key/button that was pressed. The cache has to be explicitly cleared.
 \end{description}
+
+The first alternative works best for interactive use, i.e. \textit{move forward if} \texttt{W} \textit{is being held down}, while the alternative cache version works better for checking general keypresses. I.e. \textit{Was a key pressed? Yes, }\texttt{ESC} \textit{was pressed. Cancelling current action.}
  
 \section{Graphics}
-GRAFIX MED OPEN GL!
+The graphics component of the game engine is built with portability in mind, and by that we mean portability
+between different render APIs. Currently there is only support for OpenGL, but it should be possible to implement the same functionality using Direct3D for example.
 
-[aim for portability between different graphic apis]
-[opengl-implementation, support for VBO, shaders, framebuffers...]
+The OpenGL implementation is far from complete, but it support the most commonly used functionality such as textures, vertex buffer objects, GLSL shaders and framebuffers.
+
+
+In addition to a basic renderer abstraction, the engine includes utilities for quickly drawing different types of primitives, support for bitmapfonts with kerning, loading textures from a variety of formats and loading meshes into vertex buffers.
 
 \section{Audio}
 [skriv bättre, flytta lite till future extensions]
