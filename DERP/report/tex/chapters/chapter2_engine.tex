@@ -11,9 +11,7 @@ A major problem when developing software for multiple target systems is a unifie
 identically for all target systems. This engine uses a fast and flexible build system named \textbf{bam}\footnote{http://matricks.github.com/bam/}, and
 with this tool we have constructed a build script that automatically resolves library dependencies for each supported platform. Because of this, the game engine is just as easy to compile on either Microsoft Windows, GNU/Linux or Mac OS X. Bam can use multiple threads to decrese compilation times, and it can easily be used with Visual Studio for development on Windows.
 
-Our build script is \textit{module aware}, and it supports compiling modules directly into the engine if needed. A built-in module can ofcourse be overridden by another dynamic library. The beauty of this is that the developer can decide for himself how he want to package the resulting product.
-
-The build script provide primitives to easily get started with new projects. 
+Our build script makes it very easy to create new projects, and it's designed so that it can compile engine components directly into the executable, or as separate dynamically linked libraries. The beauty of this is that the developer can decide for himself how he want to package the resulting product.
 
 \newpage
 
