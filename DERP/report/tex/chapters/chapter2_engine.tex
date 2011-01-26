@@ -61,29 +61,20 @@ between different render APIs. Currently there is only support for OpenGL, but i
 
 The OpenGL implementation is far from complete, but it support the most commonly used functionality such as textures, vertex buffer objects, GLSL shaders and framebuffers.
 
-
 In addition to a basic renderer abstraction, the engine includes utilities for quickly drawing different types of primitives, support for bitmapfonts with kerning, loading textures from a variety of formats and loading meshes into vertex buffers.
 
 \section{Audio}
-[skriv bättre, flytta lite till future extensions]
 The game engine currently implements a very basic audio mixer. Playing sounds is very simple, and works fine
-for various sound effects (e.g \textit{click}-sound for mouse clicks) or music. Up to 16 voices can be played at once. Architecture for audio effects, or any kind of filters is currently missing (3D audio is not possible).
+for various sound effects (e.g \textit{click}-sound for mouse clicks) or music. Up to 16 voices can be played at once.
 
 \section{Future extensions}
-
-We also use a couple of cross-platform libraries that aren't fully integrated with the game engine yet, giving us features such as
-\begin{itemize}
-\item Scripting with Lua, angelscript or scheme
-\item Input for USB Gamepad devices such as the Xbox 360 controller.
-\item Physics using Box2D
-\end{itemize}
-
+There are a couple of cross-platform libraries that aren't fully integrated with the game engine yet, and plans to complement the current featureset with the following additions:
+\begin{description}
+\item[Audio engine] Advanced audio engine with support for basic effects such as \textit{delay}, to be able to create 3D sound effects.
+\item[Script engine] Easy to use script components with engine bindings, \mbox{supporting} two dynamic languages, namely \textbf{Lua}\footnote{http://www.lua.org} and \textbf{Squirrel}\footnote{http://www.squirrel-lang.org}.
+\item[USB Controller] Input for USB Gamepad devices such as the Xbox 360 controller.
+\item[Physics] Physics components for both 2D and 3D applications using Box2D and Bullet3D.
+\end{description}
 \section{Supported platforms}
-Currently supported platforms include
-\begin{itemize}
-\item Microsoft Windows
-\item Mac OS X
-\item Linux (other unices are untested)
-\end{itemize}
-Future work will add support for iOS and possibly Android.
+Currently supported platforms include Microsoft Windows, Mac OS X and GNU/Linux. FreeBSD is also supported, but untested. Future work will add support for iOS and possibly Android.
 
