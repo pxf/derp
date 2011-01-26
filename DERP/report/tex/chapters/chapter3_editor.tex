@@ -77,13 +77,19 @@ The toolbar contains a set of tools that manipulate the workspace. Currently, si
 The inspector is used to display various information about a selected component and is spawned and attached as a widget on to the inspector panel. What information to display is up to the component designer to decide, and is thus constituted by whatever the programmer want the the user to know. Currently, the inspector is used to display the result of the selected component, as well as timing information from the render pass. The inspector is one of the areas that was added in the last stages during development, and is thus the one furthest from completion. 
 
 \section{Workflow}
+The actual workflow when using DERP is a simple procedure. As the renderer application sends the results back to the editor, as soon as it has finished executing a pipeline, makes it very easy to quickly see whats happening and get feedback when working in the editor. Below is a step by step description of a typical workflow of the user and data, from editor to renderer and back.
 
-\pic[0.45]{img/workflow.png}{}
+
+\pic[0.45]{img/workflow.png}{A general overview of how the data is sent between the editor and renderer applications.}
 
 \begin{enumerate}
+  \pic[0.4]{img/editor_graphview.png}{A simple pipeline viewed in the editor.}
   \item \textbf{Editor} -- The user creates a pipeline/component graph of his liking in the workspace. Each pipeline has to end with an output component, which in turn handles the connection to the renderer. There can be more than one output component on a pipeline, an example of such a case would be if you want to test the same pipeline but on different computers and compare the results.
+  \pic[0.5]{img/json_example.png}{An excerpt of the JSON data representation of the above pipeline, sent from the editor to the renderer.}
   \item \textbf{Send Pipeline} -- When the user want to execute the pipeline, he/she presses the Render-button on the output component, which then connects to corresponding Renderer-client via the network. As soon as the connection is established, the editor serialize the pipeline as JSON (see Appendix A) and sends it to the Renderer-client.
+  \pic[0.45]{img/renderer_result.png}{The resulting image of the newly executed pipeline, inside the renderer.}
   \item \textbf{Renderer} -- When the renderer receive a new pipeline, it parses the incoming JSON data into an internal pipeline structure. The renderer then begin to execute the pipeline, starting at the end and recursively execute parts of the pipeline when needed. All parts of the pipeline are timed, which is then stored with their corresponding outputs (e.g. image results from a render/post-process component) for later usage.
+  \pic[0.6]{img/editor_result.png}{When the editor receives the results from the renderer, it can be viewed inside the inspector panel for each component.}
   \item \textbf{Receive Results} - When the renderer has finished executing a pipeline, all outputs/images and timer results, that were previously stored, are now send back to the editor. When the editor receive this information, each of the component blocks in the component graph is now updated with the corresponding results. Results can then be inspected by selecting a component, and viewed in the inspector panel of the editor.
 \end{enumerate}
 
