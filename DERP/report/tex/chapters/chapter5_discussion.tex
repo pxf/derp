@@ -1,12 +1,12 @@
 \chapter{Discussion}
 
 \section{Engine}
+We are quite satisfied with the game engine as a whole. So far we haven't encountered any major show stoppers, only minor issues which easily have been resolved. The module system works great as well, and the components we have implemented seem to be reasonably stable.
 
-[motorn blev bäst]
+We were able to get the engine up and running quite quickly, many thanks to the following open source libraries: \texttt{enet}, \texttt{glew}, \texttt{glfw}, \texttt{jsoncpp}, \texttt{lua}, \texttt{openctm}, \texttt{rtaudio}, \texttt{soil}, \texttt{stb\_vorbis} and \texttt{zthread}.
 
 \section{Network}
-
-[efnet suger? skulle kanske valt TCP istället ja.. det är ju viktigare med reliability än hastighet etc]
+We initially decided to use ENet as a networking library for it's ease of use, speed and reability features. However, ENet uses UDP for communication, and it had some quirks to it when wanting to deliver packets both reliable and in-order. For this project in particular, using regular TCP sockets would have been a better choise and would have resulted in better networking \mbox{performance}.
 
 \section{Renderer}
 
