@@ -6,7 +6,7 @@ We are quite satisfied with the game engine as a whole. So far we haven't encoun
 We were able to get the engine up and running quite quickly, many thanks to the following open source libraries: \texttt{enet}, \texttt{glew}, \texttt{glfw}, \texttt{jsoncpp}, \texttt{lua}, \texttt{openctm}, \texttt{rtaudio}, \texttt{soil}, \texttt{stb\_vorbis} and \texttt{zthread}.
 
 \section{Network}
-We initially decided to use ENet as a networking library for it's ease of use, speed and reability features. However, ENet uses UDP for communication, and it had some quirks to it when wanting to deliver packets both reliable and in-order. For this project in particular, using regular TCP sockets would have been a better choise and would have resulted in better networking \mbox{performance}.
+We initially decided to use ENet as a networking library for it's ease of use, speed and reability features. However, ENet uses UDP for communication, and it had some quirks to it when wanting to deliver packets both reliable and in-order. For this project in particular, using regular TCP sockets would have been a better choice and would have resulted in better networking \mbox{performance}.
 
 \section{Renderer}
 In the planning stage of the development it was unclear how much work would have to be done on the renderer. Mainly depending on not knowing how the structure of the pipelines, and what type of components there was going to be. But as soon as we had specified the JSON format for the pipelines, it gave us an idea how we could start implementing the renderer. It was quite evident that we didn't need many different component types, but just a few that were generic enough.
