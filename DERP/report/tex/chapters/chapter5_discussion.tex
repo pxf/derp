@@ -26,7 +26,7 @@ The one thing we feel should have addressed early in development of the GUI syst
 %[synd att vi inte hann med hueshiftgrejen, den är lite väl brun nu kanske]
 
 \section{Future Releases}
-[saker som vi inte hann med eller så]
+%[saker som vi inte hann med eller så]
 
 In large projects when the workspace gets cluttered from wires and boxes, a user can batch components together in groups. These groups can then be minimized or collapsed in order to achieve a better overview of the project. This functionality also serves as a performance increase, as each component and wire require processing power to visualize. 
 
@@ -36,16 +36,19 @@ Since component output is resolved with shader programs that are compiled in the
 
 An idea we had in the start of the project was to be able to view the source code for each component directly in the editor and possibly even edit it directly. However, this feature would require a huge amount of time, and would not add invaluable functionality in relation to development time. 
 
-[editor resizing, har vi skrivit om i discussion tror jaggg]
+%[editor resizing, har vi skrivit om i discussion tror jaggg]
 
-As this is a project in interaction design, a big part of the program is the actual visual design of the application interface. As visual sugar, we initially wanted to model the connections between components as physical wires. For instance, the cables would be affected by laws of gravity, when a user moves the plugs around, the wire would bend and wobble, just as a real one would. Similar ideas are used in Propellerhead's Reason [fotnot]. 
+As this is a project in interaction design, a big part of the program is the actual visual design of the application interface. As visual sugar, we initially wanted to model the connections between components as physical wires. For instance, the cables would be affected by laws of gravity, when a user moves the plugs around, the wire would bend and wobble, just as a real one would. Similar ideas are used in Propellerhead's Reason\footnote{http://www.propellerheads.se/products/reason/}. This would be possible to implement in a future version using a third party 2D physics library, but something we didn't have time to integrate ourselves.
 
-[generic shader component]
-Right now, the components yield static functionality as they are hard-coded in the lua scripts. It would be beneficial to include a generic shader component that loads custom shader code that the user provides. The generic component yields output as any other component, and can be connected to other nodes in the graph. This gives an experienced easy access to test out whatever specially designed shader he wants. The component would have attribute name and type as inputs, and either color, depth or normal as output. 
+%[någonting med att man kunde koppla om inuti själva komponenten, men jag minns inte vad det var bra för..]
 
-[någonting med att man kunde koppla om inuti själva komponenten, men jag minns inte vad det var bra för..]
+%[generic shader component]
+Right now, the components yield static functionality as they are hard-coded in the Lua scripts. It would be beneficial to include a generic shader component that loads custom shader code that the user provides. The generic component yields output as any other component, and can be connected to other nodes in the graph. This gives an experienced easy access to test out whatever specially designed shader he wants. The component would have attribute name and type as inputs, and either color, depth or normal as output.
 
-[fler components]
-Currently, only a small set of components are implented, not near enough to build any type of visual effect as we proclaimed in the introduction of this paper. The current state of the application is basically a proof-of-concept. Now that we know our ideas are working, we could easily add more interesting components, in order to cover more techniques and algorithms.
+%[fler components]
+Currently, only a small set of components are implemented, not near enough to build any type of visual effect as we proclaimed in the introduction of this paper. The current state of the application is basically a proof-of-concept. Now that we know our ideas are working, we could easily add more interesting components, in order to cover more techniques and algorithms.
 
 \chapter{Conclusion}
+
+[blev den useful? nja, inte med nuvarande komponenter?]
+
