@@ -32,18 +32,20 @@ In large projects when the workspace gets cluttered from wires and boxes, a user
 
 Originally, it was intended to include user custom color schemes, manipulated by a hue-shift shader. Different color schemes enable users to customize the look of the whole editor to better suit the users preferences, such as light-dark contrast as well as general visual profile.
 
-[shader inspector typ? så att man kan kolla i själva knåden vad som sker, alt. ändra, eller så ser man vart kompileringen sket sig, eftersom det sker på renderaren.]
+Since component output is resolved with shader programs that are compiled in the renderer, any error during compilation is only visible in the terminal window of the server. Thus, when using a remote server, a user will not receive any feedback on what line of code caused the error in the shader program, and will just receive faulty results. This is solved by sending compile information back to the user, displaying it in the editor's console window. 
 
-[editor resizing]
+An idea we had in the start of the project was to be able to view the source code for each component directly in the editor and possibly even edit it directly. However, this feature would require a huge amount of time, and would not add invaluable functionality in relation to development time. 
 
-[snyggare wires]
+[editor resizing, har vi skrivit om i discussion tror jaggg]
+
+As this is a project in interaction design, a big part of the program is the actual visual design of the application interface. As visual sugar, we initially wanted to model the connections between components as physical wires. For instance, the cables would be affected by laws of gravity, when a user moves the plugs around, the wire would bend and wobble, just as a real one would. Similar ideas are used in Propellerhead's Reason [fotnot]. 
+
+[generic shader component]
+Right now, the components yield static functionality as they are hard-coded in the lua scripts. It would be beneficial to include a generic shader component that loads custom shader code that the user provides. The generic component yields output as any other component, and can be connected to other nodes in the graph. This gives an experienced easy access to test out whatever specially designed shader he wants. The component would have attribute name and type as inputs, and either color, depth or normal as output. 
 
 [någonting med att man kunde koppla om inuti själva komponenten, men jag minns inte vad det var bra för..]
 
+[fler components]
+Currently, only a small set of components are implented, not near enough to build any type of visual effect as we proclaimed in the introduction of this paper. The current state of the application is basically a proof-of-concept. Now that we know our ideas are working, we could easily add more interesting components, in order to cover more techniques and algorithms.
+
 \chapter{Conclusion}
-
-[här kan man slänga in lite text från project notes också, som man kan referera till.. ]
-
-[typ nått sånt här: "When rendering the output, the backend profiles each component and sends this data along with the finished frame back to the editor. The timing information is displayed somewhere on the component itself in the editor window. "]
-
-[på det stora hela blev ju projektet nästan exakt som vi tänkte oss. skulle behöva göra lite fler komponenter egentligen, vi har ju inga tuffa grejer att visa liksom..]
