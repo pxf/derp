@@ -7,11 +7,11 @@ Our motivation for writing a game engine from scratch is driven by both the oppo
 constructing such a system, and to have a solid and portable code-base on which to build future products.
 
 \section {Build system}
-A major problem when developing software for multiple target systems is a unified build system that work
-identically for all target systems. This engine uses a fast and flexible build system named \textbf{bam}\footnote{http://matricks.github.com/bam/}, and
-with this tool we have constructed a build script that automatically resolves library dependencies for each supported platform. Because of this, the game engine is just as easy to compile on either Microsoft Windows, GNU/Linux or Mac OS X. Bam can use multiple threads to decrese compilation times, and it can easily be used with Visual Studio for development on Windows.
+A major problem when developing software for multiple operating systems is a unified build system that work
+identically for all intended targets. This engine uses a fast and flexible build system named \textbf{bam}\footnote{http://matricks.github.com/bam/}, and
+with this tool we have constructed a build script that automatically resolves library dependencies for each supported platform. Because of this, the game engine is just as easy to build on either Microsoft Windows, GNU/Linux or Mac OS X. Using multiple threads, bam achieves fast compilation times, and it can easily be integrated with Visual Studio for development on Windows.
 
-Our build script makes it very easy to create new projects, and it's designed so that it can compile engine components directly into the executable, or as separate dynamically linked libraries. The beauty of this is that the developer can decide how the resulting product should be packaged.
+Our build script makes it very easy to create new projects, and it's designed so that it can compile engine components directly into the executable, or as separate dynamically linked libraries. This is so that the developer has the freedom to decide how the resulting product should be packaged.
 
 \newpage
 
