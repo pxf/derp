@@ -9,8 +9,10 @@ We were able to get the engine up and running quite quickly, many thanks to the 
 We initially decided to use ENet as a networking library for it's ease of use, speed and reability features. However, ENet uses UDP for communication, and it had some quirks to it when wanting to deliver packets both reliable and in-order. For this project in particular, using regular TCP sockets would have been a better choise and would have resulted in better networking \mbox{performance}.
 
 \section{Renderer}
+In the planning stage of the development it was unclear how much work would have to be done on the renderer. Mainly depending on not knowing how the structure of the pipelines, and what type of components there was going to be. But as soon as we had specified the JSON format for the pipelines, it gave us an idea how we could start implementing the renderer. It was quite evident that we didn't need many different component types, but just a few that were generic enough.
 
-[inte så mycket att säga här kanske..? den gör ju det den ska liksom]
+In comparison to the editor, the renderer turned out very simple, it does what it should but nothing more. It also lack any type of security of the incoming data, which should be a high priority for any future work.
+%[inte så mycket att säga här kanske..? den gör ju det den ska liksom]
 
 \section{Editor}
 We are surprised how well the editor turned out, and how closely it came to our original proposed idea. Even though at the beginning it felt like a monumental task, in hindsight it feels that we made the right decision to implement our own GUI system, since it gave us the freedom and flexibility we needed. It made it possible for us to optimize the UI rendering for our own needs, while still being able to rework and redo fundamental architecture inside the script host application, without worrying about underlying script functionality as long as we expose the same features to the scripts with each iteration.
