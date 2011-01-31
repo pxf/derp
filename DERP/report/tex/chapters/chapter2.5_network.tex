@@ -1,12 +1,11 @@
-\chapter{Network}
+\section{Network}
 It's always considered good practice to use already existing libraries and solutions for common problems, and in this case a fast and reliable network transmission were needed.
 ENet was found which looked very promising, and of course it is open source. It sends data using UDP packets and have built in support for sequencing and connection management. 
 Thanks to the modular engine it was easy to implement a working network device using ENet as a back end.
 
 The network is divided into four subsystems; a network device, a client, a server and packets.
 
-\subsection{Network device}
-The network device is used to manipulate and create new instances of servers and clients. The separation of the two is to not hinder new features, such as several servers in the same application, e.g. the renderer might want to have several editors connected at the same time.
+A network device is used to manipulate and create new instances of servers and clients. The separation of the two is to not hinder new features, such as several servers in the same application, e.g. the renderer might want to have several editors connected at the same time.
 
 Before spawning any servers or clients it is possible (and required) to create tags, that gets passed along with every packet which enables easy management for many different types of data.
 
@@ -15,7 +14,6 @@ Before spawning any servers or clients it is possible (and required) to create t
 	\item[A client] connects to a server and functions in a similiar way as a server, however it is only possible to connect to one server at a time thus only unicasting packets are available.
 \end{description}
 
-\subsection{Packet}
 A packet consists of a string identifier, and arbitrary amount of smaller objects such as integers, strings etc. that are stored as binary data blobs.
 Identification of packets can be used by to connect sent packets with received packets in an easy way without having to send extra unnecessary objects along with the more important data saving both bandwidth and time for the programmer.
 When a packet has been populated with data by using the method \texttt{PushObject(..)} and are to be sent over a connection the data blobs are serialized along with the identification specified in the creation phase.
