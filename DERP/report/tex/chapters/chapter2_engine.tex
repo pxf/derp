@@ -1,27 +1,24 @@
 
 \chapter{Engine}
 \section {Introduction}
-This project uses a custom made engine for interactive real-time applications (essentially a \textit{game engine}) with focus on modularity and portability. The game engine relies heavily on non-restrictive open source libraries, and is built in such a way that adding additional third party libraries is trivial.
+This project uses a custom made engine\footnote{http://github.com/pxf/pxf-tech2} for interactive real-time applications (essentially a \textit{game engine}) with focus on modularity and portability. The game engine relies heavily on non-restrictive open source libraries, and is built in such a way that adding additional third party libraries is trivial.
 
 Our motivation for writing a game engine from scratch is driven by both the opportunity to learn from
 constructing such a system, and to have a solid and portable code-base on which to build future products.
 
 \section {Build system}
-A major problem when developing software for multiple operating systems is a unified build system that work
-identically for all intended targets. This engine uses a fast and flexible build system named \textbf{bam}\footnote{http://matricks.github.com/bam/}, and
+A major problem when developing software for multiple operating systems is to have a unified build system that works identically for all intended targets. Our engine uses a fast and flexible build system named \textbf{bam}\footnote{http://matricks.github.com/bam/}, and
 with this tool we have constructed a build script that automatically resolves library dependencies for each supported platform. Because of this, the game engine is just as easy to build on either Microsoft Windows, GNU/Linux or Mac OS X. Using multiple threads, bam achieves fast compilation times, and it can easily be integrated with Visual Studio for development on Windows.
 
-Our build script makes it very easy to create new projects, and it's designed so that it can compile engine components directly into the executable, or as separate dynamically linked libraries. This is so that the developer has the freedom to decide how the resulting product should be packaged.
+By using a flexible build system, we can design so that the build script link engine components directly into the executable, or if they should be made into separate dynamically linked libraries. This is so that the developer has the freedom to decide how the resulting product should be packaged.
 
 \newpage
 
 \section{Module system}
-The engine has a proper module system, and requires complex components to be implemented as separate dynamically linked libraries. By moving all implementation details out of the core engine, the main source tree is kept clean and is more easily maintainable. Inheritly because of the module system, components can easily be replaced with other implementations (e.g. support for the Xbox 360 could be provided
-by creating components using the Xbox Developer Kit).
+The engine has a proper module system, and requires complex components to be implemented as independent modules, disjoint from the main source tree. By moving all implementation details out of the core engine, the main source tree is kept clean and is more easily maintainable. Inheritly because of the module system, components can easily be replaced with other implementations (e.g. support for the Xbox 360 could be provided by creating components using the Xbox Developer Kit).
 
 \section{Resource management}
-Resource management are devided into two parts; resource loaders and resources. For example, for loading images
-there is a factory class \texttt{ImageLoader}, which in a couple of different way can produce instances of a class \texttt{Image}.
+Resource management are devided into two parts; resources and resource loaders. For example, for loading images there is a factory class \texttt{ImageLoader}, which in a couple of different way can produce instances of a class \texttt{Image}.
 
 The following resource loaders are currently available, and adding support for new resource types is trivial.
 
@@ -51,7 +48,7 @@ innovative going on here yet. The API currently support two ways for polling key
 \item[Check cache] Get the latest key/button that has been pressed and released. Return key/button that was pressed. The cache has to be explicitly cleared.
 \end{description}
 
-The first alternative works best for interactive use, i.e. \textit{move forward if} \texttt{W} \textit{is being held down}, while the alternative cache version works better for checking general keypresses. I.e. \textit{Was a key pressed? Yes, }\texttt{ESC} \textit{was pressed. Cancelling current action.}
+The first alternative works best for interactive use, i.e. \textit{move forward if} \texttt{W} \textit{is being held down}, while the alternative cache version works better for checking general keypresses. I.e. \textit{Was a key pressed? Yes, }\texttt{ESC} \textit{was pressed.}
  
 \section{Graphics}
 The graphics component of the game engine is built with portability in mind, and by that we mean portability
