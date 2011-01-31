@@ -6,7 +6,15 @@ We are quite satisfied with the game engine as a whole. So far we haven't encoun
 We were able to get the engine up and running quite quickly, many thanks to the following open source libraries: \texttt{enet}, \texttt{glew}, \texttt{glfw}, \texttt{jsoncpp}, \texttt{lua}, \texttt{openctm}, \texttt{rtaudio}, \texttt{soil}, \texttt{stb\_vorbis} and \texttt{zthread}.
 
 \section{Network}
-We initially decided to use ENet as a networking library for it's ease of use, speed and reability features. However, ENet uses UDP for communication, and it had some quirks to it when wanting to deliver packets both reliable and in-order. For this project in particular, using regular TCP sockets would have been a better choice and would have resulted in better networking \mbox{performance}.
+We initially decided to use ENet as a networking library for it's ease of use, speed and reability features. However, ENet uses UDP for communication, and it had some quirks to it when wanting to deliver packets both reliable and in-order. For this project in particular, using regular TCP sockets would have been a better choice and would have resulted in better networking \mbox{performance}. 
+Since all the data we sent were important it felt like we had to re-implement all the safety TCP offered.
+
+The fact that ENet handles all the incoming and outgoing connections in the background while waiting for new packets to arrive together with everything being based on UDP and not TCP makes it impossible to have any kind of control regarding which clients really are connected and what packets were lost, and why.
+
+The speed that ENet offered were nothing but a disappointment, it could take up to 30 seconds to send a small picture with a local server and client without a reason.
+
+As it turned out, it felt like using ENet was worse than using regular sockets with TCP and implementing serializing of data from scratch.
+
 
 \section{Renderer}
 In the planning stage of the development it was unclear how much work would have to be done on the renderer. Mainly depending on not knowing how the structure of the pipelines, and what type of components there was going to be. But as soon as we had specified the JSON format for the pipelines, it gave us an idea how we could start implementing the renderer. It was quite evident that we didn't need many different component types, but just a few that were generic enough.

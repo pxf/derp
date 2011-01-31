@@ -1,22 +1,21 @@
-\chapter{Network}
-[Något om hur enkelt (hoppas jag!) det var att utöka motorn med stöd för nätverk]
-
-It's always considered good practice to use already existing libraries and solutions for common problems, and in this case we were in need of fast and reliable network transmissions.
-We found ENet which looked very promising, and of course it was open source. It sends data using UDP packets and have built in support for sequencing and connection management.
+\section{Network}
+It's always considered good practice to use already existing libraries and solutions for common problems, and in this case a fast and reliable network transmission were needed.
+ENet was found which looked very promising, and of course it is open source. It sends data using UDP packets and have built in support for sequencing and connection management. 
+Thanks to the modular engine it was easy to implement a working network device using ENet as a back end.
 
 The network is divided into four subsystems; a network device, a client, a server and packets.
 
-[uppdeling server/klient, varför?]
-[taggar för typ av data]
-[uppdelat i paket (stöd för arbitrary data osv)]
-[stöd för flera servrar / clienter på samma gång]
-[inte riktigt anslutna, iom UDP]
-\subsection{Network device}
-The network device is used to create new instances of servers and clients. The separation of the two is to not hinder new features, such as several servers in the same application, e.g. the renderer might want to have several editors connected at the same time.
-ENet handles all the incoming and outgoing connections in the background while waiting for new packets to arrive. 
-\subsection{Server}
-\subsection{Client}
-\subsection{Packet}
-[push object / read object... vad som helst]
-[id på alla paket, återkoppling mot vad som skickades]
+A network device is used to manipulate and create new instances of servers and clients. The separation of the two is to not hinder new features, such as several servers in the same application, e.g. the renderer might want to have several editors connected at the same time.
+
+ENet supports arbitrary amount of data channels. To use these it is required to create tags (i.e. named channels) before spawning servers and clients. The different tags enables easy management for arbitrary types of data.
+
+\begin{description}
+	\item[A server] binds to a port and incoming connections gets handled while \mbox{receiving} or sending packets. There are several methods available to unicast or multicast packets to connected clients.
+	\item[A client] connects to a server and functions in a similiar way as a server, however it is only possible to connect to one server at a time thus only unicasting packets are available.
+\end{description}
+
+A packet consists of a string identifier, and arbitrary amount of smaller \mbox{objects} such as integers, strings etc. that are stored as binary data blobs.
+Identification of packets can be used by to connect sent packets with received packets in an easy way without having to send extra unnecessary objects along with the more important data saving both bandwidth and time for the programmer.
+When a packet has been populated with data by using the method \texttt{PushObject(..)} and are to be sent over a connection the data blobs are serialized along with the identification specified in the creation phase.
+
 
