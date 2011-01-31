@@ -7,7 +7,7 @@ The network is divided into four subsystems; a network device, a client, a serve
 
 A network device is used to manipulate and create new instances of servers and clients. The separation of the two is to not hinder new features, such as several servers in the same application, e.g. the renderer might want to have several editors connected at the same time.
 
-Before spawning any servers or clients it is possible (and required) to create tags, that gets passed along with every packet which enables easy \mbox{management} for many different types of data.
+ENet supports arbitrary amount of data channels. To use these it is required to create tags (i.e. named channels) before spawning servers and clients. The different tags enables easy management for arbitrary types of data.
 
 \begin{description}
 	\item[A server] binds to a port and incoming connections gets handled while \mbox{receiving} or sending packets. There are several methods available to unicast or multicast packets to connected clients.
