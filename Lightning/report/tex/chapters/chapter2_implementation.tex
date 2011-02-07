@@ -1,13 +1,13 @@
-\chapter{Implementation}
- 
-\section{Lightning Tracker}
+\chapter{Lightning}
+\section{Overview}
+\subsection{Tracker}
 [similar to bittorrent tracker]
 The Lightning tracker is a central piece of software that manages and coordinates a large set
 of Lightning clients. The main task of the tracker is to split large incomming problem sets into smaller pieces and delegate work to available clients.
 
 The Lightning tracker is implemented in Python\footnote{http://www.python.org}, which was chosen for its simplicity in order to quickly get a prototype up and running.
 
-\section{Lightning Client}
+\subsection{Worker Client}
 In an idle state, i.e. when no work is being done by the network, a star topology is implemented where each client is only connected to a central node, similar to how a tracker works in BitTorrent.
 
 When a job initiator makes a request to the network, the tracker will work as a “team leader”,  with a certain degree of involvement in the actual work being performed. The general idea is that the tracker conveys available workers to the job initiator, and lets “them” sort out the rest.
@@ -17,5 +17,7 @@ When a job initiator makes a request to the network, the tracker will work as a 
 
 Since the Lightning client should be able to process arbitrary complex computational data, speed is of the essence, and this is one of the reasons why C++ was chosen as the target implementation language for the client.
 
-\section{Client (end-user)}
+\subsection{End-user Client}
 The end-user application works as a job initiator. Before a job can be submitted for processing, [blah blah shake hand with tracker]. The client then requests a preferred number of nodes from the tracker [?], and sends a batch of work units for processing. When a node has finished processing, a result is sent back to the end-user client. Multiple results may be returned per workunit (from separate nodes) if node calculations are to be verified.
+
+\section{Implementation}
