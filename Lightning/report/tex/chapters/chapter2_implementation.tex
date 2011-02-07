@@ -15,7 +15,7 @@ When a job initiator makes a request to the network, the tracker will work as a 
 % The Lightning client is responsible for processing data. 
 % ... is an independent and dedicated worker. 
 
-Since the Lightning client should be able to process arbitrary complex computational data, [... C++ was chosen as the target implementation language].
+Since the Lightning client should be able to process arbitrary complex computational data, speed is of the essence, and this is one of the reasons why C++ was chosen as the target implementation language for the client.
 
 \section{Client (end-user)}
 The end-user application works as a job initiator. Before a job can be submitted for processing, [blah blah shake hand with tracker]. The client then requests a preferred number of nodes from the tracker [?], and sends a batch of work units for processing. When a node has finished processing, a result is sent back to the end-user client. Multiple results may be returned per workunit (from separate nodes) if node calculations are to be verified.
