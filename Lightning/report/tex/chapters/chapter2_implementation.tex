@@ -10,14 +10,18 @@ The Lightning tracker is implemented in Python\footnote{http://www.python.org}, 
 \subsection{Worker Client}
 In an idle state, i.e. when no work is being done by the network, a star topology is implemented where each client is only connected to a central node, similar to how a tracker works in BitTorrent.
 
-When a job initiator makes a request to the network, the tracker will work as a “team leader”,  with a certain degree of involvement in the actual work being performed. The general idea is that the tracker conveys available workers to the job initiator, and lets “them” sort out the rest.
+When a job initiator makes a request to the network, the tracker will work as a “team leader”,  with a certain degree of involvement in the actual work being performed. The general idea is that the tracker conveys available workers to the job initiator, and lets the worker client sort out the rest when they receive the job and tasks.
 
 % The Lightning client is responsible for processing data. 
 % ... is an independent and dedicated worker. 
 
 Since the Lightning client should be able to process arbitrary complex computational data, speed is of the essence, and this is one of the reasons why C++ was chosen as the target implementation language for the client.
 
-\subsection{End-user Client}
-The end-user application works as a job initiator. Before a job can be submitted for processing, [blah blah shake hand with tracker]. The client then requests a preferred number of nodes from the tracker [?], and sends a batch of work units for processing. When a node has finished processing, a result is sent back to the end-user client. Multiple results may be returned per workunit (from separate nodes) if node calculations are to be verified.
+\subsection{End-user Clients and Job Initiators}
+Before any scene can be distributed and rendered, it has to be packaged in the correct way for the P2P network and its clients to understand it. One of the main reasons we wanted to split up the worker client from the job initiators were so that we would be able to implement different types of job initiators, without them having to dependent on the worker clients version and implementation. This meant that we would be able to implement different kinds of end-user clients that could load and handle different types of scene data, as long as they packaged them in a standard way that the worker clients could understand.
+
+One example of this would be a very simple model loader, that loads a model from a locally stored file, packages it and sends it to a worker client in the network. Another example, more advanced but also more practical in the real world, would be a rendering plugin for an industry standard 3D modeling tool like Autodesk 3ds Max\footnote{http://www.autodesk.com/3dsmax} and Autodesk Maya\footnote{http://www.autodesk.com/maya}, that takes the actively working scene data inside the host program, package it in our own format and sends it to the network.
+
+%The end-user applications works as a job initiators. Before a job can be submitted for processing, [blah blah shake hand with tracker]. The client then requests a preferred number of nodes from the tracker [?], and sends a batch of work units for processing. When a node has finished processing, a result is sent back to the end-user client. Multiple results may be returned per workunit (from separate nodes) if node calculations are to be verified.
 
 \section{Implementation}
