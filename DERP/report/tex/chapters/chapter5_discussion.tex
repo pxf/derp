@@ -6,10 +6,10 @@ We are quite satisfied with the game engine as a whole. So far we haven't encoun
 We were able to get the engine up and running quite quickly, many thanks to the following open source libraries: \texttt{enet}, \texttt{glew}, \texttt{glfw}, \texttt{jsoncpp}, \texttt{lua}, \texttt{openctm}, \texttt{rtaudio}, \texttt{soil}, \texttt{stb\_vorbis} and \texttt{zthread}.
 
 \section{Network}
-We initially decided to use ENet as a networking library for it's ease of use, speed and reability features. However, ENet uses UDP for communication, and it had some quirks to it when wanting to deliver packets both reliable and in-order. For this project in particular, using regular TCP sockets would have been a better choice and would have resulted in better networking \mbox{performance}. 
-Since all the data we sent were important it felt like we had to re-implement all the safety TCP offered.
+We initially decided to use ENet as a networking library for it's ease of use, speed and reability features. However, ENet uses UDP for communication, and it had some quirks to it when delivering packets in terms of reliability and in-order sequencing. For this project in particular, using regular TCP sockets would have been a better choice and would have resulted in better networking \mbox{performance}. 
+Since all the data passed through the system is important, it felt like we had to re-implement all the safety TCP offers.
 
-The fact that ENet handles all the incoming and outgoing connections in the background while waiting for new packets to arrive together with everything being based on UDP and not TCP makes it impossible to have any kind of control regarding which clients really are connected and what packets were lost, and why.
+The fact that ENet handles all the incoming and outgoing connections in the background while waiting for new packets to arrive together with everything being based on UDP and not TCP, makes it impossible to have any kind of control regarding which clients really are connected and what packets were lost, and why.
 
 The speed that ENet offered were nothing but a disappointment, it could take up to 30 seconds to send a small picture with a local server and client without a reason.
 
@@ -56,11 +56,4 @@ Right now, the components yield static functionality as they are hard-coded in t
 %[fler components]
 Currently, only a small set of components are implemented, not near enough to build any type of visual effect as we proclaimed in the introduction of this paper. The current state of the application is basically a proof-of-concept. Now that we know our ideas are working, we could easily add more interesting components, in order to cover more techniques and algorithms.
 
-\chapter{Conclusion}
-%[blev bra, precis som vi tänk typ]
-We think that the final prototype version reached the goals we aimed for in most areas.
-
-[blev den useful? nja, inte med nuvarande komponenter?]
-
-[jämfört med andra liknande?]
 
