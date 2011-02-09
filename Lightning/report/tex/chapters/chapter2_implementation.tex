@@ -1,21 +1,38 @@
 \chapter{Lightning}
 \section{Overview}
-\subsection{Tracker}
-[similar to bittorrent tracker]
-The Lightning tracker is a central piece of software that manages and coordinates a large set
-of Lightning clients. The main task of the tracker is to split large incomming problem sets into smaller pieces and delegate work to available clients.
+% divided into 3 main parts
 
-The Lightning tracker is implemented in Python\footnote{http://www.python.org}, which was chosen for its simplicity in order to quickly get a prototype up and running.
+\subsection{Tracker}
+%[similar to bittorrent tracker]
+The tracker is the central piece of software that manages and coordinates the large set of worker clients in the network.
+% The main task of the tracker is the organize the worker clients in the network.
+In the case a worker client need to pass along tasks, and all the known worker clients are busy, it can request a list of idle worker clients from the tracker. The tracker also has the ability to store statistics of the network and each individual worker client, much like a BitTorrent tracker does. This information could then later be used to control how end-user clients have access to the network. 
+
+One example of statistics usage would be to limit the amount a scene data end-user client can send to the network, depending on how much scene data its local worker client previously has handled. In this way the more data a client has processed, the more and bigger jobs it can send to the network. This is similar to how most private BitTorrent trackers work, but instead in regard to the ratio between raw data downloaded and uploaded.
+
+%The main task of the tracker is to split large incoming problem sets into smaller pieces and delegate work to available clients.
+% the above isn't right, the tracker has nothing to do with the splitting, rework it to fit our current work
+
+%The Lightning tracker is implemented in Python\footnote{http://www.python.org}, which was chosen for its simplicity in order to quickly get a prototype up and running.
+% should be moved to implemention part
 
 \subsection{Worker Client}
-In an idle state, i.e. when no work is being done by the network, a star topology is implemented where each client is only connected to a central node, similar to how a tracker works in BitTorrent.
+The worker clients are the actual nodes that the P2P network consist of. They are the applications that receive all the jobs and tasks, either processes them or sends them along to the next worker client. For the network to handle different types of jobs, each job is tagged with a identification describing what type of job it is. This identification is then used internally by the worker clients to delegate jobs to different job processors. The job processors are run in their own thread so that multiple jobs of different types can be executed at the same time. When a job processor pushes a result to the result queue, the worker client packages it as a result packet and sends it back to the end-user client.
 
-When a job initiator makes a request to the network, the tracker will work as a “team leader”,  with a certain degree of involvement in the actual work being performed. The general idea is that the tracker conveys available workers to the job initiator, and lets the worker client sort out the rest when they receive the job and tasks.
+In an idle state, i.e. when no work is being done by the network, the worker client only has an active connection to the tracker.
+%a star topology is implemented where each client is only connected to a central node.
+
+
+
+%When a end-user client makes a request to the network, the tracker will work as a “team leader”,  with a certain degree of involvement in the actual work being performed. The general idea is that the tracker conveys available workers to the job initiator, and lets the worker client sort out the rest when they receive the job and tasks.
 
 % The Lightning client is responsible for processing data. 
 % ... is an independent and dedicated worker. 
 
 Since the Lightning client should be able to process arbitrary complex computational data, speed is of the essence, and this is one of the reasons why C++ was chosen as the target implementation language for the client.
+
+\subsubsection{Job Processors}
+  To handle different types of jobs, the worker clients have one or more modules called job processors. A job processor is a specialized module that can solve a specific type of jobs. When the worker client receives tasks and add them to the internal queue, the appropriate job processor takes care of the task. As soon as the job processor has finished processing the task, the results are pushed onto a results queue inside the worker client.
 
 \subsection{End-user Clients and Job Initiators}
 Before any scene can be distributed and rendered, it has to be packaged in the correct way for the P2P network and its clients to understand it. One of the main reasons we wanted to split up the worker client from the job initiators were so that we would be able to implement different types of job initiators, without them having to dependent on the worker clients version and implementation. This meant that we would be able to implement different kinds of end-user clients that could load and handle different types of scene data, as long as they packaged them in a standard way that the worker clients could understand.
