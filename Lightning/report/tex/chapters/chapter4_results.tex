@@ -1,12 +1,20 @@
 \chapter{Results}
 
 \chapter{Future Work}
+\section{Raytracer}
+\subsection{Algorithm}
+Improved ray tracing algorithm.
 
-- better ray tracing algorithm\\
-- SIMD usage for ray tracing calculations\\
-- photon mapping job processor\\
-- cleaver way of splitting up and passing along tasks/batches\\
+\subsection{SIMD}
+By using SIMD (Single Instruction Multiple Data), multiple computations can be performed in parallel. If used correctly, a speedup of up to 4 times per execution thread can be expected. For us, SIMD can be applied to both ray calculations and data structures.
+
+\subsection{Photon Mapping}
+Distributed photon mapping could be a possible addition to the raytracer, in order to get a good approximation of global illumination.
+
+\section{Lightning}
+Better task distribution algorithm that accounts for CPU count and CPU load for each available node. [also bandwidth between host and nodes should be taken into account].
+
+End-user client as a plugin for 3ds max.
+
 - too much overhead?\\
-- end-user client as plugin for 3ds max\\
 - GOOD IDEA, but only prototype. Has potential like a massive BOSS.
-
