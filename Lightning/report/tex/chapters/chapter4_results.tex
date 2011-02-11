@@ -3,16 +3,16 @@
 \chapter{Future Work}
 \section{Raytracer}
 \subsection{Algorithm}
-Improved ray tracing algorithm.
+Improved ray tracing algorithm. [More primitives, light types, blah, bleh.]
 
-\subsection{SIMD}
+\subsection{SIMD Optimization}
 By using SIMD (Single Instruction Multiple Data), multiple computations can be performed in parallel. If used correctly, a speedup of up to 4 times per execution thread can be expected. For us, SIMD can be applied to both ray calculations and data structures.
 
 \subsection{Photon Mapping}
-Distributed photon mapping could be a possible addition to the raytracer, in order to get a good approximation of global illumination.
+Distributed photon mapping would be a possible addition to the raytracer, in order to get a good approximation of global illumination. The photon mapper would work as a pre-processing pass, before any rays are shot from the camera.
 
 \section{Lightning}
-Better task distribution algorithm that accounts for CPU count and CPU load for each available node. [also bandwidth between host and nodes should be taken into account].
+To further increase performance, we would need a better task distribution algorithm that accounts for CPU count and CPU load for each available node, that possible also makes decisions based on network throughput between lightning clients and the host computer.
 
 End-user client as a plugin for 3ds max.
 
