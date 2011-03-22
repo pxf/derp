@@ -1,6 +1,18 @@
 \chapter{Overview}
 %\section{Overview}
 % divided into 3 main parts
+The lightning software suite is divided into four major parts; \textbf{tracker}, \textbf{worker client}, \textbf{job processors} and \textbf{job initiators}. Below is a quick overview of the workflow inside the different parts. Following this is a more detailed description of each part.
+\pic[0.7]{img/lightning_layout.png}{Lightning application suite layout.}
+
+\begin{enumerate}
+  \item A job initiator prepares and package both job data and tasks and send them along to a client in the cloud. An example of a job initiator would be a plugin for 3D modeling software.
+  \item A lightning client receive the job data and tasks. It will firstly fill its internal queues with as much tasks it can and want to handle.
+  \item The lightning client will then secondly try to forward the rest of the tasks to other clients in the network. If it can't find any other clients to send to, it will notify the tracker that it is in need of more clients. The tracker will then notify the waiting client as soon as more clients become available.
+  \item When tasks are added to the internal queue of a client, the corresponding job processor for a specific type of job and task then start to process/execute the tasks in a FIFO order. As soon as a job processor has finished processing a task, the result is pushed onto a second outgoing queue.
+  \item Inside the cloud the tasks are distributed among the available clients. Clients have the ability to notify the tracker if they are available or waiting for other clients to become available.
+  \item The tracker keeps track of all clients in the cloud, and their connectivity between each other.
+  \item When job processors finish tasks and pushes them onto the outgoing queue, the client send the results back to the job initiator. It is up to the job initiator to handle all the task results and combine them in a final result in a the correct way.
+\end{enumerate}
 
 \section{Tracker}
 %[similar to bittorrent tracker]
