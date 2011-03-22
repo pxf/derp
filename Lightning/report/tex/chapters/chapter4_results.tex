@@ -3,19 +3,23 @@
 \chapter{Future Work}
 \section{Raytracer}
 \subsection{Algorithm}
-Improved ray tracing algorithm. [More primitives, light types, blah, bleh.]
+The ray tracing and shading algorithms implemented are very naive and simple due to the time constraints in the project. If more time was given then a natural development would be to revamp the ray tracing and shading algorithms so they reach results comparable with commercial software. Another perhaps even better and more profitable approach would be to use existing ray tracing and shading solutions. This in turn would decouple the shading and clients even more, and the software would instead be viewed as a middleware between 3D modeling and shading software.
+%Improved ray tracing algorithm. [More primitives, light types, blah, bleh.]
 
-- cleaver way of splitting up and passing along tasks/batches\\
 \subsection{SIMD Optimization}
 By using SIMD (Single Instruction Multiple Data), multiple computations can be performed in parallel. If used correctly, a speedup of up to 4 times per execution thread can be expected. For us, SIMD can be applied to both ray calculations and data structures.
 
-\subsection{Photon Mapping}
-Distributed photon mapping would be a possible addition to the raytracer, in order to get a good approximation of global illumination. The photon mapper would work as a pre-processing pass, before any rays are shot from the camera.
+\subsection{Better ways of distributing tasks}
+- cleaver way of splitting up and passing along tasks/batches\\
 
-\section{Lightning}
+\subsection{Photon Mapping}
+Distributed photon mapping would be a possible addition to the raytracer, in order to get a good approximation of global illumination. The photon mapper would be implemented as a job processor, where each job could be divided into tasks such that each task would shoot a fix amount of photons. These results would then be collected at the job initiator and incorporated into the data used later on for the raytracing job processors.
+
+\section{Load balancing}
 To further increase performance, we would need a better task distribution algorithm that accounts for CPU count and CPU load for each available node, that possible also makes decisions based on network throughput between lightning clients and the host computer.
 
-End-user client as a plugin for 3ds max.
+\section{Job initiator as plugin for commercial software}
+Thanks to the decoupling of job initiators and job processors/clients, it would be possible to implement a job initiator as a plugin for a commercial modeling software, ie. 3ds Max. By doing this, the usage would fit better with the current workflow of such programs, and thus more trivial for the already established community of each product/software.
 
-- too much overhead?\\
-- GOOD IDEA, but only prototype. Has potential like a massive BOSS.
+%- too much overhead?\\
+%- GOOD IDEA, but only prototype. Has potential like a massive BOSS.
