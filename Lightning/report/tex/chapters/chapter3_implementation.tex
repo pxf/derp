@@ -6,9 +6,9 @@ imma bin a leetle worker client :>
 \section{Ray-Tracer Job Processor}
 Even if the worker client would be able to handle many different job processors, the main focus were from the start to create a naïve ray-tracer processor, mainly because its ease to divide jobs into smaller tasks. Our implementation started with some very simple tests consisting of ray-sphere intersections, and were further developed to handle ray-triangle intersections. The lightning calculations are also very simple, but fit the purpose of our prototype.
 
-A job "definition" is essentially a serialized 3D scene, and consists of a collection of triangles, a kd-tree (explained in more detail below), materials, light sources and the cameras position and orientation. The packaging of this data is done on the job initiator side, and it is then up to our job processor to unpack the data and use it for each task.
+A job is essentially a serialized 3D scene, and consists of a collection of triangles, a kd-tree (explained in more detail below), materials, light sources and the cameras position and orientation. The job initiator serialize and package this data, and it is then up to our job processor to unpack the data and use it for each task.
 
-Each of the tasks that make up a job, is simply a predefined region of the final image. The job processor runs a calculation function for each pixel it has to render. The calculation function uses the data sent with the job (triangles, kd-tree, material and light information) to shade the pixels in the task region. As soon as a task is finished, the results are packed and pushed onto the result queue, where the client then takes care of sending it back to the job initiator.
+Each of the tasks that make up a job, is simply a predefined region of the final image. The job processor runs a shading function for each pixel it has to render, essentially ray traces a ray from the camera origin through each pixel into the scene. The shading function uses the data sent with the job (triangles, kd-tree, material and light information) to shade the pixels in the task region. As soon as a task is finished, the results are packed and pushed onto the result queue, where the client then takes care of sending it back to the job initiator.
 %- Naïve raytracer implementation\\
 
 - kd-tree like bass\\
