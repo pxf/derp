@@ -1,14 +1,16 @@
 \chapter{Implementation}
 
+\pic[0.35]{img/lightning_screens.png}{\emph{\textbf{Top left:}} The job initiator showing (rendered using OpenGL locally) a simple teapot model before being it ray traced. \emph{\textbf{Top right:}} The view right after a job has been sent to the clients (no results has been received yet). Each task can be seen here with corresponding task id for easier debugging. \emph{\textbf{Bottom left:}} About half (33 of 64) of the tasks has been completed and received, as shown by the progress bar. Visual task id numbering has been disabled here. \emph{\textbf{Bottom right:}} Finished image, all tasks completed and received. Showing a simple reflection of a tea pot in a sphere.}
+
 \section{Worker Client}
 imma bin a leetle worker client :>
 
 Every node sends PING-messages at a given interval to see whether the tracker and it's connected nodes are still available.
 
 \section{Ray-Tracer Job Processor}
-Even if the worker client would be able to handle many different job processors, the main focus were from the start to create a naïve ray-tracer processor, mainly because its ease to divide jobs into smaller tasks. Our implementation started with some very simple tests consisting of ray-sphere intersections, and were further developed to handle ray-triangle intersections. The lightning calculations are also very simple, but fit the purpose of our prototype.
+Even if the worker client would be able to handle many different job processors, the main focus were from the start to create a naïve ray-tracer processor, mainly because the ease to divide jobs into smaller tasks. Implementation started with some very simple tests consisting of ray-sphere intersections, and were further developed to handle ray-triangle intersections. The lightning calculations are also very simple, but fit the purpose of a simple prototype.
 
-A job is essentially a serialized 3D scene, and consists of a collection of triangles, a kd-tree (explained in more detail below), materials, light sources and the cameras position and orientation. The job initiator serialize and package this data, and it is then up to our job processor to unpack the data and use it for each task.
+Each job is essentially a serialized 3D scene, and consists of a collection of triangles, a kd-tree (explained in more detail below), materials, light sources and the cameras position and orientation. The job initiator serialize and package this data, and it is then up to our job processor to unpack the data and use it for each task.
 
 Each of the tasks that make up a job, is simply a predefined region of the final image. The job processor runs a shading function for each pixel it has to render, essentially ray traces a ray from the camera origin through each pixel into the scene. The shading function uses the data sent with the job (triangles, kd-tree, material and light information) to shade the pixels in the task region. As soon as a task is finished, the results are packed and pushed onto the result queue, where the client then takes care of sending it back to the job initiator.
 %- Naïve raytracer implementation\\
@@ -35,3 +37,6 @@ The node is tagged as being available for work, and if there are nodes in the wa
 
 
 x håller koll på noders anslutningar
+
+\section{Job Initiator}
+Screenshots galore!
