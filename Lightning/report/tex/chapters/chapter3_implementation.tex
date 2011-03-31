@@ -5,6 +5,8 @@
 \section{Worker Client}
 imma bin a leetle worker client :>
 
+Every node sends PING-messages at a given interval to see whether the tracker and it's connected nodes are still available.
+
 \section{Ray-Tracer Job Processor}
 Even if the worker client would be able to handle many different job processors, the main focus were from the start to create a naïve ray-tracer processor, mainly because the ease to divide jobs into smaller tasks. Implementation started with some very simple tests consisting of ray-sphere intersections, and were further developed to handle ray-triangle intersections. The lightning calculations are also very simple, but fit the purpose of a simple prototype.
 
@@ -21,7 +23,20 @@ Each of the tasks that make up a job, is simply a predefined region of the final
 % - planned photon mapper job processor\\ <- tas upp i future work istället
 
 \section{Tracker}
-how is tracker formed?
+When a node connects to the tracker a new connection is established to the node's incoming socket from the tracker, and if it succeeds the first socket is closed in favor of the now outgoing connection.
+This gives the network an automated way of testing whether the node is connectable or not.
+After the connection has been fully established the node is given a unique ID that it uses whenever it talks to the tracker and other nodes.
+Following types of messages are used for further communication.
+
+\begin{description}
+\item[Node requests more nodes] \hfill \\\\
+If there are nodes available already they are returned, but if no such nodes exist the requesting node is instead put in a waiting queue.
+\item[Node telling it is available to other nodes] \hfill \\\\
+The node is tagged as being available for work, and if there are nodes in the waiting queue already they are to recieve this node until it's spent.
+\end{description}
+
+
+x håller koll på noders anslutningar
 
 \section{Job Initiator}
 Screenshots galore!
