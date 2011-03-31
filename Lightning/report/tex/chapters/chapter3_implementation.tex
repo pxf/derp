@@ -1,7 +1,5 @@
 \chapter{Implementation}
 
-\pic[0.35]{img/lightning_screens.png}{\emph{\textbf{Top left:}} The job initiator showing (rendered using OpenGL locally) a simple teapot model before being it ray traced. \emph{\textbf{Top right:}} The view right after a job has been sent to the clients (no results has been received yet). Each task can be seen here with corresponding task id for easier debugging. \emph{\textbf{Bottom left:}} About half (33 of 64) of the tasks has been completed and received, as shown by the progress bar. Visual task id numbering has been disabled here. \emph{\textbf{Bottom right:}} Finished image, all tasks completed and received. Showing a simple reflection of a tea pot in a sphere.}
-
 \section{Worker Client}
 imma bin a leetle worker client :>
 
@@ -24,4 +22,7 @@ Each of the tasks that make up a job, is simply a predefined region of the final
 how is tracker formed?
 
 \section{Job Initiator}
+Initial plans were to create a job initiator as a plugin to an existing 3D modeling application. These plans had to be put on hold as focus needed to be shifted to a simpler model viewer type of job initiator. The model viewer is able to load one or more 3D models and render these in realtime using OpenGL before the scene.
+
+\pic[0.35]{img/lightning_screens.png}{\emph{\textbf{Top left:}} The job initiator showing (rendered using OpenGL locally) a simple teapot model before being it ray traced. \emph{\textbf{Top right:}} The view right after a job has been sent to the clients (no results has been received yet). Each task can be seen here with corresponding task id for easier debugging. \emph{\textbf{Bottom left:}} About half (33 of 64) of the tasks has been completed and received, as shown by the progress bar. Visual task id numbering has been disabled here. \emph{\textbf{Bottom right:}} Finished image, all tasks completed and received. Showing a simple reflection of a tea pot in a sphere.}
 Screenshots galore!
