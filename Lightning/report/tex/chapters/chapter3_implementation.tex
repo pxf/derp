@@ -15,12 +15,47 @@ Each job is essentially a serialized 3D scene, and consists of a collection of t
 Each of the tasks that make up a job, is simply a predefined region of the final image. The job processor runs a shading function for each pixel it has to render, essentially ray traces a ray from the camera origin through each pixel into the scene. The shading function uses the data sent with the job (triangles, kd-tree, material and light information) to shade the pixels in the task region. As soon as a task is finished, the results are packed and pushed onto the result queue, where the client then takes care of sending it back to the job initiator.
 %- Naïve raytracer implementation\\
 
-- kd-tree like bass\\
-  -- behövde snabbas upp, därför behövde vi ett kd-träd\\
-  -- behövde indexera trianglarna istället för att lagra pekare -> pga serialiseringen\\
-  
-  
-% - planned photon mapper job processor\\ <- tas upp i future work istället
+\subsection{KD-Tree}
+The very first ray tracer, a brute force algorithm was used for each ray against all the geometry in the scene. At first, this did not cause extreme performance costs as small scenes with simple objects was used. However, when using complex 3D objects with thousands of triangles was used, rendering the scene took several minutes and was thus impossible to work with. To address this issue, a spatial division scheme was implemented. There exists several different schemes with various benefits, but ultimately, a specialized KD tree algorithm was designed for the task, based on a paper by Ingo Wald [referens här]. 
+
+As a tree can take several minutes to build, it is calculated offline once and then stored locally as a binary file. When loading a model, the renderer loads the cached file containing the binary kd-tree in almost no time.
+
+The tree is constructed offline by a number of passes:
+
+Pass 1: Construct a bounding volume for each primitive used in the scene. A bounding volume encapsulating all the primitives in the tree is also calculated. This is used for early hit detection by a ray-box intersection on the total volume.
+
+Pass 2: Recursively build the tree. The following pseudo-algorithm describes the algorithm:
+
+ 1. if stopping criteria met then 
+ 2.   create leaf node and assign it with current work data
+ 4. calculate a bounding box for left and right child nodes
+ 3. for each axis do
+ 4.  for each split position do
+ 5.    calculate total SAH cost
+ 6.    if total cost is < current best cost then
+ 7.      set best axis and split position
+ 8. if the cost of not splitting is better than splitting then
+ 9.   create leaf node and assign it with current work data
+10. create two inner nodes and assign with data
+11. recurse on left and right nodes
+
+Comments: 
+
+1-2: The stopping criteria in this case is met when either the work set or the recursion depth is less than specific constants. Tweaking the value of these constants yield varying intersection performance as they determine the size of the tree (and thus also the speed of the algorithm). In this version, the criteria is work size < 8 and depth < 20, which works quite well.
+
+5: SAH, or surface area heuristic calculates a cost value based on the volume of the left and right bounding boxes. A minimal cost creates a tight box around the primitives in the working data set and indicates the best split position of the split candidates (the min and max points of the primitives). The current split position splits the current node's bounding volume in two sides, left and right. The total cost is calucalted as follows: 
+
+left SAH = volume of left bounding box
+right SAH = volume of right bounding box
+#left primitives and #right primitives indicates the amount of primitives in either bounding volume. 
+
+total_cost = left SAH * #left primitives + right SAH * #right primitives
+
+Pass 3: Build a cache-friendly tree that uses data indices instead of raw data from the tree in pass 2. As no pointers are used in the leaves, this tree can finally be serialized to a file, or sent over a network connection and used directly by clients with no re-calculation or processing.
+
+When the tree is build, it can then be used in ray-primitive intersections when ray-tracing. This process is described as follows:
+
+1. 
 
 \section{Tracker}
 When a node connects to the tracker a new connection is established to the node's incoming socket from the tracker, and if it succeeds the first socket is closed in favor of the now outgoing connection.
