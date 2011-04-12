@@ -33,7 +33,7 @@ Each of the tasks that make up a job, is simply a predefined region of the final
 %- Naïve raytracer implementation\\
 
 \subsection{KD-Tree}
-The very first ray tracer, a brute force algorithm was used for each ray against all the geometry in the scene. At first, this did not cause extreme performance costs as small scenes with simple objects was used. However, when using complex 3D objects with thousands of triangles was used, rendering the scene took several minutes and was thus impossible to work with. To address this issue, a spatial division scheme was implemented. There exists several different schemes with various benefits, but ultimately, a specialized KD tree algorithm was designed for the task, based on a paper by Ingo Wald [referens här]. 
+In the very first ray tracer, a brute force algorithm was used for each ray against all the geometry in the scene. At first, this did not cause extreme performance costs as small scenes with simple objects was used. However, when using complex 3D objects with thousands of triangles was used, rendering the scene took several minutes and was thus impossible to work with. To address this issue, a spatial division scheme was implemented. There exists several different schemes with various benefits, but ultimately, a specialized KD tree algorithm was designed for the task, based on a paper by Ingo Wald [referens här]. 
 
 As a tree can take several minutes to build, it is calculated offline once and then stored locally as a binary file. When loading a model, the renderer loads the cached file containing the binary kd-tree in almost no time.
 
