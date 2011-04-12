@@ -1,6 +1,25 @@
 \chapter{Results}
+We have done some basic performance testing, shown in the table below.
 
-- tabeller och annat fint här
+\begin{center}
+    \begin{tabular}{ | l | l | l |} \hline
+    Task count & Processor cores & Total render time \\ \hline
+    2x2 & 1 & 3m 30s \\ \hline
+    16x16 & 14 & 8-12s \\ \hline
+    32x32 & 14 & 1m 40s \\ \hline
+    \end{tabular}
+    % caption?
+\end{center}
+
+We can clearly see that the rendering time is spread out and varies wildly. There are
+some known problems with our task distribution algorithm that can cause an uneven distribution
+of jobs across all nodes. For our test case, optimal distribution was achieved with region of size 16x16, yielding a render time of only a couple of seconds.
+
+Increasing the region size to 32x32 quadruples the number of jobs, and shows how severe the performance hit is
+when the distribution algorithm woes. 
+
+% problems with task distribution, cause of "spread-out" results
+% 
 
 \chapter{Future Work}
 \section{Ray tracing algorithm}
@@ -11,7 +30,7 @@ The ray tracing and shading algorithms implemented are very naive and simple due
 By using SIMD (Single Instruction Multiple Data), multiple computations can be performed in parallel. If used correctly, a speedup of up to 4 times per execution thread can be expected. For us, SIMD can be applied to both ray calculations and data structures.
 
 \section{Better ways of distributing tasks}
-- cleaver way of splitting up and passing along tasks/batches\\
+The current implementation just splits the tasks in half, and sends them to two separate clients (if found). A more sophisticated approach would improve the performance significantly. A good value too look at would be how much each client can process, i.e. the number of processors and how fast they are.
 
 \section{Photon Mapping}
 Distributed photon mapping would be a possible addition to the ray tracer, in order to get a good approximation of global illumination. The photon mapper would be implemented as a job processor, where each job could be divided into tasks such that each task would shoot a fix amount of photons. These results would then be collected at the job initiator and incorporated into the data used later on for the raytracing job processors.
