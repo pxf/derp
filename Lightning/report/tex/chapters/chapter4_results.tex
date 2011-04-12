@@ -1,6 +1,25 @@
 \chapter{Results}
+We have done some basic performance testing, shown in the table below.
 
-- tabeller och annat fint här
+\begin{center}
+    \begin{tabular}{ | l | l | l |} \hline
+    Task count & Processor cores & Total render time \\ \hline
+    2x2 & 1 & 3m 30s \\ \hline
+    16x16 & 14 & 8-12s \\ \hline
+    32x32 & 14 & 1m 40s \\ \hline
+    \end{tabular}
+    % caption?
+\end{center}
+
+We can clearly see that the rendering time is spread out and varies wildly. There are
+some known problems with our task distribution algorithm that can cause an uneven distribution
+of jobs across all nodes. For our test case, optimal distribution was achieved with region of size 16x16, yielding a render time of only a couple of seconds.
+
+Increasing the region size to 32x32 quadruples the number of jobs, and shows how severe the performance hit is
+when the distribution algorithm woes. 
+
+% problems with task distribution, cause of "spread-out" results
+% 
 
 \chapter{Future Work}
 \section{Ray tracing algorithm}
