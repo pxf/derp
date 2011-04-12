@@ -5,10 +5,20 @@
 \section{Worker Client}
 The client has two bound sockets for incoming connections. The first is used by the tracker after the client have initated contact to fully establish the connection and make sure the client is connectable.
 The second is used by the job initator and other clients when they have jobs that needs to be handled.
-When a client have received jobs, it fills it's internal queue and tries to send the rest to idle workers. 
+When a client have received jobs, it fills it's internal queue and tries to send the rest to idle workers.
 If it is not connected to any idle workers, it asks the tracker for more.
+After a job is done, it opens a connection to the job initiator and sends the completed data over the connection.
 
-To make sure the network is responsive enough, every node sends PING-messages at a given interval, and closes the connections that does not respond in time.
+The client has three queues, handling all the incoming, outgoing and completed jobs.
+\begin{description}
+	\item[Internal queue] \hfill \\
+	Holds all the jobs that the internal workers are going to process. The size of this queue can be changed in a way that makes the network efficient. However, the current implementation sets this to a fixed size.
+	\item[External queue] \hfill \\
+	All the jobs that the client have been given, which currently does not fit in the internal queue.
+	When jobs exist in this queue, the client tries to send them to other clients, by either using already connected clients or asking the tracker for more.
+	\item[Outgoing queue] \hfill \\
+	When a job is completed it is put in this queue and a special \textit{Sender}-thread sends them to the job initiator one at a time.
+\end{description}
 
 Since the Lightning client should be able to process arbitrary complex computational data, speed is of the essence, and this is one of the reasons why C++ was chosen as the target implementation language for the client.
 
