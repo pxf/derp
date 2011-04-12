@@ -50,10 +50,14 @@ Comments:
 5: SAH, or surface area heuristic calculates a cost value based on the volume of the left and right bounding boxes. A minimal cost creates a tight box around the primitives in the working data set and indicates the best split position of the split candidates (the min and max points of the primitives). The current split position splits the current node's bounding volume in two sides, left and right. The total cost is calucalted as follows: 
 
 left SAH = volume of left bounding box
-right SAH = volume of right bounding box
-#left primitives and #right primitives indicates the amount of primitives in either bounding volume. 
 
-total_cost = left SAH * #left primitives + right SAH * #right primitives
+right SAH = volume of right bounding box
+
+left primitives and right primitives indicates the amount of primitives in either bounding volume. 
+
+\begin{equation}
+total cost = left SAH * left primitives + right SAH * right primitives
+\end{equation}
 
 Pass 3: Build a cache-friendly tree that uses data indices instead of raw data from the tree in pass 2. As no pointers are used in the leaves, this tree can finally be serialized to a file, or sent over a network connection and used directly by clients with no re-calculation or processing.
 
