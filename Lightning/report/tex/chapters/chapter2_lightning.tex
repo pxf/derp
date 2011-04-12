@@ -41,7 +41,7 @@ In an idle state, i.e. when no work is being done by the network, the worker cli
 % The Lightning client is responsible for processing data. 
 % ... is an independent and dedicated worker. 
 
-Since the Lightning client should be able to process arbitrary complex computational data, speed is of the essence, and this is one of the reasons why C++ was chosen as the target implementation language for the client.
+%Since the Lightning client should be able to process arbitrary complex computational data, speed is of the essence, and this is one of the reasons why C++ was chosen as the target implementation language for the client.
 
 \subsection{Job Processors}
   To handle different types of jobs, the worker clients have one or more modules called job processors. A job processor is a specialized module that can solve a specific type of job. When the worker client receives tasks and add them to the internal queue, the appropriate job processor starts processing the tasks. As soon as the job processor has finished processing a task, the result is pushed onto a result queue inside the worker client.
