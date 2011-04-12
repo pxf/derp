@@ -12,7 +12,7 @@ Dealing with large quantities of computational data is an ever current topic, no
 
 The general idea of this project is to build a two-part prototype, capable of distributing computational data over a peer-to-peer (P2P) network, and retrieving the results within a feasible time frame. The first part will focus on communication between remote clients in a decentralized network, with focus on fast transfer rather than handling large amounts of data. The protocol will primarily be used to synchronize clients in the network to collectively share the computational workload of a task. 
 
-The second part of the project consists of building a naïve ray tracer that can subdivide a scene into smaller jobs (for example screen regions / blocks), and then process them with little to none dependence on each other or the rest of the scene. Each job should automatically be distributed on the network, and the results should be sent back to the job initiator as soon each job finishes.
+The second part of the project consists of building a naïve ray tracer that can subdivide a scene into smaller jobs (for example screen regions / blocks), and then process them with little to none dependence on each other or the rest of the scene. Each job should automatically be distributed over the network, and the results should be sent back to the job initiator as soon each job finishes.
 
 \section{Motivation}
 Examine if distributed ray tracing calculations, over a P2P network, is able to reduce the render time of an arbitrarily complex 3D scene, compared to a regular local ray tracing solution. Also to examine if it is feasible to achieve real time rendering with techniques previously mentioned.
