@@ -10,6 +10,9 @@ If it is not connected to any idle workers, it asks the tracker for more.
 
 To make sure the network is responsive enough, every node sends PING-messages at a given interval, and closes the connections that does not respond in time.
 
+Since the Lightning client should be able to process arbitrary complex computational data, speed is of the essence, and this is one of the reasons why C++ was chosen as the target implementation language for the client.
+
+To make sure the network is responsive enough, every node sends PING-messages at a given interval, and closes the connections that does not respond in time.
 
 \section{Ray-Tracer Job Processor}
 Even if the worker client would be able to handle many different job processors, the main focus were from the start to create a naïve ray-tracer processor, mainly because the ease to divide jobs into smaller tasks. Implementation started with some very simple tests consisting of ray-sphere intersections, and were further developed to handle ray-triangle intersections. The lightning calculations are also very simple, but fit the purpose of a simple prototype.
