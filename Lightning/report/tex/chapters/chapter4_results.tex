@@ -16,7 +16,7 @@ some known problems with our task distribution algorithm that can cause an uneve
 of jobs across all nodes. For our test case, optimal distribution was achieved with a region of size 16x16, yielding a render time of only a couple of seconds.
 
 Increasing the region size to 32x32 quadruples the number of jobs, and shows how severe the performance hit is
-when the distribution algorithm woes. 
+when the distribution algorithm woes. Even if the number of jobs increases, the jobs finish not much later than before on the job processor side, but instead the bottleneck seems to be on the result receiving end. This has to do with the massive increase of connections the receiving application has to open and handle.
 
 % problems with task distribution, cause of "spread-out" results
 % 
