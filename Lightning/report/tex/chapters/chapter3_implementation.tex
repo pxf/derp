@@ -2,9 +2,9 @@
 
 
 \section{Worker Client}
-The client has two bound sockets for incoming connections. The first is used by the tracker after the client have initated contact to fully establish the connection and make sure the client is connectable.
-The second is used by the job initator and other clients when they have jobs that needs to be handled.
-When a client have received jobs, it fills it's internal queue and tries to send the remaining jobs to idle workers.
+The client has two bound sockets for incoming connections. The first socket is used by the tracker after the client has initated contact to fully establish the connection and make sure the client is connectable.
+The second socket is used by the job initator and other clients when they have jobs that need to be handled.
+When a client receives jobs, it fills its internal queue and tries to send the rest to idle workers.
 If it is not connected to any idle workers, it asks the tracker for more.
 After a job is completed, it opens a connection to the job initiator and sends the resulting data over the connection.
 
@@ -19,20 +19,20 @@ The client has three queues, handling all the incoming, outgoing and completed j
 	When a job is completed it is put in this queue and a special \textit{Sender}-thread sends them to the job initiator one at a time.
 \end{description}
 
-Since the Lightning client should be able to process arbitrary complex computational data, speed is of the essence, and this is one of the reasons why C++ was chosen as the target implementation language for the client.
+%Since the Lightning client should be able to process arbitrary complex computational data, speed is , and this is one of the reasons why C++ was chosen as the target implementation language for the client.
 
 To make sure the network is responsive enough, every node sends PING-messages at a given interval, and closes the connections that does not respond in time.
 
 \section{Ray-Tracer Job Processor}
-Even if the worker client would be able to handle many different job processors, the main focus were from the start to create a naïve ray-tracer processor, mainly because the ease to divide jobs into smaller tasks. Implementation started with some very simple tests consisting of ray-sphere intersections, and were further developed to handle ray-triangle intersections. The lightning calculations are also very simple, but fit the purpose of a simple prototype.
+Even if the worker client would be able to handle many different job processors, the main focus were from the start to create a naïve ray-tracer processor. Implementation started with simple tests consisting of ray-sphere intersections, and were further developed to handle ray-triangle intersections based on parsed scene data. The lightning calculations are also very simple, but fit the purpose of a simple prototype.
 
-Each job is essentially a serialized 3D scene, which consists of a collection of triangles, a kd-tree (explained in more detail below), materials, light sources and the cameras position and orientation. The job initiator serialize and package this data, and it is then up to the job processor to unpack the data and use it for each task.
+Each job is essentially a serialized 3D scene, which consists of a collection of triangles, a kd-tree (explained in more detail below), materials, light sources and the camera position and orientation. The job initiator serialize and package this data, it is then up to the job processor to unpack the data and use it for each task.
 
-Each of the tasks that make up a job, is simply a predefined region of the final image. The job processor runs a shading function for each pixel it has to render, essentially ray traces a ray from the camera origin through each pixel into the scene. The shading function uses the data sent with the job (triangles, kd-tree, material and light information) to shade the pixels in the task region. As soon as a task is finished, the results are packed and pushed onto the outgoing queue, where the client then takes care of sending it back to the job initiator.
+Each of the tasks in a job, is simply a predefined region of the final image. The job processor runs a shading function for each pixel it has to render, essentially ray traces a ray from the camera origin through each pixel into the scene. The shading function uses the data sent with the job (triangles, kd-tree, material and light information) to shade the pixels in the task region. As soon as a task is finished, the results are packed and pushed onto the outgoing queue, where the client then takes care of sending it back to the job initiator.
 %- Naïve raytracer implementation\\
 
 \subsection{KD-Tree}
-In the very first ray tracer, a brute force algorithm was used for each ray against all the geometry in the scene. At first, this did not cause extreme performance costs as small scenes with simple objects was used. However, when using complex 3D objects with thousands of triangles was used, rendering the scene took several minutes and was thus impossible to work with. To address this issue, a spatial division scheme was implemented. There exists several different schemes with various benefits, but ultimately, a specialized KD tree algorithm was designed for the task, based on a paper by Ingo Wald [referens här]. 
+In the first iteration of the ray tracer, a brute force algorithm was used for each ray against all the geometry in the scene. At first, it did not cause extreme performance costs as small scenes with simple objects was used. However, when using complex 3D objects with thousands of triangles, rendering the scene took several minutes and was thus impossible to work with. To address this issue, a spatial division scheme was implemented. There exists several different schemes with various benefits, but ultimately, a KD tree algorithm was designed for the task, based on a paper by Ingo Wald [referens här]. 
 
 As a tree can take several minutes to build, it is calculated offline once and then stored locally as a binary file. When loading a model, the renderer loads the cached file containing the binary kd-tree in almost no time.
 
@@ -60,7 +60,7 @@ The tree is constructed offline by a number of passes:
 
   Comments: 
 
-  1-2: The stopping criteria in this case is met when either the work set or the recursion depth is less than specific constants. Tweaking the value of these constants yield varying intersection performance as they determine the size of the tree (and thus also the speed of the algorithm). In this version, the criteria is work size < 8 and depth < 20, which works quite well.
+  1-2: The stopping criteria in this case is met when either the work set or the recursion depth is less than specific constants. Tweaking the value of these constants yield varying intersection performance as they determine the size of the tree (and thus also the speed of the algorithm). In this version, the criteria is work size < 8 and depth < 20, which works quite well. 
 
   5: SAH, or surface area heuristic calculates a cost value based on the volume of the left and right bounding boxes. A minimal cost creates a tight box around the primitives in the working data set and indicates the best split position of the split candidates (the min and max points of the primitives). The current split position splits the current node's bounding volume in two sides, left and right. The total cost is calculated as follows: 
 
@@ -77,9 +77,7 @@ The tree is constructed offline by a number of passes:
   \item \textbf{Pass 3:} Build a cache-friendly tree that uses data indices instead of raw data from the tree in pass 2. As no pointers are used in the leaves, this tree can finally be serialized to a file, or sent over a network connection and used directly by clients with no re-calculation or processing.
 \end{itemize}
 
-When the tree is build, it can then be used in ray-primitive intersections when ray-tracing. This process is described as follows:
-
-1. 
+When the tree is build, it can then be used in ray-primitive intersections when ray-tracing.
 
 \section{Tracker}
 When a node connects to the tracker a new connection is established to the node's incoming socket from the tracker, and if it succeeds the first socket is closed in favor of the now outgoing connection.
@@ -89,7 +87,7 @@ Following types of messages are used for further communication.
 
 \begin{description}
 \item[Node requests more nodes] \hfill \\\\
-If there are nodes available already they are returned, but if no such nodes exist the requesting node is instead put in a waiting queue.
+Any available nodes are returned. If no such nodes exist the requesting node is instead put in a waiting queue.
 \item[Node signaling it is available to other nodes] \hfill \\\\
 The node is tagged as being available for work, and if there are nodes in the waiting queue already they are to recieve this node until it's spent.
 \end{description}
