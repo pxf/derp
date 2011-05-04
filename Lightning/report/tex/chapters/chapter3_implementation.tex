@@ -1,11 +1,11 @@
 \chapter{Implementation}
 
-\pic[0.32]{img/lightning_screens.png}{\emph{\textbf{Top left:}} The job initiator showing (rendered using OpenGL locally) a simple teapot model before being it ray traced. \emph{\textbf{Top right:}} The view right after a job has been sent to the clients (no results has been received yet). Each task can be seen here with corresponding task id for easier debugging. \emph{\textbf{Bottom left:}} About half (33 of 64) of the tasks has been completed and received, as shown by the progress bar. Visual task id numbering has been disabled here. \emph{\textbf{Bottom right:}} Finished image, all tasks completed and received. Showing a simple reflection of a tea pot in a sphere.}
+\pic[0.32]{img/lightning_screens.png}{\emph{\textbf{Top left:}} The job initiator showing (rendered using OpenGL locally) a simple teapot model before ray tracing. \emph{\textbf{Top right:}} The view right after a job has been sent to the clients (no results has been received yet). Each task can be seen here with corresponding task id for easier debugging. \emph{\textbf{Bottom left:}} About half (33 of 64) of the tasks are complete and received, as shown by the progress bar. Visual task id numbering has been disabled here. \emph{\textbf{Bottom right:}} Finished image, all tasks complete and received. Showing a simple reflection of a teapot in a sphere.}
 
 \section{Worker Client}
-The client has two bound sockets for incoming connections. The first is used by the tracker after the client have initated contact to fully establish the connection and make sure the client is connectable.
-The second is used by the job initator and other clients when they have jobs that needs to be handled.
-When a client have received jobs, it fills it's internal queue and tries to send the rest to idle workers.
+The client has two bound sockets for incoming connections. The first socket is used by the tracker after the client has initated contact to fully establish the connection and make sure the client is connectable.
+The second socket is used by the job initator and other clients when they have jobs that need to be handled.
+When a client receives jobs, it fills its internal queue and tries to send the rest to idle workers.
 If it is not connected to any idle workers, it asks the tracker for more.
 After a job is done, it opens a connection to the job initiator and sends the completed data over the connection.
 
