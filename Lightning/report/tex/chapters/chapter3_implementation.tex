@@ -2,12 +2,12 @@
 
 
 \section{Worker Client}
-The client has two bound sockets for incoming connections. The first socket is used by the tracker after the client have initated contact to fully establish the connection and make sure the client is connectable.
-The second is used by the job initator and other clients when they have jobs that needs to be processed.
-When a client have received jobs, it fills it's internal queue and tries to send the (if any) remaining jobs to idle workers.
+The client has two bound sockets for incoming connections. The first socket is used by the tracker after the client have initiated contact to fully establish the connection and make sure the client is connectable.
+The second is used by the job initiator and other clients when they have jobs that needs to be processed.
+When a client have received jobs, it fills its internal queue and tries to send the (if any) remaining jobs to idle workers.
 If it is not connected to any, or a sufficient amount of idle workers, it asks the tracker for more. The client is configured to hold a maximum number of connections to other workers (default set to 6) to prohibit passing along huge sets of batch data (startup data needed to compute a set of tasks). Limiting the transmissions of batch data lowers the pressure of an individual client to distribute the data needed to start computing a job, and also results in a more evenly distributed workload.
 
-If the tracker can't provide idle workers, the client enters a state in wich it waits for a message from the tracker to provide a set of new worker clients. In the meantime the client keeps it internal queue filled, thus still reducing the number of jobs waiting to be processed. When a message from the tracker is recieved informing the client about available workers, all remaining jobs are distributed evenly among those clients recieved by the tracker, leaving the external queue empty.
+If the tracker can't provide idle workers, the client enters a state in which it waits for a message from the tracker to provide a set of new worker clients. In the meantime the client keeps it internal queue filled, thus still reducing the number of jobs waiting to be processed. When a message from the tracker is received informing the client about available workers, all remaining jobs are distributed evenly among those clients received by the tracker, leaving the external queue empty.
 
 After a job is completed, it opens a connection to the job initiator and sends the resulting data over the connection.
 
