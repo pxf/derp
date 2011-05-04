@@ -16,18 +16,18 @@ some known problems with our task distribution algorithm that can cause an uneve
 of jobs across all nodes. For our test case, optimal distribution was achieved with a region of size 16x16, yielding a render time of only a couple of seconds.
 
 Increasing the region size to 32x32 quadruples the number of jobs, and shows how severe the performance hit is
-when the distribution algorithm woes. 
+when the distribution algorithm woes. Even if the number of jobs increases, the jobs finish not much later than before on the job processor side, but instead the bottleneck seems to be on the result receiving end. This has to do with the massive increase of connections the receiving application has to open and handle, one for each result it will receive.
 
 % problems with task distribution, cause of "spread-out" results
 % 
 
 \chapter{Future Work}
 \section{Ray tracing algorithm}
-The ray tracing and shading algorithms implemented are very naive and simple due to the time constraints in the project. If more time was given then a natural development would be to revamp the ray tracing and shading algorithms so they reach results comparable with commercial software. Another perhaps even better and more profitable approach would be to use existing ray tracing and shading solutions. This in turn would decouple the shading and clients even more, and the software would instead be viewed as a middleware between 3D modeling and shading software.
+The ray tracing and shading algorithms implemented are very naive and simple due to the time constraints in the project. If more time was given then a natural development would be to revamp the ray tracing and shading algorithms so they reach results comparable with commercial software. Another perhaps even better and more profitable approach would be to use existing ray tracing and shading solutions. This in turn would decouple the shading and clients even more, and the software could instead be viewed as a middleware between 3D modeling and shading software.
 %Improved ray tracing algorithm. [More primitives, light types, blah, bleh.]
 
 \section{SIMD Optimization}
-By using SIMD (Single Instruction Multiple Data), multiple computations can be performed in parallel. If used correctly, a speedup of up to 4 times per execution thread can be expected. For us, SIMD can be applied to both ray calculations and data structures.
+By using SIMD (Single Instruction Multiple Data), multiple computations can be performed in parallel. If used correctly, a speedup of up to 4 times per execution thread can be expected. For us, SIMD can be applied to both ray intersection tests and data structures.
 
 \section{Better ways of distributing tasks}
 The current implementation just splits the tasks in half, and sends them to two separate clients (if found).
