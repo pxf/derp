@@ -11,6 +11,8 @@ We have done some basic performance testing, shown in the table below.
     % caption?
 \end{center}
 
+\emph{Total render time} is the time it takes between the job initiator from sending the job to the network and having received all the resulting tasks.
+
 We can clearly see that the rendering time is spread out and varies wildly. There are
 some known problems with our task distribution algorithm that can cause an uneven distribution
 of jobs across all nodes. For our test case, optimal distribution was achieved with a region of size 16x16, yielding a render time of only a couple of seconds.
