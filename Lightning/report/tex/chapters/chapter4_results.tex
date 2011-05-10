@@ -23,14 +23,22 @@ Basic performance test:
 %Increasing the region size to 32x32 quadruples the number of jobs, and shows how severe the performance hit is
 %when the distribution algorithm woes. Even if the number of jobs increases, the jobs finish not much later than before on the job processor side, but instead the bottleneck seems to be on the receiving end. This has to do with the massive increase of connections the receiving application has to open and handle, one for each result it will receive.
 
-The shading and ray tracing algorithms implemented are very simple in comparison to modern commercial solutions, and can not compete 
-in neither graphical results nor speed at its current state. However, the Lightning prototype is still relevant and interesting for 
-future developments in its field, as it approaches the problem in a different and potentially better way. Currently, the most 
-relevant user groups for Lightning are hobby and 3D enthusiasts, whereas current solutions are aimed more towards professional 
-development studios and commercial development. As hobbyists tend to have a low budget, Lightning or similar technology could become 
-an affordable alternative and bridge the gap in available processing power between the hobbyists and companies. Lightning spreads 
-out the processing on large networks by utilizing the idle processing power available by all the P2P connected hardware, with the 
-combined power, it could potentially compete with the commercial solutions in both quality and speed.
+The shading and ray tracing algorithms implemented are very simple in
+comparison to modern commercial solutions, and can not compete 
+in neither graphical results nor speed at its current state. However, the
+Lightning prototype is still relevant and interesting for 
+future developments in its field, as it approaches the problem in a different
+and potentially better way. Currently, the most 
+relevant user groups for Lightning are hobby and 3D enthusiasts, whereas
+current solutions are aimed more towards professional 
+development studios and commercial development. As hobbyists tend to have a
+low budget, Lightning or similar technology could become 
+an affordable alternative and bridge the gap in available processing power
+between the hobbyists and companies. Lightning spreads 
+out the processing on large networks by utilizing the idle processing power
+available by all the P2P connected hardware, with the 
+combined power, it could potentially compete with the commercial solutions
+in both quality and speed.
 
 \section{Conclusion}
 One of the aims of the Lightning project was to explore the field of distributed
@@ -46,11 +54,24 @@ programmes in distributed computing.
 % fördelar:
 
 % - minimal setup time
-With Lightning there is very little setup required for the clients, all scene related configuration is sent with each job and handled in the worker clients without any user interaction at all. The only thing the end user actively needs to do, except actually installing the software, is to make sure the communication ports are open to the internet. This could however be fixed in the future by using NAT traversal software.
+With Lightning there is very little setup required for the clients,
+all scene related configuration is sent with each job and handled in the
+worker clients without any user interaction at all. The only thing the end
+user actively needs to do, except actually installing the software, is to
+make sure the communication ports are open to the internet. This could however
+be fixed in the future by using NAT traversal software.
 
 % - no need for classic render farms
-The current de facto industry standard used by companies in the animation and rendering business is to have dedicated "computer farms" running software that render the scenes/movies, either in house or hired from a third part. These farms usually have  consistent high end hardware through out the networks. Lightning networks can be viewed as a new generation of a much more general computing farms consisting of varied hardware setups, utilizing idle processing time and possibly much larger in processor count compared to classical computing farms.
+The current de facto industry standard used by companies in the animation and
+rendering business is to have dedicated "computer farms" running software
+that render the scenes/movies, either in house or hired from a third part.
+These farms usually have  consistent high end hardware through out the
+networks. Lightning networks can be viewed as a new generation of a much
+more general computing farms consisting of varied hardware setups, utilizing
+idle processing time and possibly much larger in processor count compared to
+classical computing farms.
 %Even if Lightning might have a bigger appeal for the home and hobbyists markets due to its costs and those communities to 
+
 % - no need for administration
 
 % - behöver inte ha licens för varje dator
@@ -59,7 +80,15 @@ The current de facto industry standard used by companies in the animation and re
 
 % x billigt med små datas jämfört med dödsdatas
 
-Using many low-end computers is a great alternative to using a limited number of high-end computers. This is a concept that has been proven successful with projects such as Folding@home. Lightning is a general distributed computing platform, which can used as a basis for many similar projects. Lightning is also designed to be fully cross platform, making it available to as much hardware as possible. Each lightning node needs little to no administration, all that's needed is a working connection to a lightning tracker.
+Using many low-end computers is a great alternative to using a limited number
+of high-end computers. This is a concept that has been proven successful
+with projects such as Folding@home. Lightning is a general distributed
+computing platform, which can used as a basis for many similar projects.
+Lightning is also designed to be fully cross platform, making it available to
+as much hardware as possible. Each lightning node needs little to no
+administration, all that's needed is a working connection to a lightning
+tracker.
+
 \pic[1.0]{img/conclusion.jpg}{this is not my fridge?}
 
 
@@ -67,11 +96,21 @@ Using many low-end computers is a great alternative to using a limited number of
 
 \chapter{Future Work}
 \section{Ray tracing algorithm}
-The ray tracing and shading algorithms implemented are very naive and simple due to the time constraints in the project. If more time was given then a natural development would be to revamp the ray tracing and shading algorithms so they reach results comparable with commercial software. Another perhaps even better and more profitable approach would be to use existing ray tracing and shading solutions. This in turn would decouple the shading and clients even more, and the software could instead be viewed as a middleware between 3D modeling and shading software.
+The ray tracing and shading algorithms implemented are very naive and simple
+due to the time constraints in the project. If more time was given then a
+natural development would be to revamp the ray tracing and shading algorithms
+so they reach results comparable with commercial software. Another perhaps
+even better and more profitable approach would be to use existing ray
+tracing and shading solutions. This in turn would decouple the shading and
+clients even more, and the software could instead be viewed as a middleware
+between 3D modeling and shading software.
 %Improved ray tracing algorithm. [More primitives, light types, blah, bleh.]
 
 \section{SIMD Optimization}
-By using SIMD (Single Instruction Multiple Data), multiple computations can be performed in parallel. If used correctly, a speedup of up to 4 times per execution thread can be expected. For us, SIMD can be applied to both ray intersection tests and data structures.
+By using SIMD (Single Instruction Multiple Data), multiple computations
+can be performed in parallel. If used correctly, a speedup of up to 4 times
+per execution thread can be expected. For us, SIMD can be applied to both
+ray intersection tests and data structures.
 
 % Det här stämmer ju inte ens:
 %\section{Better ways of distributing tasks}
@@ -81,7 +120,12 @@ By using SIMD (Single Instruction Multiple Data), multiple computations can be p
 %The tracker should help out more with spreading the work among the available clients.
 
 \section{Photon Mapping}
-Distributed photon mapping would be a possible addition to the ray tracer, in order to get a good approximation of global illumination. The photon mapper would be implemented as a job processor, where each job could be divided into tasks such that each task would shoot a fix amount of photons. These results would then be collected at the job initiator and incorporated into the data used later on for the raytracing job processors. 
+Distributed photon mapping would be a possible addition to the ray tracer,
+in order to get a good approximation of global illumination. The photon
+mapper would be implemented as a job processor, where each job could be
+divided into tasks such that each task would shoot a fix amount of photons.
+These results would then be collected at the job initiator and incorporated
+into the data used later on for the raytracing job processors. 
 
 \section{Load balancing}
 To further increase performance, a better task distributed is needed that 
@@ -90,11 +134,17 @@ decisions based on network throughput between lightning clients and the host
 computer.
 
 \section{Job initiator as plugin for commercial software}
-Thanks to the decoupling of job initiators and job processors/clients, it would be possible to implement a job initiator as a plugin for a commercial modeling software, ie. 3ds Max. By doing this, the usage would fit better with the current workflow of such programs, and thus more trivial for the already established community of each product/software.
+Thanks to the decoupling of job initiators and job processors/clients, it
+would be possible to implement a job initiator as a plugin for a commercial
+modeling software, ie. 3ds Max. By doing this, the usage would fit better
+with the current workflow of such programs, and thus more trivial for the
+already established community of each product/software.
 
 \section{Handling of open network connections}
-When a client has completed a task, it opens a new connection to the job initiator, sends the data, and then directly closes the connection.
-This is very inefficient. Instead the different parts of the network should be conservative with opening new connections.
+When a client has completed a task, it opens a new connection to the job
+initiator, sends the data, and then directly closes the connection.
+This is very inefficient. Instead the different parts of the network should
+be conservative with opening new connections.
 
 \section{Controllable jobs}
 The job initiator should be able to view and control the progress of the batch
