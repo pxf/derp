@@ -11,6 +11,5 @@ The general idea of this project is to build a two-part prototype, capable of di
 
 The second part of the project consists of a naïve ray tracer that can subdivide a scene into smaller jobs (for example screen regions / blocks), and then process them with little to none dependence on each other or the rest of the scene. Each job is automatically distributed over the network, and the results should be sent back to the job initiator as soon each job finishes.
 
-The general purpose of this project is to examine if distributed ray tracing calculations, over a P2P network, is able to reduce the render time of an arbitrarily complex 3D scene, compared to a regular local ray tracing solution. 
+The general purpose of this project is to examine if distributed ray tracing calculations, over a P2P network, is able to reduce the render time of an arbitrarily complex 3D scene, compared to a regular local ray tracing solution. A secondary purpose is to briefly explore different ray tracing methods aimed specifically for distributed calculations. Implementing a new ray tracing application gives a deeper knowledge on ray tracing as a topic but also a greater freedom when incorporating it into the rest of the project, compared to existing ray tracing solutions.
 
- 
