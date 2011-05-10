@@ -6,7 +6,7 @@ There has been some development in JHONNYS STJÄRT
 
 Differences with BOINC and the proposed project:
 \begin{itemize}
-	\item In BOINC, the scientists are the end user. They give the BOINC network
+	\item In BOINC, the scientists are the end user. They provide the BOINC network
 		a problem to solve, and they get the results. In the proposed project, 
 		the user acts like both worker and job initiator. It’s more of a 
 		give-and-take philosophy.
@@ -22,3 +22,27 @@ Differences with BOINC and the proposed project:
 		that there is no direct interaction between two clients. 
 \end{itemize}
 
+\section{Backburner}
+% http://images.autodesk.com/adsk/files/backburner20100.2_user_guide.pdf
+
+Autodesk Backburner is a job management system for distributed rendering and works with several products of the Autodesk suite, such as 3D Studio Max and Maya. The backburner architechture is comprised of mainly two components, Backburner Manager and Backburner Server. A user with a creative application that supports the Backburner interface sends jobs to the Backburner Manager, which distributes these jobs as a set of tasks to its connected Backburner servers. The manager keeps track of the network topology and stores a database of the current job states in its servers. A Backburner server is used together with adapters and processing engines. What type of job a server is capable of executing depends on what type of adapters and processing engines is installed on the server. 
+
+Backburner is quite similar to Lightning in several ways. 
+
+similarities:
+- Interface solution
+- Different processing engines
+- Batch rendering / group rendering
+
+differences: 
+- Network administration
+- Render farm access
+- Backburner is controlled with awesome monitor system to pause/stop/otherwise control jobs
+- A dedicated network is more reliable than ad-hoc
+- Backburner can schedule clients to only work on certain hours/dates
+
+\section{Mental Ray}
+
+%http://www.kxcad.net/autodesk/3ds_max/Autodesk_3ds_Max_9_Reference/distributed_bucket_rendering_rollout_mental_ray_renderer.html
+
+Mental Ray is equipped with distributed rendering capabilities similar to Lightning: a frame can be divided into buckets and rendered on machines elsewhere using Autodesk Backburner. However, Mental Ray requires the user to know the intended hosts on which the server software is running. This requires a whole lot of network administration, and is best suited for dedicated render farms, something that a hobbyist or student often does not have access to. 
