@@ -8,10 +8,9 @@ We have done some basic performance testing, shown in the table below.
     16x16 & 14 & 8-12s \\ \hline
     32x32 & 14 & 1m 40s \\ \hline
     \end{tabular}
-    % caption?
+    
+    \emph{Total render time} is the time it takes between the job initiator from sending the job to the network and having received all the resulting tasks.
 \end{center}
-
-\emph{Total render time} is the time it takes between the job initiator from sending the job to the network and having received all the resulting tasks.
 
 We can clearly see that the rendering time is spread out and varies wildly. There are
 some known problems with our task distribution algorithm that can cause an uneven distribution
