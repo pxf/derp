@@ -51,3 +51,15 @@ differences:
 %http://www.kxcad.net/autodesk/3ds_max/Autodesk_3ds_Max_9_Reference/distributed_bucket_rendering_rollout_mental_ray_renderer.html
 
 Mental Ray is equipped with distributed rendering capabilities similar to Lightning: a frame can be divided into buckets and rendered on machines elsewhere using Autodesk Backburner. However, Mental Ray requires the user to know the intended hosts on which the server software is running. This requires a whole lot of network administration, and is best suited for dedicated render farms, something that a hobbyist or student often does not have access to. 
+
+\section{SquidNet}
+
+%http://www.squidnetsoftware.com/Documents/SquidNet-Users-Guide.pdf
+%TODO:  life för mycket meningar börjar med The här
+
+SquidNet is a distributed render system implemented as a plugin for most modern 3D modeling applications. The architechture is composed by a management console and a set of individual network engines. The management system is where a user creates jobs and submit them to a centralized network queue. In an automated process, the clients in the network (also called Tipnodes) monitor the work queue for active jobs and tags a slice of the job that it will process. Every node in the network have access to the queue and can see which job slices that are currently being processed. Tipnodes can act as either job creator, job processor or both. A processing node will wait for jobs to spawn in the work queue, a job 
+
+
+
+
+
