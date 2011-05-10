@@ -26,10 +26,15 @@ Basic performance test:
 The shading and ray tracing algorithms implemented are very simple in comparison to modern commercial solutions, and can not compete in neither graphical results nor speed at its current state. However, the Lightning prototype is still relevant and interesting for future developments in its field, as it approaches the problem in a different and potentially better way. Currently, the most relevant user groups for Lightning are hobby and 3D enthusiasts, whereas current solutions are aimed more towards professional development studios and commercial development. As hobbyists tend to have a low budget, Lightning or similar technology could become an affordable alternative and bridge the gap in available processing power between the hobbyists and companies. Lightning spreads out the processing on large networks by utilizing the idle processing power available by all the P2P connected hardware, with the combined power, it could potentially compete with the commercial solutions in both quality and speed.
 
 \section{Conclusion}
-% nackdelar:
-% - svårt!!
-% - tog lång tid!!
-% - 
+One of the aims of the Lightning project was to explore the field of distributed
+computing in a peer-to-peer manner, and integrating a segmenting raytracer in
+the computing grid. In short, developing an application like this that meets 
+the demands of a commercial product in stability and speed requires a lot more 
+time than was allotted to the developers, whom had about 160 hours to spend on
+the project. Implementing a distributed computing application is a difficult
+task that requires many hours of research before successfully being able to
+produce a satisfying result. There is a reason for there being Master's
+programmes in distributed computing.
 
 % fördelar:
 % - minimal setup time
@@ -38,7 +43,10 @@ Lightning requires almost no setup time for the clients, the scene configuration
 Compared to 
 % - no need for administration
 % - behöver inte ha licens för varje dator
-% - billigt med små datas jämfört med dödsdatas
+% x cross platform
+% x billigt med små datas jämfört med dödsdatas
+
+Using many low-end computers is a great alternative to using a limited number of high-end computers. This is a concept that has been proven successful with projects such as Folding@home. Lightning is however a general distributed computing platform, which can used as a basis for many similar projects. Lightning is also designed to be fully cross platform, making it available to as much hardware as possible.
 \pic[1.0]{img/conclusion.jpg}{this is not my fridge?}
 
 
@@ -63,7 +71,10 @@ By using SIMD (Single Instruction Multiple Data), multiple computations can be p
 Distributed photon mapping would be a possible addition to the ray tracer, in order to get a good approximation of global illumination. The photon mapper would be implemented as a job processor, where each job could be divided into tasks such that each task would shoot a fix amount of photons. These results would then be collected at the job initiator and incorporated into the data used later on for the raytracing job processors. 
 
 \section{Load balancing}
-To further increase performance, we would need a better task distribution algorithm that accounts for CPU count and CPU load for each available node, that possible also makes decisions based on network throughput between lightning clients and the host computer.
+To further increase performance, a better task distributed is needed that 
+accounts for CPU count and CPU load for each available node, that also makes
+decisions based on network throughput between lightning clients and the host
+computer.
 
 \section{Job initiator as plugin for commercial software}
 Thanks to the decoupling of job initiators and job processors/clients, it would be possible to implement a job initiator as a plugin for a commercial modeling software, ie. 3ds Max. By doing this, the usage would fit better with the current workflow of such programs, and thus more trivial for the already established community of each product/software.
@@ -71,6 +82,15 @@ Thanks to the decoupling of job initiators and job processors/clients, it would 
 \section{Handling of open network connections}
 When a client has completed a subjob, it opens a new connection to the job initiator, sends the data, and then directly closes the connection.
 This is very inefficient. Instead the different parts of the network should be conservative with opening new connections.
+
+\section{Controllable jobs}
+The job initiator should be able to view and control the progress of the batch
+sent onto the network. Simple commands could be to pause or abort the
+computation of a job, or blacklist certain clients. Improving the communication
+between the client and tracker, along with tracker and job initiator would
+facilitate means of visually representing the flow of data in the network, thus
+being able to pinpoint possible bottlenecks.
+
 
 %- too much overhead?\\
 %- GOOD IDEA, but only prototype. Has potential like a massive BOSS.
