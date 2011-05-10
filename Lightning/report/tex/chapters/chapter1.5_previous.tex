@@ -1,0 +1,24 @@
+\chapter{Previous work}
+There has been some development in JHONNYS STJÄRT
+
+\section{BOINC}
+%- BOINC - http://boinc.berkeley.edu/
+
+Differences with BOINC and the proposed project:
+\begin{itemize}
+	\item In BOINC, the scientists are the end user. They give the BOINC network
+		a problem to solve, and they get the results. In the proposed project, 
+		the user acts like both worker and job initiator. It’s more of a 
+		give-and-take philosophy.
+	\item The project focus more on time-dependent computations.
+	\item Both projects have some kind of “credits” system, in our case these
+		“credits” will play a bigger role in how much each client can utilize
+		the service.
+	\item The project has more control over what each hardware component does
+		(ie. specific tasks for each of the GPU and CPU)
+	\item Different network structure/topology. Communication in BOINC is done
+		by sending data/tasks by the HTTP protocol, through centralized data
+		servers that handles traffic between all connected clients which means 
+		that there is no direct interaction between two clients. 
+\end{itemize}
+
