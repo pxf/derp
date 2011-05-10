@@ -23,21 +23,21 @@ Basic performance test:
 %Increasing the region size to 32x32 quadruples the number of jobs, and shows how severe the performance hit is
 %when the distribution algorithm woes. Even if the number of jobs increases, the jobs finish not much later than before on the job processor side, but instead the bottleneck seems to be on the receiving end. This has to do with the massive increase of connections the receiving application has to open and handle, one for each result it will receive.
 
-The shading and ray tracing algorithms implemented are very simple in comparison to modern commercial solutions, and can not compete in either graphical results or speed at its current state. However, the Lightning prototype is still relevant and interesting for future developments in its field, as it tackles the problem in a new and potentially more efficient way. Currently the most relevant user groups for Lightning are hobby and 3D enthusiasts, instead of the current solutions which aim more on companies and commercial development. As hobbyists tend to have a lower budget than said companies, Lightning could become an affordable alternative. And bridge the gap in available processing power between the hobbyists and companies, as it would spread out the processing on large Lightning networks aimed just for hobbyists, by utilizing the idle processing power available by all the P2P connected hardware. Which in turn, with its combined power, could potentially compete with the commercial solutions in both quality and speed.
+The shading and ray tracing algorithms implemented are very simple in comparison to modern commercial solutions, and can not compete in neither graphical results nor speed at its current state. However, the Lightning prototype is still relevant and interesting for future developments in its field, as it approaches the problem in a different and potentially better way. Currently, the most relevant user groups for Lightning are hobby and 3D enthusiasts, whereas current solutions are aimed more towards professional development studios and commercial development. As hobbyists tend to have a low budget, Lightning or similar technology could become an affordable alternative and bridge the gap in available processing power between the hobbyists and companies. Lightning spreads out the processing on large networks by utilizing the idle processing power available by all the P2P connected hardware, with the combined power, it could potentially compete with the commercial solutions in both quality and speed.
 
 \section{Conclusion}
 % nackdelar:
 % - svårt!!
 % - tog lång tid!!
+% - 
 
 % fördelar:
 % - minimal setup time
-With Lightning there is very little setup required for the clients, all scene related configuration is sent with each job and handled without any user interaction at all. The only thing the end user actively needs to do, except actually installing the software, is to make sure the communication ports are open to the internet. This could however be fixed in the future by using NAT traversal software.
+Lightning requires almost no setup time for the clients, the scene configuration is sent with each job and handled without any user interaction at all. The only thing the end user actively needs to do, except actually installing the software, is to make sure the communication ports are open to the internet. This could however be fixed in the future by using NAT traversal software.
 % - no need for classic render farms
 Compared to 
 % - no need for administration
 % - behöver inte ha licens för varje dator
-% - cross platform
 % - billigt med små datas jämfört med dödsdatas
 \pic[1.0]{img/conclusion.jpg}{this is not my fridge?}
 
