@@ -1,6 +1,6 @@
 \chapter{Results}
-We have done some basic performance testing, shown in the table below.
 
+Basic performance test:
 \begin{center}
     \begin{tabular}{ | l | l | l |} \hline
     Task count & Processor cores & Total render time \\ \hline
@@ -17,7 +17,7 @@ some known problems with our task distribution algorithm that can cause an uneve
 of jobs across all nodes. For our test case, optimal distribution was achieved with a region of size 16x16, yielding a render time of only a couple of seconds.
 
 Increasing the region size to 32x32 quadruples the number of jobs, and shows how severe the performance hit is
-when the distribution algorithm woes. Even if the number of jobs increases, the jobs finish not much later than before on the job processor side, but instead the bottleneck seems to be on the result receiving end. This has to do with the massive increase of connections the receiving application has to open and handle, one for each result it will receive.
+when the distribution algorithm woes. Even if the number of jobs increases, the jobs finish not much later than before on the job processor side, but instead the bottleneck seems to be on the receiving end. This has to do with the massive increase of connections the receiving application has to open and handle, one for each result it will receive.
 
 The shading and raytracing algorithms implemented are very simple in comparison to modern commercial solutions, and can not compete in either graphical results or speed at its current state. However, the Lightning prototype is still relevant and interesting for future developments in its field, as it tackles the problem in a new and potentially more efficient way. Currently the most relevant user groups for Lightning are hobby and 3D enthusiasts, instead of the current solutions which aim more on companies and commercial development. As hobbyists tend to have a lower budget than said companies, Lightning could become an affordable alternative. And bridge the gap in available processing power between the hobbyists and companies, as it would spread out the processing on large Lightning networks aimed just for hobbyists, by utilizing the idle processing power available by all the P2P connected hardware. Which in turn, with its combined power, could potentially compete with the commercial solutions in both quality and speed.
 % very simple shading and raytracing algorithms
@@ -44,7 +44,7 @@ By using SIMD (Single Instruction Multiple Data), multiple computations can be p
 %The tracker should help out more with spreading the work among the available clients.
 
 \section{Photon Mapping}
-Distributed photon mapping would be a possible addition to the ray tracer, in order to get a good approximation of global illumination. The photon mapper would be implemented as a job processor, where each job could be divided into tasks such that each task would shoot a fix amount of photons. These results would then be collected at the job initiator and incorporated into the data used later on for the raytracing job processors.
+Distributed photon mapping would be a possible addition to the ray tracer, in order to get a good approximation of global illumination. The photon mapper would be implemented as a job processor, where each job could be divided into tasks such that each task would shoot a fix amount of photons. These results would then be collected at the job initiator and incorporated into the data used later on for the raytracing job processors. 
 
 \section{Load balancing}
 To further increase performance, we would need a better task distribution algorithm that accounts for CPU count and CPU load for each available node, that possible also makes decisions based on network throughput between lightning clients and the host computer.
