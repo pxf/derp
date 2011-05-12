@@ -17,16 +17,17 @@ fetched 2011-05-11}.
 Differences with BOINC and the proposed project:
 \begin{itemize}
 	\item In BOINC, the scientists are the end user. They provide the BOINC network
-		a problem to solve, and they get the results. In the proposed project, 
+		a problem to solve, and they get the results. In Lightning, 
 		the user acts like both worker and job initiator. It’s more of a 
 		give-and-take philosophy.
 	\item Lightning focuses more on time-dependent computations.
 	\item Both projects have some kind of ''credits'' system, but in Lightning
-		''credits'' will play a bigger role in how much each client can utilize the service.
+		''credits'' plays a bigger role in how much each client can utilize the service.
 	\item Different network structure and topology. Communication in BOINC is done
-		by sending data with the HTTP protocol, through centralized data
-		servers that handles traffic between all connected clients which means 
-		that there is no direct interaction between two clients. 
+		by sending data with the HTTP protocol through centralized data
+		servers that handles traffic between all connected clients, which means 
+		that there is no direct interaction between two clients. Lightning only
+		requires a tracker to convey information between clients.
 \end{itemize}
 
 \section{Backburner}
