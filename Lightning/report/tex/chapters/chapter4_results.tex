@@ -45,7 +45,6 @@
 %some known problems with our task distribution algorithm that can cause an uneven distribution
 %of jobs across all nodes. For our test case, optimal distribution was achieved with a region of size 16x16, yielding a render time of only a couple of seconds.
 
-The jobs with fewer tasks takes longer time because the slowest clients fills up their queues while the faster clients are unnecessarily idle.
 
 % TODO: reword the part below when we have new test data
 %Increasing the region size to 32x32 quadruples the number of jobs, and shows how severe the performance hit is
@@ -73,7 +72,8 @@ also lacking in comparison to what could have been. Memory leaks made it
 impossible to produce results for scenes sized in the range of about 66 726
 triangles. Bottlenecks created in poor socket management also carries longer
 rendering times for jobs with a large amount of tasks.
-
+The jobs with fewer tasks takes longer time because of the slower clients filling
+up their queue while the faster clients are unnecessarily idle.
 
 \section{Conclusion}
 One of the aims of the Lightning project was to explore the field of distributed
