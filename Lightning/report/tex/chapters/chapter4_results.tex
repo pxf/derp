@@ -74,12 +74,13 @@ impossible to produce results for scenes sized in the range of about 66 726
 triangles. Bottlenecks created in poor socket management also carries longer
 rendering times for jobs with a large amount of tasks.
 
+A huge delay was added towards the end of the jobs with larger tasks because
+of the slower clients filling up their internal queue while the faster clients are idle.
+
 A huge pool of worker clients was imagined in designing the algorithm for
 distributing tasks in the network. In reality however, adaptions had to be made
 since a sufficient amount of computers could not be made available.
 
-The jobs with fewer tasks takes longer time because of the slower clients filling
-up their queue while the faster clients are unnecessarily idle.
 
 \section{Conclusion}
 One of the aims of the Lightning project was to explore the field of distributed
