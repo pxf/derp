@@ -1,12 +1,38 @@
 \chapter{Results}
 
-Basic performance test:
+%Basic performance test:
 \begin{center}
+    Ball Scene - 8 194 leaves (triangles)
     \begin{tabular}{ | l | l | l |} \hline
     Task count & Processor cores & Total render time \\ \hline
-    2x2 & 1 & 3m 30s \\ \hline
-    16x16 & 14 & 8-12s \\ \hline
-    32x32 & 14 & 1m 40s \\ \hline
+    1x1 & 1 & - \\ \hline
+    4x4 & 10 & 6m 14s \\ \hline
+    8x8 & 10 & 3m 23s \\ \hline
+    16x16 & 10 & 2m 29s \\ \hline
+    32x32 & 10 & 2m 21s \\ \hline
+    64x64 & 10 & 2m 30s \\ \hline
+    \end{tabular}
+    
+    Mid:    - 36 849 leaves (triangles)
+    \begin{tabular}{ | l | l | l |} \hline
+    Task count & Processor cores & Total render time \\ \hline
+    1x1 & 1 & - \\ \hline
+    4x4 & 10 & - \\ \hline
+    8x8 & 10 & 6m 14s \\ \hline
+    16x16 & 10 & 5m 51s \\ \hline
+    32x32 & 10 & 10m 45s \\ \hline
+    64x64 & 10 & - \\ \hline
+    \end{tabular}
+    
+    Big:    - 66 726 leaves (triangles)
+    \begin{tabular}{ | l | l | l |} \hline
+    Task count & Processor cores & Total render time \\ \hline
+    1x1 & 1 & - \\ \hline
+    4x4 & 10 & - \\ \hline
+    8x8 & 10 & 17m 30s \\ \hline
+    16x16 & 10 & 12m 1s \\ \hline
+    32x32 & 10 & - \\ \hline
+    64x64 & 10 & - \\ \hline
     \end{tabular}
     
     \emph{Total render time} is the time it takes between the job initiator from sending the job to the network and having received all the resulting tasks.
@@ -42,7 +68,7 @@ in both quality and speed.
 
 \section{Conclusion}
 One of the aims of the Lightning project was to explore the field of distributed
-computing in a peer-to-peer manner, and integrating a segmenting raytracer in
+computing in a peer-to-peer manner, and integrating a segmenting ray tracer in
 the computing grid. In short, developing an application like this that meets 
 the demands of a commercial product in stability and speed requires a lot more 
 time than was allotted to the developers, whom had about 160 hours to spend on
@@ -59,7 +85,7 @@ all scene related configuration is sent with each job and handled in the
 worker clients without any user interaction at all. The only thing the end
 user actively needs to do, except actually installing the software, is to
 make sure the communication ports are open to the internet. This could however
-be fixed in the future by using NAT traversal software.
+be fixed in the future by using NAT traversal\footnote{http://en.wikipedia.org/wiki/NAT\_traversal} software.
 
 % - no need for classic render farms
 The current de facto industry standard used by companies in the animation and
@@ -72,13 +98,7 @@ idle processing time and possibly much larger in processor count compared to
 classical computing farms.
 %Even if Lightning might have a bigger appeal for the home and hobbyists markets due to its costs and those communities to 
 
-% - no need for administration
-
 % - behöver inte ha licens för varje dator
-
-% x cross platform
-
-% x billigt med små datas jämfört med dödsdatas
 
 Using many low-end computers is a great alternative to using a limited number
 of high-end computers. This is a concept that has been proven successful
