@@ -26,6 +26,10 @@ The client has three queues, handling all the incoming, outgoing and completed j
 
 To make sure the network is responsive enough, every node sends PING-messages at a given interval, and closes the connections that does not respond in time.
 
+% Skriv klart, och i discussion
+%The client is designed in a stateless manner, meaning that when a message is
+%sent to another client 
+
 \section{Ray-Tracer Job Processor}
 Even if the worker client would be able to handle many different job processors, the main focus were from the start to create a naïve ray-tracer processor. Implementation started with simple tests consisting of ray-sphere intersections, and were further developed to handle ray-triangle intersections based on parsed scene data. The lightning calculations are also very simple, but fit the purpose of a simple prototype.
 
