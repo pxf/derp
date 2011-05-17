@@ -78,7 +78,7 @@ The tree is constructed offline by a number of passes:
   left primitives and right primitives indicates the amount of primitives in either bounding volume.
 
   \begin{equation}
-  total cost = left SAH * left primitives + right SAH * right primitives
+  	\text{total cost} = \text{SAH}^{\text{left}} \times \text{primitives}^{\text{left}} + \text{SAH}^{\text{right}} \times \text{primitives}^{\text{right}}
   \end{equation}
 
   \item \textbf{Pass 3:} Build a cache-friendly tree that uses data indices instead of raw data from the tree in pass 2. As no pointers are used in the leaves, this tree can finally be serialized to a file, or sent over a network connection and used directly by clients with no re-calculation or processing.
