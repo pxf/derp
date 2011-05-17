@@ -68,6 +68,13 @@ available by all the P2P connected hardware, with the
 combined power, it could potentially compete with the commercial solutions
 in both quality and speed.
 
+Memory management, network connection management and distribution algorithm are
+also lacking in comparison to what could have been. Memory leaks made it
+impossible to produce results for scenes sized in the range of about 66 726
+triangles. Bottlenecks created in poor socket management also carries longer
+rendering times for jobs with a large amount of tasks.
+
+
 \section{Conclusion}
 One of the aims of the Lightning project was to explore the field of distributed
 computing in a peer-to-peer manner, and integrating a segmenting ray tracer in
