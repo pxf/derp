@@ -45,6 +45,7 @@
 %some known problems with our task distribution algorithm that can cause an uneven distribution
 %of jobs across all nodes. For our test case, optimal distribution was achieved with a region of size 16x16, yielding a render time of only a couple of seconds.
 
+
 % TODO: reword the part below when we have new test data
 %Increasing the region size to 32x32 quadruples the number of jobs, and shows how severe the performance hit is
 %when the distribution algorithm woes. Even if the number of jobs increases, the jobs finish not much later than before on the job processor side, but instead the bottleneck seems to be on the receiving end. This has to do with the massive increase of connections the receiving application has to open and handle, one for each result it will receive.
@@ -72,12 +73,13 @@ sufficient amount of time. Memory leaks made it
 impossible to produce results for scenes sized in the range of about 66 726
 triangles. Bottlenecks created in poor socket management also carries longer
 rendering times for jobs with a large amount of tasks.
-% måååååååååååånga datas
 
-%A huge pool of worker clients was imagined in designing the algorithm for
-%distributing tasks in the network. In reality however, adaptions had to be made
-%to 
+A huge pool of worker clients was imagined in designing the algorithm for
+distributing tasks in the network. In reality however, adaptions had to be made
+since a sufficient amount of computers could not be made available.
 
+The jobs with fewer tasks takes longer time because of the slower clients filling
+up their queue while the faster clients are unnecessarily idle.
 
 \section{Conclusion}
 One of the aims of the Lightning project was to explore the field of distributed
