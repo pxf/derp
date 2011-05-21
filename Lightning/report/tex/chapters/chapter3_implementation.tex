@@ -56,7 +56,7 @@ Even if the worker client would be able to handle many different job processors,
 
 Each job is essentially a serialized 3D scene, which consists of a collection of triangles, a kd-tree (explained in more detail below), materials, light sources and the camera position and orientation. The job initiator serialize and package this data, it is then up to the job processor to unpack the data and use it for each task.
 
-Each of the tasks in a job, is simply a predefined region of the final image. The job processor runs a shading function for each pixel it has to render, essentially ray traces a ray from the camera origin through each pixel into the scene. The shading function uses the data sent with the job (triangles, kd-tree, material and light information) to shade the pixels in the task region. As soon as a task is finished, the results are packed and pushed onto the outgoing queue, where the client then takes care of sending it back to the job initiator.
+Each of the tasks in a job, is simply a predefined region of the final image. The job processor runs a shading function for each pixel it has to render, where it essentially traces a ray from the camera origin through each pixel into the scene. The shading function uses the data sent with the job (triangles, kd-tree, material and light information) to shade the pixels in the task region. As soon as a task is finished, the results are packed and pushed onto the outgoing queue, where the client then takes care of sending it back to the job initiator.
 %- Naïve raytracer implementation\\
 
 \subsection{KD-Tree}
