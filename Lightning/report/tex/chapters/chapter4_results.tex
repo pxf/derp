@@ -5,7 +5,7 @@
     Ball Scene - 8 194 leaves (triangles)
     \begin{tabular}{ | l | l | l |} \hline
     Task count & Processor cores & Total render time \\ \hline
-    1x1 & 1 & - \\ \hline
+    1x1 & 1 & 16m 7s\\ \hline
     4x4 & 10 & 6m 14s \\ \hline
     8x8 & 10 & 3m 23s \\ \hline
     16x16 & 10 & 2m 29s \\ \hline
@@ -16,8 +16,8 @@
     Mid:    - 36 849 leaves (triangles)
     \begin{tabular}{ | l | l | l |} \hline
     Task count & Processor cores & Total render time \\ \hline
-    1x1 & 1 & - \\ \hline
-    4x4 & 10 & - \\ \hline
+    1x1 & 1 & 60m\\ \hline
+    4x4 & 10 & 19m 22s \\ \hline
     8x8 & 10 & 6m 14s \\ \hline
     16x16 & 10 & 5m 51s \\ \hline
     32x32 & 10 & 10m 45s \\ \hline
@@ -47,6 +47,7 @@
 %some known problems with our task distribution algorithm that can cause an uneven distribution
 %of jobs across all nodes. For our test case, optimal distribution was achieved with a region of size 16x16, yielding a render time of only a couple of seconds.
 
+
 % TODO: reword the part below when we have new test data
 %Increasing the region size to 32x32 quadruples the number of jobs, and shows how severe the performance hit is
 %when the distribution algorithm woes. Even if the number of jobs increases, the jobs finish not much later than before on the job processor side, but instead the bottleneck seems to be on the receiving end. This has to do with the massive increase of connections the receiving application has to open and handle, one for each result it will receive.
@@ -67,6 +68,21 @@ out the processing on large networks by utilizing the idle processing power
 available by all the P2P connected hardware, with the 
 combined power, it could potentially compete with the commercial solutions
 in both quality and speed.
+
+Memory management, network connection management and distribution algorithms are
+also lacking in comparison to what could have been implemented given a
+sufficient amount of time. Memory leaks made it
+impossible to produce results for scenes sized in the range of about 66 726
+triangles. Bottlenecks created in poor socket management also carries longer
+rendering times for jobs with a large amount of tasks.
+
+A huge delay was added towards the end of the jobs with larger tasks because
+of the slower clients filling up their internal queue while the faster clients are idle.
+
+A huge pool of worker clients was imagined in designing the algorithm for
+distributing tasks in the network. In reality however, adaptions had to be made
+since a sufficient amount of computers could not be made available.
+
 
 \section{Conclusion}
 One of the aims of the Lightning project was to explore the field of distributed
