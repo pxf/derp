@@ -1,8 +1,10 @@
 \chapter{Results}
 
 %Basic performance test:
+Performance tests were run on 4 clients on the Lightning network, with a total of 10 CPU cores combined. Two different scenes were tested, each with 6 different settings on how the image were divided (task count).
+
 \begin{center}
-    Small - 8 194 leaves (triangles)
+    Small scene data - 8 194 leaves (triangles)
     \begin{tabular}{ | l | l | l |} \hline
     Task count & Processor cores & Total render time \\ \hline
     1x1 & 1 & 16m 7s\\ \hline
@@ -13,7 +15,7 @@
     64x64 & 10 & 2m 30s \\ \hline
     \end{tabular}
     
-    Big:    - 36 849 leaves (triangles)
+    Big scene data - 36 849 leaves (triangles)
     \begin{tabular}{ | l | l | l |} \hline
     Task count & Processor cores & Total render time \\ \hline
     1x1 & 1 & 60m\\ \hline
@@ -21,7 +23,7 @@
     8x8 & 10 & 6m 14s \\ \hline
     16x16 & 10 & 5m 51s \\ \hline
     32x32 & 10 & 10m 45s \\ \hline
-    64x64 & 10 & - \\ \hline
+    64x64 & 10 & -\\ \hline
     \end{tabular}
     
     %Big:    - 66 726 leaves (triangles)
@@ -37,6 +39,8 @@
     
     \emph{Total render time} is the time it takes between the job initiator from sending the job to the network and having received all the resulting tasks.
 \end{center}
+
+  Due to memory leaks, the 64x64-test for the big scene used up all available memory on some clients, and were thus unable to finish.
 
 \pic[0.8]{img/shart_not_chart.png}{Graph showing how many seconds each job took to process, at different task count settings.}
 
