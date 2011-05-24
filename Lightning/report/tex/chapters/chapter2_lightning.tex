@@ -5,7 +5,7 @@ The lightning software suite is divided into four major parts; \textbf{tracker},
 \pic[0.7]{img/lightning_layout.png}{Lightning application suite layout.}
 
 \begin{enumerate}
-  \item A job initiator prepares and package both job data and tasks, and later transmits these to a client in the cloud. An example of a job initiator would be a plugin for a 3D modeling application, or a standalone model viewer as this report describes.
+  \item A job initiator prepares and package both job data and tasks, and later transmits these to a client in the cloud. An example of a job initiator would be a plugin for a 3D modeling application, or a standalone model viewer.
   \item A lightning client receives the job data and tasks. It fills its internal queues with as many tasks it is able to process.
   \item The lightning client will then try to forward the rest of the tasks to other clients in the network. If it cannot find any other clients to send to, it will notify the tracker that it is in need of more clients. The tracker will then notify the waiting client as soon as more clients become available.
   \item When tasks are added to the internal queue of a client, the corresponding job processor for a specific type of job and task  starts to process the tasks in a FIFO order. As soon as a job processor has finished processing a task, the result is pushed onto a second outgoing queue.

@@ -54,19 +54,19 @@ The client has three queues, handling all the incoming, outgoing and completed j
 \section{Ray-Tracer Job Processor}
 Even if the worker client would be able to handle many different job processors, the main focus were from the start to create a naïve ray-tracer processor. Implementation started with simple tests consisting of ray-sphere intersections, and were further developed to handle ray-triangle intersections based on parsed scene data. The lightning calculations are also very simple, but fit the purpose of a simple prototype.
 
-Each job is essentially a serialized 3D scene, which consists of a collection of triangles, a kd-tree (explained in more detail below), materials, light sources and the camera position and orientation. The job initiator serialize and package this data, it is then up to the job processor to unpack the data and use it for each task.
+Each job is essentially a serialized 3D scene, which consists of a collection of triangles, a kd-tree (explained in more detail below), materials, light sources and the camera position and orientation. While the job initiator serialize and packages this data, it is up to the job processor to unpack the data and use it for each task.
 
-Each of the tasks in a job, is simply a predefined region of the final image. The job processor runs a shading function for each pixel it has to render, where it essentially traces a ray from the camera origin through each pixel into the scene. The shading function uses the data sent with the job (triangles, kd-tree, material and light information) to shade the pixels in the task region. As soon as a task is finished, the results are packed and pushed onto the outgoing queue, where the client then takes care of sending it back to the job initiator.
+Each of the tasks in a job, is simply a predefined region of the final image. The job processor runs a shading function for each pixel it has to render, where it essentially traces a ray from the camera origin through each pixel into the scene. The shading function uses the data sent with the job (triangles, kd-tree, material and light information) to shade the pixels in the task region. As soon as a task is finished, the results are repacked and pushed onto the outgoing queue, where the client then takes care of sending it back to the job initiator.
 %- Naïve raytracer implementation\\
 
 \subsection{KD-Tree}
-In the first iteration of the ray tracer, a brute force algorithm was used for each ray against all the geometry in the scene. At first, it did not cause extreme performance costs as small scenes with simple objects was used. However, when using complex 3D objects with thousands of triangles, rendering the scene took several minutes and was thus impossible to work with. To address this issue, a spatial division scheme was implemented. There exists several different schemes with various benefits, but ultimately, a KD tree algorithm was designed for the task, based on a paper by Ingo Wald\footnote{http://www.sci.utah.edu/~wald/Publications/2006///NlogN/download//kdtree.pdf}. 
+In the first iteration of the ray tracer, a brute force algorithm was used for each ray against all the geometry in the scene. At first, it did not cause extreme performance costs as small scenes with simple objects was used. However, when using complex 3D objects with thousands of triangles, rendering the scene took 10+ minutes and was thus impossible to work with. To address this issue, a spatial division scheme was implemented. There exists several different schemes with various benefits, but ultimately a KD tree algorithm was designed for the task, based on a paper by Ingo Wald\footnote{http://www.sci.utah.edu/~wald/Publications/2006///NlogN/download//kdtree.pdf}. 
 
 As a tree can take several minutes to build, it is calculated offline once and then stored locally as a binary file. When loading a model, the renderer loads the cached file containing the binary kd-tree in almost no time.
 
-The tree is constructed offline by a number of passes:
+The tree is constructed offline in a number of passes:
 \begin{itemize}
-  \item \textbf{Pass 1:} Construct a bounding volume for each primitive used in the scene. A bounding volume encapsulating all the primitives in the tree is also calculated. This is used for early hit detection by a ray-box intersection on the total volume.
+  \item \textbf{Pass 1:} Construct a bounding volume for each primitive used in the scene. A bounding volume that encapsulates all the primitives in the tree is also calculated. This is used for early hit detection by a ray-box intersection on the total volume.
   \item \textbf{Pass 2:} Recursively build the tree. The following pseudo-algorithm describes the algorithm:
 
 
@@ -105,22 +105,20 @@ The tree is constructed offline by a number of passes:
   \item \textbf{Pass 3:} Build a cache-friendly tree that uses data indices instead of raw data from the tree in pass 2. As no pointers are used in the leaves, this tree can finally be serialized to a file, or sent over a network connection and used directly by clients with no re-calculation or processing.
 \end{itemize}
 
-When the tree is build, it can then be used in ray-primitive intersections when ray-tracing.
+When the tree is build, it can then be used in ray-primitive intersections when ray tracing.
 
 \section{Tracker}
-When a node connects to the tracker a new connection is established to the node's incoming socket from the tracker, and if it succeeds the first socket is closed in favor of the now outgoing connection.
-This gives the network an automated way of testing whether the node is connectable or not.
-After the connection has been fully established the node is given a unique ID that it uses whenever it talks to the tracker and other nodes.
-Following types of messages are used for further communication.
+When a node connects to the tracker, a new connection is established to the node's incoming socket from the tracker. Iif it succeeds, the first socket is closed in favor of the now outgoing connection, which provides the network with an automated way of testing whether the node is connectable or not. After the connection has been fully established, the node is given an unique ID that it uses whenever it communicates with the tracker and other nodes.
+The following types of messages are then used:
 
 \begin{description}
 \item[Node requests more nodes] \hfill \\\\
-Any available nodes are returned. If no such nodes exist the requesting node is instead put in a waiting queue.
+Any available nodes are returned. If no such nodes exist, the requesting node is instead put in a waiting queue.
 \item[Node signaling it is available to other nodes] \hfill \\\\
-The node is tagged as being available for work, and if there are nodes in the waiting queue already they are to receive this node until it's spent.
+The node is tagged as being available for work, if there are nodes in the waiting queue already they receive this node until it's spent.
 \end{description}
 
-To be able to make smart decisions about the creation of the network, the tracker keeps a database on how the nodes are connected.
+To be able to make smart decisions about the network topology, the tracker keeps a database on how the nodes are connected.
 
 \section{Job Initiator}
 Initial plans were to create a job initiator as a plugin to an existing 3D modeling application. These plans had to be put on hold as focus needed to be shifted to a simpler model viewer type of job initiator. The model viewer is able to load one or more 3D models. It has the possibility to render the 3D models in realtime using OpenGL, so that the user can reposition the camera before sending the scene to the network.
