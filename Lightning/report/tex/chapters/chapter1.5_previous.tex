@@ -3,9 +3,7 @@ The field of distributed computing is a well developed field in computer
 science. One of the most well known systems is the Berkeley Open Infrastructure
 for Grid Network Computing (BOINC)\footnote{http://boinc.berkeley.edu/}.
 While BOINC is a more general approach to distributed computing other 
-implementations aimed at computer graphics and rendering exists.
-Examples of such projects, explaiened further below, are Backburner, Mental Ray and SquidNet.
-
+implementations aimed at computer graphics and rendering exists, such as Backburner, Mental Ray and SquidNet.
 
 
 \section{BOINC}
@@ -14,7 +12,6 @@ a wide range of projects, currently operating worldwide at 5,581.790
 TeraFLOPS\footnote{http://boincstats.com/stats/project\_graph.php?pr=bo 
 fetched 2011-05-11}.
 
-Differences with BOINC and the proposed project:
 \begin{itemize}
 	\item In BOINC, the scientists are the end user. They provide the BOINC network
 		a problem to solve, and they get the results. In Lightning, 
@@ -33,34 +30,22 @@ Differences with BOINC and the proposed project:
 \section{Backburner}
 % http://images.autodesk.com/adsk/files/backburner20100.2_user_guide.pdf
 
-Autodesk Backburner is a job management system for distributed rendering and works with several products of the Autodesk suite, such as 3D Studio Max and Maya. The backburner architechture is comprised of mainly two components, Backburner Manager and Backburner Server. A user with a creative application that supports the Backburner interface sends jobs to the Backburner Manager, which distributes these jobs as a set of tasks to its connected Backburner servers. The manager keeps track of the network topology and stores a database of the current job states in its servers. A Backburner server is used together with adapters and processing engines. What type of job a server is capable of executing depends on what type of adapters and processing engines is installed on the server. 
-
-Backburner is quite similar to Lightning in several ways. 
-
-similarities:
-- Interface solution
-- Different processing engines
-- Batch rendering / group rendering
-
-differences: 
-- Network administration
-- Render farm access
-- Backburner is controlled with awesome monitor system to pause/stop/otherwise control jobs
-- A dedicated network is more reliable than ad-hoc
-- Backburner can schedule clients to only work on certain hours/dates
+Autodesk Backburner is a job management system for distributed rendering and works with several products of the Autodesk suite, such as 3D Studio Max and Maya. The backburner architechture is comprised of mainly two components, Backburner Manager and Backburner Server. A user with a creative application that supports the Backburner interface sends jobs to the Backburner Manager, which distributes these jobs as a set of tasks to its connected Backburner servers. The manager keeps track of the network topology and stores a database of the current job states in its servers. A Backburner server is used together with adapters and processing engines. What type of job a server is capable of executing depends on what type of adapters and processing engines is installed on the server. Lightning is also designed with this functionality in mind, enabling the system to support virtually any processing job. However, as with most distributed rendering solutions, Backburner relies on a dedicated network / render farm, which not only requires a lot of resources as well as network administration. With this in mind, even though Backburner is a more reliable solution, the cost is might overshadow the gain for a small home network, or a user with limited resources. 
 
 \section{Mental Ray}
 
 %http://www.kxcad.net/autodesk/3ds_max/Autodesk_3ds_Max_9_Reference/distributed_bucket_rendering_rollout_mental_ray_renderer.html
 
-Mental Ray is equipped with distributed rendering capabilities similar to Lightning: a frame can be divided into buckets and rendered on machines elsewhere using Autodesk Backburner. However, Mental Ray requires the user to know the intended hosts on which the server software is running. This requires a whole lot of network administration, and is best suited for dedicated render farms, something that a hobbyist or student often does not have access to. 
+Mental Ray is equipped with distributed rendering capabilities similar to Lightning: a frame can be divided into buckets and rendered on machines elsewhere using Autodesk Backburner. However, Mental Ray requires the user to know the intended hosts on which the server software is running. This requires a whole lot of network administration, and is best suited for dedicated networks. 
 
 \section{SquidNet}
 
 %http://www.squidnetsoftware.com/Documents/SquidNet-Users-Guide.pdf
 %TODO:  life för mycket meningar börjar med The här
 
-SquidNet is a distributed render system implemented as a plugin for most modern 3D modeling applications. The architechture is composed by a management console and a set of individual network engines. The management system is where a user creates jobs and submit them to a centralized network queue. In an automated process, the clients in the network (also called Tipnodes) monitor the work queue for active jobs and tags a slice of the job that it will process. Every node in the network have access to the queue and can see which job slices that are currently being processed. Tipnodes can act as either job creator, job processor or both. A processing node will wait for jobs to spawn in the work queue, a job 
+SquidNet is a distributed render system implemented as a plugin for most modern 3D modeling applications. The architechture is composed by a management console and a set of individual network engines. The management system is where a user creates jobs and submist them to a centralized network queue. In an automated process, the clients in the network (also called Tipnodes) monitor the work queue for active jobs and tags a slice of the job that it will process. Every node in the network have access to the queue and can see which job slices that are currently being processed. Tipnodes can act as either job creator, job processor or both. A processing node will do nothing bu wait for jobs to spawn in the work queue, while a job creator simply sends its processing task to the management console. Nodes in the network work independant of each other, if a node stops responding the rendering will still be done by other nodes in the network. Lightning currently has no fail-safe system such as this and requires a new network topology to be built in the tracker every time a client crashes or a user wants to abort a rendering. 
+
+
 
 
 
