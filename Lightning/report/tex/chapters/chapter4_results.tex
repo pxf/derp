@@ -37,10 +37,14 @@ Performance tests were run on 4 clients on the Lightning network, with a total o
     %64x64 & 10 & - \\ \hline
     %\end{tabular}
     
+    \emph{Task count} is how big the grid is that divide up the image. Ex. a task count setting of 8x8 results in a total 64 tasks being distributed over the network.
+    
+    \emph{Processor cores} is the total number of CPU cores available on the network. In these tests, only 4 clients were connected to the network, but they collectively had 10 CPU cores. In the base case (1x1 task count), only one client with one core was connected to the network to simulate a classic local run of the ray tracer.
+    
     \emph{Total render time} is the time it takes between the job initiator from sending the job to the network and having received all the resulting tasks.
 \end{center}
 
-  Due to memory leaks, the 64x64-test for the big scene used up all available memory on some clients, and were thus unable to finish.
+  Due to memory leaks, the 64x64 task count setting for the \emph{big scene} used up all available memory on some clients, and were thus unable to finish.
 
 \pic[0.8]{img/shart_not_chart.png}{Graph showing how many seconds each job took to process, at different task count settings.}
 
@@ -131,7 +135,7 @@ as much hardware as possible. Each lightning node needs little to no
 administration, all that's needed is a working connection to a lightning
 tracker.
 
-\pic[1.0]{img/conclusion.jpg}{this is not my fridge?}
+%\pic[1.0]{img/conclusion.jpg}{this is not my fridge?}
 
 
 
