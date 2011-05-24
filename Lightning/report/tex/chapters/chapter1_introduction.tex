@@ -7,9 +7,11 @@
 % - Generic approach, but with specific implementation
 % - Academic study of relationship between network distribution cost vs. running on one computer?  
 
-The idea of this project is to build a two-part prototype, capable of distributing computational data over a peer-to-peer (P2P) network, and retrieving the results within a feasible time frame. The first part deals with communication between remote clients in a decentralized network, with focus on fast data transfer rather than handling large amounts of data. The protocol will primarily be used to synchronize clients in the network to collectively share the computational workload of a task. 
+Lightning is a solution for distributing computational data over a peer-to-peer (P2P) network, implemented in two parts: a naive ray tracer for 3D scene rendering and communication between remote clients in a decentrialized network. The two parts have mainly been developed asynchronously and ultimately combined in a simple prototype. 
 
-The second part of the project consists of a naïve ray tracer that can subdivide a scene into smaller jobs (for example screen regions / blocks), and then process them with little to none dependence on each other or the rest of the scene. Each job is automatically distributed over the network, and the results should be sent back to the job initiator as soon each job finishes.
+The network protocol focus mainly on fast data transfer rather handling large amounts of data and will primarily be used to synchronize clients in the network to collectively share the computational workload of a rendering task.
+
+The simple ray tracer subdivides a 3D scene into smaller independant jobs (screen regions / blocks). Each job is automatically distributed over the network to the clients who waits for a job to appear on its communication channels. After processing each job, the clients sends the finished result back to the job initiator. The rendered frame is thus built block by block, displaying the result to the user incrementally. 
 
 The general purpose of this project is to examine if distributed ray tracing calculations, over a P2P network, is able to reduce the render time of an arbitrarily complex 3D scene, compared to a regular local ray tracing solution. Implementing a new ray tracing application gives a deeper knowledge on ray tracing as a topic but also a greater freedom when incorporating it into the rest of the project, compared to existing ray tracing solutions.
 
