@@ -1,8 +1,7 @@
 \chapter{Implementation}
 
 \section{Worker Client}
-% TODO: Se över tasks-jobs (användningen av orden alltså, det är ju helt jävla
-% blandat..)
+\label{sec:worker}
 The client uses two bound sockets for incoming connections. The first socket is
 used by the tracker after the client have initiated contact to fully establish
 the connection and make sure the client is connectable. The second is used by
@@ -12,47 +11,42 @@ the pool equals the number of CPU cores in the system. Results from the
 processing of a job is sent back to the job initiator by a special purpose 
 \textit{Sender-}thread.
 
-% Discussion: Att det här suger också
-The client is designed in a stateless manner, meaning that when a message is
-sent to a recipient, no record is held of what has transpired in detail, except
-for a simple data structure holding some information helping in decision making
-by the client.
-
 Messages passed between clients containing task data concists of initiation data
 along with actual task data. In the example of ray tracing, initiation data is
 the scene which is to be rendered, and task data is screen coordinates defining
 what portion of the scene a task is to render. It is most often the case that
-the scene data is of much larger size than the coordinates that defines a task.
+the scene data is of much larger size than the coordinates that define a task.
 To avoid unneccecary retransmission of initiation data, this information is
 stored in a cache even though there are no tasks present which is associated
 with the data. Only after a specified amount of time has passed since a task was
 processed using the data will it be removed.
 
-% Discussion: Att det här suger?
-To make sure the network is responsive enough, every node sends PING-messages 
-at a given interval, and closes the connections that does not respond in time.
+The client is designed in a stateless manner, meaning that when a message is
+sent to a recipient, no record is held of what has transpired in detail, except
+for a simple data structure holding some information helping in decision making
+by the client.
 
-%When a client have received jobs, it fills its internal queue and
-%tries to send the (if any) remaining jobs to idle workers.
+% Discussion: Att det här suger?
+To make sure the network is responsive enough, every client sends PING-messages 
+at a given interval, and closes the connections that does not respond in time.
 
 \subsection{Queues}
 The client has three queues, handling all the incoming, outgoing and completed
 tasks.
 \begin{description}
 	\item[Internal queue] \hfill \\
-	Holds all the tasks that the internal workers are to process. These tasks
+	Contains all the tasks that the internal workers are to process. These tasks
 	are reserved for the client and cannot be forwarded. The internal queue will
 	stay filled if there are tasks in the external queue.
 	\item[External queue] \hfill \\
 	All the tasks that the client have been given, which currently does not 
 	fit in the internal queue.
-	%When jobs exist in this queue, the client tries to send them to other clients, by either using already connected clients or asking the tracker for more.
 	\item[Outgoing queue] \hfill \\
 	When a task is completed its result is put in the outgoing queue from where
-	the Sender-thread dequeues and sends the data to the job initiator.
+	the Sender-thread dequeues it and sends the data to the job initiator.
 \end{description}
 
-\subsection{Task Distibution}
+\subsection{Task Distribution}
 Clients start out connected to nothing but the tracker. When a connecting client
 or job initiator forwards a set of tasks to the client a suitable number of
 forwarding clients is calculated. A fixed setting entered at compile time represents
@@ -92,10 +86,10 @@ tracker is sent informing it of the clients availability to accept new tasks.
 If the tracker can't provide idle workers, the client enters a state in which it
 waits for a message from the tracker to provide a set of new worker clients. When a
 message from the tracker is received informing the client about available workers,
-all remaining jobs are distributed evenly among those clients received by the 
+all remaining tasks are distributed evenly among those clients received by the 
 tracker, leaving the external queue empty. This means that in a saturated
 network where all of the connected clients are busy at most of the times, the
-chuck of tasks remaining in a job will be passed around when clients become
+chunk of tasks remaining in a job will be passed around when clients become
 available. However, since most clients already have the initiation data, this
 will not induce a significant network latency, since task data tend to be small.
 
