@@ -1,20 +1,54 @@
 \chapter{Implementation}
 
-
 \section{Worker Client}
-The client has two bound sockets for incoming connections. The first socket is
+% TODO: Se över tasks-jobs (användningen av orden alltså, det är ju helt jävla
+% blandat..)
+The client uses two bound sockets for incoming connections. The first socket is
 used by the tracker after the client have initiated contact to fully establish
 the connection and make sure the client is connectable. The second is used by
-the job initiator and other clients when they have jobs that needs to be
-processed. When a client have received jobs, it fills its internal queue and
+the job initiator and other clients when forwarding tasks that needs to be
+processed. Tasks are processed by a pool of worker threads, where the size of
+the pool equals the number of CPU cores in the system. Results from the
+processing of a job is sent back to the job initiator by a special purpose 
+\textit{Sender-}thread.
+
+% Discussion: det här suger också
+The client is designed in a stateless manner, meaning that when a message is
+sent to a recipient, no record is held of what has transpired in detail, except
+for a simple data structure holding some information helping in decision making
+by the client.
+
+
+
+When a client have received jobs, it fills its internal queue and
 tries to send the (if any) remaining jobs to idle workers.
-If it is not connected to any, or a sufficient amount of idle workers, it asks
-the tracker for more. The client is configured to hold a maximum number of
-connections to other workers (default set to 6) to prohibit passing along huge
-sets of batch data (startup data needed to compute a set of tasks). Limiting the
-transmissions of batch data lowers the pressure of an individual client to
-distribute the data needed to start computing a job, and also results in a more
-evenly distributed workload.
+
+\subsection{Distibution algorithm}
+Clients start out connected to nothing but the tracker. When a connecting client
+or job initiator forwards a set of tasks to the client a suitable number of
+forwarding clients is calculated. A fixed setting entered at compile time represents
+the preferred amount of tasks each client should receive. To prohibit that one
+client forwards a too big set of tasks, thus producing a ``flat'' forwarding
+distribution, another fixed setting is introduced that caps the number of
+clients that can be forwarded to. If one client were to send sets of tasks to a
+large amount of clients, transmitting the initiation data would add network
+latency to the total time of the given job, which could be avoided to some
+extent if the task of transmitting said data would also be distributed among the
+clients.
+
+When requesting new clients from the tracker
+the following is performed: \\
+
+\begin{samepage}
+\begin{algorithmic}
+\STATE \COMMENT{num\_tasks equals the number of tasks to be forwarded}
+\IF {$num\_tasks \geq preferred\_tasks*max\_clients$}
+	\STATE $request\_nodes(max\_clients$)
+\ELSE
+	\STATE $request\_nodes(num\_tasks/preferred\_tasks$)
+\ENDIF
+\end{algorithmic}
+\end{samepage}
 
 If the tracker can't provide idle workers, the client enters a state in which it
 waits for a message from the tracker to provide a set of new worker clients. In
@@ -30,22 +64,19 @@ resulting data is sent.
 % Discussion: det här suger?
 To make sure the network is responsive enough, every node sends PING-messages at a given interval, and closes the connections that does not respond in time.
 
-% Discussion: det här suger också
-The client is designed in a stateless manner, meaning that when a message is
-sent to a recipient, no record is held of what has transpired in detail, except
-for a simple data structure holding some information helping in decision making
-by the client.
 
 \subsection{Queues}
 The client has three queues, handling all the incoming, outgoing and completed jobs.
 \begin{description}
 	\item[Internal queue] \hfill \\
-	Holds all the jobs that the internal workers are going to process. The size of this queue can be changed in a way that makes the network efficient. However, the current implementation sets this to a fixed size.
+	Holds all the tasks that the internal workers are to process. These tasks
+	are reserved for the client and cannot be forwarded.
 	\item[External queue] \hfill \\
-	All the jobs that the client have been given, which currently does not fit in the internal queue.
-	When jobs exist in this queue, the client tries to send them to other clients, by either using already connected clients or asking the tracker for more.
+	All the tasks that the client have been given, which currently does not fit in the internal queue.
+	%When jobs exist in this queue, the client tries to send them to other clients, by either using already connected clients or asking the tracker for more.
 	\item[Outgoing queue] \hfill \\
-	When a job is completed it is put in this queue and a special \textit{Sender}-thread sends them to the job initiator one at a time.
+	When a task is completed its result is put in the outgoing queue from where
+	the Sender-thread dequeues and sends the data to the job initiator.
 \end{description}
 
 %Since the Lightning client should be able to process arbitrary complex computational data, speed is , and this is one of the reasons why C++ was chosen as the target implementation language for the client.
