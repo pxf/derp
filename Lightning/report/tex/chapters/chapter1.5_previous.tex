@@ -54,7 +54,21 @@ Mental Ray is equipped with distributed rendering capabilities similar to Lightn
 %http://www.squidnetsoftware.com/Documents/SquidNet-Users-Guide.pdf
 %TODO:  life för mycket meningar börjar med The här
 
-SquidNet is a distributed render system implemented as a plugin for most modern 3D modeling applications. The architechture is composed by a management console and a set of individual network engines. The management system is where a user creates jobs and submist them to a centralized network queue. In an automated process, the clients in the network (also called Tipnodes) monitor the work queue for active jobs and tags a slice of the job that it will process. Every node in the network have access to the queue and can see which job slices that are currently being processed. Tipnodes can act as either job creator, job processor or both. A processing node will do nothing bu wait for jobs to spawn in the work queue, while a job creator simply sends its processing task to the management console. Nodes in the network work independant of each other, if a node stops responding the rendering will still be done by other nodes in the network. Lightning currently has no fail-safe system such as this and requires a new network topology to be built in the tracker every time a client crashes or a user wants to abort a rendering. 
+SquidNet is a distributed render system implemented as a plugin for most modern
+3D modeling applications. The architechture is composed by a management console
+and a set of individual network engines. The management system is where a user
+creates jobs and submit them to a centralized network queue. In an automated
+process, the clients in the network (also called Tipnodes) monitor the work
+queue for active jobs and tags a slice of the job that it will process. Every
+node in the network have access to the queue and can see which job slices that
+are currently being processed. Tipnodes can act as either job creator, job
+processor or both. A processing node will do nothing but wait for jobs to spawn
+in the work queue, while a job creator simply sends its processing task to the
+management console. Nodes in the network work independant of each other, if a
+node stops responding the rendering will still be done by other nodes in the
+network. Lightning currently has no fail-safe system such as this and requires a
+new network topology to be built in the tracker every time a client crashes or a
+user wants to abort a rendering.
 
 
 
