@@ -11,12 +11,12 @@ the pool equals the number of CPU cores in the system. Results from the
 processing of a job is sent back to the job initiator by a special purpose 
 \textit{Sender-}thread.
 
-Messages passed between clients containing task data concists of initiation data
+Messages passed between clients containing task data consists of initiation data
 along with actual task data. In the example of ray tracing, initiation data is
 the scene which is to be rendered, and task data is screen coordinates defining
 what portion of the scene a task is to render. It is most often the case that
 the scene data is of much larger size than the coordinates that define a task.
-To avoid unneccecary retransmission of initiation data, this information is
+To avoid unnecessary retransmission of initiation data, this information is
 stored in a cache even though there are no tasks present which is associated
 with the data. Only after a specified amount of time has passed since a task was
 processed using the data will it be removed.
