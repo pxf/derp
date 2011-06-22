@@ -1,72 +1,115 @@
 \chapter{Implementation}
 
-
 \section{Worker Client}
-The client has two bound sockets for incoming connections. The first socket is
+\label{sec:worker}
+The client uses two bound sockets for incoming connections. The first socket is
 used by the tracker after the client have initiated contact to fully establish
 the connection and make sure the client is connectable. The second is used by
-the job initiator and other clients when they have jobs that needs to be
-processed. When a client have received jobs, it fills its internal queue and
-tries to send the (if any) remaining jobs to idle workers.
-If it is not connected to any, or a sufficient amount of idle workers, it asks
-the tracker for more. The client is configured to hold a maximum number of
-connections to other workers (default set to 6) to prohibit passing along huge
-sets of batch data (startup data needed to compute a set of tasks). Limiting the
-transmissions of batch data lowers the pressure of an individual client to
-distribute the data needed to start computing a job, and also results in a more
-evenly distributed workload.
+the job initiator and other clients when forwarding tasks that needs to be
+processed. Tasks are processed by a pool of worker threads, where the size of
+the pool equals the number of CPU cores in the system. Results from the
+processing of a job is sent back to the job initiator by a special purpose 
+\textit{Sender-}thread.
 
-If the tracker can't provide idle workers, the client enters a state in which it
-waits for a message from the tracker to provide a set of new worker clients. In
-the meantime the client keeps it internal queue filled, thus still reducing the
-number of jobs waiting to be processed. When a message from the tracker is
-received informing the client about available workers, all remaining jobs are
-distributed evenly among those clients received by the tracker, leaving the
-external queue empty.
+Messages passed between clients containing task data concists of initiation data
+along with actual task data. In the example of ray tracing, initiation data is
+the scene which is to be rendered, and task data is screen coordinates defining
+what portion of the scene a task is to render. It is most often the case that
+the scene data is of much larger size than the coordinates that define a task.
+To avoid unneccecary retransmission of initiation data, this information is
+stored in a cache even though there are no tasks present which is associated
+with the data. Only after a specified amount of time has passed since a task was
+processed using the data will it be removed.
 
-After a job is completed, a connection is opened to the job initiator and the
-resulting data is sent.
-
-% Discussion: det här suger?
-To make sure the network is responsive enough, every node sends PING-messages at a given interval, and closes the connections that does not respond in time.
-
-% Discussion: det här suger också
 The client is designed in a stateless manner, meaning that when a message is
 sent to a recipient, no record is held of what has transpired in detail, except
 for a simple data structure holding some information helping in decision making
 by the client.
 
+% Discussion: Att det här suger?
+To make sure the network is responsive enough, every client sends PING-messages 
+at a given interval, and closes the connections that does not respond in time.
+
 \subsection{Queues}
-The client has three queues, handling all the incoming, outgoing and completed jobs.
+The client has three queues, handling all the incoming, outgoing and completed
+tasks.
 \begin{description}
 	\item[Internal queue] \hfill \\
-	Holds all the jobs that the internal workers are going to process. The size of this queue can be changed in a way that makes the network efficient. However, the current implementation sets this to a fixed size.
+	Contains all the tasks that the internal workers are to process. These tasks
+	are reserved for the client and cannot be forwarded. The internal queue will
+	stay filled if there are tasks in the external queue.
 	\item[External queue] \hfill \\
-	All the jobs that the client have been given, which currently does not fit in the internal queue.
-	When jobs exist in this queue, the client tries to send them to other clients, by either using already connected clients or asking the tracker for more.
+	All the tasks that the client have been given, which currently does not 
+	fit in the internal queue.
 	\item[Outgoing queue] \hfill \\
-	When a job is completed it is put in this queue and a special \textit{Sender}-thread sends them to the job initiator one at a time.
+	When a task is completed its result is put in the outgoing queue from where
+	the Sender-thread dequeues it and sends the data to the job initiator.
 \end{description}
 
-%Since the Lightning client should be able to process arbitrary complex computational data, speed is , and this is one of the reasons why C++ was chosen as the target implementation language for the client.
+\subsection{Task Distribution}
+Clients start out connected to nothing but the tracker. When a connecting client
+or job initiator forwards a set of tasks to the client a suitable number of
+forwarding clients is calculated. A fixed setting entered at compile time represents
+the preferred amount of tasks each client should receive. To prohibit that one
+client forwards a too big set of tasks, thus producing a ''flat'' forwarding
+distribution, another fixed setting is introduced that caps the number of
+clients that can be forwarded to. If one client were to send sets of tasks to a
+large amount of clients, transmitting the initiation data would add network
+latency to the total time of the given job, which could be avoided to some
+extent if the task of transmitting said data would also be distributed among the
+clients.
+
+When requesting new clients from the tracker
+the following is performed: \\
+
+\begin{samepage}
+\begin{algorithmic}
+\STATE \COMMENT{num\_tasks equals the number of tasks to be forwarded}
+\IF {$num\_tasks \geq preferred\_tasks*max\_clients$}
+	\STATE $request\_nodes(max\_clients$)
+\ELSE
+	\STATE $request\_nodes(num\_tasks/preferred\_tasks$)
+\ENDIF
+\end{algorithmic}
+\end{samepage}
+
+The \textit{internal} queue is always kept full as long as there is tasks in the
+\textit{external} queue. This means that the client will keep reducing the tasks
+awaiting processing and forwarding at all times.
+
+It is expected that the tracker provides a set of worker clients for which to
+forward the tasks to. The tasks left in the external queue are evenly
+distributed among the nodes received by the tracker, leaving the external queue
+empty. When the worker threads have emptied the internal queue a message to the
+tracker is sent informing it of the clients availability to accept new tasks.
+
+If the tracker can't provide idle workers, the client enters a state in which it
+waits for a message from the tracker to provide a set of new worker clients. When a
+message from the tracker is received informing the client about available workers,
+all remaining tasks are distributed evenly among those clients received by the 
+tracker, leaving the external queue empty. This means that in a saturated
+network where all of the connected clients are busy at most of the times, the
+chunk of tasks remaining in a job will be passed around when clients become
+available. However, since most clients already have the initiation data, this
+will not induce a significant network latency, since task data tend to be small.
 
 
 \section{Ray-Tracer Job Processor}
 Even if the worker client would be able to handle many different job processors, the main focus were from the start to create a naïve ray-tracer processor. Implementation started with simple tests consisting of ray-sphere intersections, and were further developed to handle ray-triangle intersections based on parsed scene data. The lightning calculations are also very simple, but fit the purpose of a simple prototype.
 
-Each job is essentially a serialized 3D scene, which consists of a collection of triangles, a kd-tree (explained in more detail below), materials, light sources and the camera position and orientation. The job initiator serialize and package this data, it is then up to the job processor to unpack the data and use it for each task.
+Each job is essentially a serialized 3D scene, which consists of a collection of triangles, a kd-tree (explained in more detail below), materials, light sources and the camera position and orientation. While the job initiator serialize and packages this data, it is up to the job processor to unpack the data and use it for each task.
 
-Each of the tasks in a job, is simply a predefined region of the final image. The job processor runs a shading function for each pixel it has to render, where it essentially traces a ray from the camera origin through each pixel into the scene. The shading function uses the data sent with the job (triangles, kd-tree, material and light information) to shade the pixels in the task region. As soon as a task is finished, the results are packed and pushed onto the outgoing queue, where the client then takes care of sending it back to the job initiator.
+Each of the tasks in a job, is simply a predefined region of the final image. The job processor runs a shading function for each pixel it has to render, where it essentially traces a ray from the camera origin through each pixel into the scene. The shading function uses the data sent with the job (triangles, kd-tree, material and light information) to shade the pixels in the task region. As soon as a task is finished, the results are repacked and pushed onto the outgoing queue, where the client then takes care of sending it back to the job initiator.
 %- Naïve raytracer implementation\\
 
 \subsection{KD-Tree}
-In the first iteration of the ray tracer, a brute force algorithm was used for each ray against all the geometry in the scene. At first, it did not cause extreme performance costs as small scenes with simple objects was used. However, when using complex 3D objects with thousands of triangles, rendering the scene took several minutes and was thus impossible to work with. To address this issue, a spatial division scheme was implemented. There exists several different schemes with various benefits, but ultimately, a KD tree algorithm was designed for the task, based on a paper by Ingo Wald\footnote{http://www.sci.utah.edu/~wald/Publications/2006///NlogN/download//kdtree.pdf}. 
+In the first iteration of the ray tracer, a brute force algorithm was used for each ray against all the geometry in the scene. At first, it did not cause extreme performance costs as small scenes with simple objects was used. However, when using complex 3D objects with thousands of triangles, rendering the scene took 10+ minutes and was thus impossible to work with. To address this issue, a spatial division scheme was implemented. There exists several different schemes with various benefits, but ultimately a KD tree algorithm was designed for the task, based on a paper by Ingo Wald\footnote{http://www.sci.utah.edu/~wald/Publications/2006///NlogN/download//kdtree.pdf}. 
 
 As a tree can take several minutes to build, it is calculated offline once and then stored locally as a binary file. When loading a model, the renderer loads the cached file containing the binary kd-tree in almost no time.
 
-The tree is constructed offline by a number of passes:
+The tree is constructed offline in a number of passes:
 \begin{itemize}
-  \item \textbf{Pass 1:} Construct a bounding volume for each primitive used in the scene. A bounding volume encapsulating all the primitives in the tree is also calculated. This is used for early hit detection by a ray-box intersection on the total volume.
+  \item \textbf{Pass 1:} Construct a bounding volume for each primitive used in the scene. A bounding volume that encapsulates all the primitives in the tree is also calculated. This is used for early hit detection by a ray-box intersection on the total volume.
   \item \textbf{Pass 2:} Recursively build the tree. The following pseudo-algorithm describes the algorithm:
 
 
@@ -105,22 +148,20 @@ The tree is constructed offline by a number of passes:
   \item \textbf{Pass 3:} Build a cache-friendly tree that uses data indices instead of raw data from the tree in pass 2. As no pointers are used in the leaves, this tree can finally be serialized to a file, or sent over a network connection and used directly by clients with no re-calculation or processing.
 \end{itemize}
 
-When the tree is build, it can then be used in ray-primitive intersections when ray-tracing.
+When the tree is build, it can then be used in ray-primitive intersections when ray tracing.
 
 \section{Tracker}
-When a node connects to the tracker a new connection is established to the node's incoming socket from the tracker, and if it succeeds the first socket is closed in favor of the now outgoing connection.
-This gives the network an automated way of testing whether the node is connectable or not.
-After the connection has been fully established the node is given a unique ID that it uses whenever it talks to the tracker and other nodes.
-Following types of messages are used for further communication.
+When a node connects to the tracker, a new connection is established to the node's incoming socket from the tracker. Iif it succeeds, the first socket is closed in favor of the now outgoing connection, which provides the network with an automated way of testing whether the node is connectable or not. After the connection has been fully established, the node is given an unique ID that it uses whenever it communicates with the tracker and other nodes.
+The following types of messages are then used:
 
 \begin{description}
 \item[Node requests more nodes] \hfill \\\\
-Any available nodes are returned. If no such nodes exist the requesting node is instead put in a waiting queue.
+Any available nodes are returned. If no such nodes exist, the requesting node is instead put in a waiting queue.
 \item[Node signaling it is available to other nodes] \hfill \\\\
-The node is tagged as being available for work, and if there are nodes in the waiting queue already they are to receive this node until it's spent.
+The node is tagged as being available for work, if there are nodes in the waiting queue already they receive this node until it's spent.
 \end{description}
 
-To be able to make smart decisions about the creation of the network, the tracker keeps a database on how the nodes are connected.
+To be able to make smart decisions about the network topology, the tracker keeps a database on how the nodes are connected.
 
 \section{Job Initiator}
 Initial plans were to create a job initiator as a plugin to an existing 3D modeling application. These plans had to be put on hold as focus needed to be shifted to a simpler model viewer type of job initiator. The model viewer is able to load one or more 3D models. It has the possibility to render the 3D models in realtime using OpenGL, so that the user can reposition the camera before sending the scene to the network.

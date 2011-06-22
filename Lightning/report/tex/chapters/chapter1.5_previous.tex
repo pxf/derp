@@ -17,15 +17,10 @@ The main difference between BOINC and Lightning is the network structure and top
 Communication in BOINC is done by sending data with the HTTP protocol through centralized data
 servers that handles traffic between all connected clients, which means 
 that there is no direct interaction between two clients. Lightning only
-requires a tracker to convey information between P2P connected clients.
-BOINC have a kind of ''credits'' system to enable friendly competition within the user base.
-A similar system was initially planned for Lightning as well, dictating how much each client
-could utilize the service, depending on the amount of processing power the user had previously
-made available to the network. The idea was to have more of a give-and-take philosophy, much
-like how BitTorrent work.
-
-In BOINC, the scientists are the end user. They provide the BOINC network a problem to solve,
-and they get the results. In Lightning, the user acts like both worker and job initiator.
+requires a tracker to convey information between P2P connections.
+BOINC utilizes a ''credits'' system to enable friendly competition within the user base.
+A similar system was initially planned for Lightning that, depending on the amount of processing power the user had previously
+made available to the network, dictated how much a client could utilize the service. The idea was to have more of a give-and-take philosophy, influenced by the BitTorrent protocol.
 
 % omskrivet till löpande text ovan:
 %\begin{itemize}
@@ -52,15 +47,14 @@ Autodesk Backburner is a job management system for distributed rendering and wor
 
 %http://www.kxcad.net/autodesk/3ds_max/Autodesk_3ds_Max_9_Reference/distributed_bucket_rendering_rollout_mental_ray_renderer.html
 
-Mental Ray is equipped with distributed rendering capabilities similar to Lightning: a frame can be divided into buckets and rendered on machines elsewhere using Autodesk Backburner. However, Mental Ray requires the user to know the intended hosts on which the server software is running. This requires a whole lot of network administration, and is best suited for dedicated networks. 
+Mental Ray is equipped with distributed rendering capabilities similar to Lightning: a frame can be divided into buckets and rendered on machines elsewhere using Autodesk Backburner. However, Mental Ray requires the user to know the intended hosts on which the server software is running. This requires a whole lot of network administration and is best suited for dedicated networks. 
 
 \section{SquidNet}
 
 %http://www.squidnetsoftware.com/Documents/SquidNet-Users-Guide.pdf
 %TODO:  life för mycket meningar börjar med The här
 
-SquidNet is a distributed render system implemented as a plugin for most modern 3D modeling applications. The architecture is composed by a management console and a set of individual network engines. The management system is where a user creates jobs and submit them to a centralized network queue. In an automated process, the clients in the network (also called Tipnodes) monitor the work queue for active jobs and tags a slice of the job that it will process. Every node in the network have access to the queue and can see which job slices that are currently being processed. Tipnodes can act as either job creator, job processor or both. A processing node will do nothing but wait for jobs to spawn in the work queue, while a job creator simply sends its processing task to the management console. Nodes in the network work independent of each other, if a node stops responding the rendering will still be done by other nodes in the network. Lightning currently has no fail-safe system such as this and requires a new network topology to be built in the tracker every time a client crashes or a user wants to abort a rendering. 
-
+SquidNet is a distributed render system implemented as a plugin for most modern 3D modeling applications. The architecture is composed by a management console and a set of individual network engines. The management system is where a user creates jobs and submits them to a centralized network queue. In an automated process, the clients in the network (also called Tipnodes) monitor the work queue for active jobs and tag a slice of the job that they will process. Every node in the network have access to the queue and can see which job slices that are currently being processed. Tipnodes can act as either job creator, job processor or both. A processing node will do nothing but wait for jobs to spawn in the work queue, while a job creator simply sends its processing task to the management console. Nodes in the network work independent of each other; if a node stops responding, the rendering will still be done by other nodes in the network. Lightning currently has no fail-safe system such as this and requires a new network topology to be built in the tracker every time a client crashes or a user wants to abort a rendering. 
 
 
 

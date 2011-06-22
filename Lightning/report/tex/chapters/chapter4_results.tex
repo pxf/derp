@@ -1,7 +1,7 @@
 \chapter{Results}
 
 %Basic performance test:
-Performance tests were run on 4 clients on the Lightning network, with a total of 10 CPU cores combined. Two different scenes were tested, each with 6 different settings on how the image were divided (task count).
+Performance tests were run on 4 clients connected to a Lightning network, with a total of 10 CPU cores combined. Two different scenes were tested, each with 6 different settings on how the image were divided (task count).
 
 \begin{center}
     Small scene data - 8 194 leaves (triangles)
@@ -87,10 +87,17 @@ rendering times for jobs with a large amount of tasks.
 A huge delay was added towards the end of the jobs with larger tasks because
 of the slower clients filling up their internal queue while the faster clients are idle.
 
-A huge pool of worker clients was imagined in designing the algorithm for
+A significantly large pool of worker clients was imagined in designing the algorithm for
 distributing tasks in the network. In reality however, adaptions had to be made
-since a sufficient amount of computers could not be made available.
+since a sufficient amount of computers could not be made available, and running
+the system with more than 6 clients connected has not been tried.
 
+As described in section~\ref{sec:worker}, the client was written in a stateless
+manner, which introduced an unecessary amount of complexity to the development
+of a small prototype. This prompted for memory management issues, bugs in 
+distribution and general programming errors. Also the protocol between clients
+and between clients and the tracker did not support this design methadology very
+well either.
 
 \section{Conclusion}
 One of the aims of the Lightning project was to explore the field of distributed
