@@ -61,7 +61,7 @@ Performance tests were run on 4 clients connected to a Lightning network, with a
 %when the distribution algorithm woes. Even if the number of jobs increases, the jobs finish not much later than before on the job processor side, but instead the bottleneck seems to be on the receiving end. This has to do with the massive increase of connections the receiving application has to open and handle, one for each result it will receive.
 
 The shading and ray tracing algorithms implemented are very simple in
-comparison to modern commercial solutions, and can not compete 
+comparison to modern commercial solutions, and cannot compete 
 in neither graphical results nor speed at its current state. However, the
 Lightning prototype is still relevant and interesting for 
 future developments in its field, as it approaches the problem in a different
@@ -122,11 +122,11 @@ be fixed in the future by using NAT traversal\footnote{http://en.wikipedia.org/w
 
 % - no need for classic render farms
 The current de facto industry standard used by companies in the animation and
-rendering business is to have dedicated "computer farms" running software
-that render the scenes/movies, either in house or hired from a third part.
+rendering business is to have dedicated 'computer farms' running software
+that render the scenes and movies, either in house or hired from a third part.
 These farms usually have  consistent high end hardware through out the
 networks. Lightning networks can be viewed as a new generation of a much
-more general computing farms consisting of varied hardware setups, utilizing
+more general computing farms consisting of varied hardware setups, using
 idle processing time and possibly much larger in processor count compared to
 classical computing farms.
 %Even if Lightning might have a bigger appeal for the home and hobbyists markets due to its costs and those communities to 
@@ -173,8 +173,8 @@ ray intersection tests and data structures.
 %The tracker should help out more with spreading the work among the available clients.
 
 \section{Photon Mapping}
-Distributed photon mapping would be a possible addition to the ray tracer,
-in order to get a good approximation of global illumination. The photon
+Distributed photon mapping would be a possible addition to the ray tracer, 
+to get a good approximation of global illumination. The photon
 mapper would be implemented as a job processor, where each job could be
 divided into tasks such that each task would shoot a fix amount of photons.
 These results would then be collected at the job initiator and incorporated

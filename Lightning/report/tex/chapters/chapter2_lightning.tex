@@ -7,9 +7,9 @@ The lightning software suite is divided into four major parts; \textbf{tracker},
 \begin{enumerate}
   \item A job initiator prepares and package both job data and tasks, and later transmits these to a client in the cloud. An example of a job initiator would be a plugin for a 3D modeling application, or a standalone model viewer.
   \item A lightning client receives the job data and tasks. It fills its internal queues with as many tasks it is able to process.
-  \item The lightning client will then try to forward the rest of the tasks to other clients in the network. If it cannot find any other clients to send to, it will notify the tracker that it is in need of more clients. The tracker will then notify the waiting client as soon as more clients become available.
-  \item When tasks are added to the internal queue of a client, the corresponding job processor for a specific type of job and task  starts to process the tasks in a FIFO order. As soon as a job processor has finished processing a task, the result is pushed onto a second outgoing queue.
-  \item The tasks are distributed inside the cloud among the available clients. Clients have the ability to notify the tracker if they are available or waiting for other clients to become available.
+  \item The lightning client will then try to forward the rest of the tasks to other clients in the network. If it cannot find any other clients to send to, it will notify the tracker that it is in need of more clients. The tracker will then notify the waiting client when more clients become available.
+  \item When tasks are added to the internal queue of a client, the corresponding job processor for a specific type of job and task  starts to process the tasks in a FIFO order. When a job processor has finished processing a task, the result is pushed onto a second outgoing queue.
+  \item The tasks are distributed inside the cloud among the available clients. Clients can notify the tracker if they are available or waiting for other clients to become available.
   \item The tracker keeps track of all clients in the cloud, and their connectivity between each other.
   \item When job processors finish tasks and pushes them onto the outgoing queue, the client sends the calculated results back to the job initiator. It is up to the job initiator to handle all the task results and combine them into a final result.
 \end{enumerate}
@@ -18,9 +18,9 @@ The lightning software suite is divided into four major parts; \textbf{tracker},
 %[similar to bittorrent tracker]
 The tracker is the central piece of software that manages and coordinates the large set of worker clients in the network.
 % The main task of the tracker is the organize the worker clients in the network.
-When a worker client need to pass along tasks, and all the known worker clients are busy, it can request a list of idle worker clients from the tracker. The tracker also has the ability to store statistics of the network and each individual worker client, much like a BitTorrent tracker does. This information could then later be used to control and restrict how end-user clients have access to the network. 
+When a worker client need to pass along tasks, and all the known worker clients are busy, it can request a list of idle worker clients from the tracker. The tracker could also store statistics of the network and each individual worker client, much like a BitTorrent tracker does. This information could then later be used to control and restrict how end-user clients have access to the network. 
 
-One example of statistics usage would be to limit the amount a scene data end-user client can send to the network, depending on how much scene data its local worker client previously has handled. In this way, the more data a client has processed, the more and bigger jobs it can send to the network. This is similar to how most private BitTorrent trackers work, but instead in regard to the ratio between raw data downloaded and uploaded.
+One example of statistics usage would be to limit the amount a scene data end-user client can send to the network, depending on how much scene data its local worker client previously has handled. In this way, the more data a client has processed, the more and bigger jobs it can send to the network. This is similar to how most private BitTorrent trackers work, but instead regarding the ratio between raw data downloaded and uploaded.
 
 %The main task of the tracker is to split large incoming problem sets into smaller pieces and delegate work to available clients.
 % the above isn't right, the tracker has nothing to do with the splitting, rework it to fit our current work
@@ -44,7 +44,7 @@ In an idle state, i.e. when no work is being done by the network, the worker cli
 %Since the Lightning client should be able to process arbitrary complex computational data, speed is of the essence, and this is one of the reasons why C++ was chosen as the target implementation language for the client.
 
 \subsection{Job Processors}
-  To handle different types of jobs, the worker clients have one or more modules called job processors. A job processor is a specialized module that can solve a specific type of job. When the worker client receives tasks and adds them to the internal queue, the appropriate job processor starts processing the tasks. As soon as the job processor has finished processing a task, the result is pushed onto a result queue inside the worker client.
+  To handle different types of jobs, the worker clients have one or more modules called job processors. A job processor is a specialized module that can solve a specific type of job. When the worker client receives tasks and adds them to the internal queue, the appropriate job processor starts processing the tasks. When the job processor has finished processing a task, the result is pushed onto a result queue inside the worker client.
 
 \section{End-user Clients and Job Initiators}
 Before any scene can be distributed and rendered, it has to be packaged in the correct way in order for the P2P network and its clients to understand it. One of the main reasons the worker client is separated from the job initiators is so that different types of job initiators can be implemented without them having to dependent on the worker clients version and implementation. This means that  different kinds of end-user clients that can be implemented, that load and handle different types of scene data, as long as they package them in a standard way that the worker clients can understand.

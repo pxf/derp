@@ -51,7 +51,7 @@ Clients start out connected to nothing but the tracker. When a connecting client
 or job initiator forwards a set of tasks to the client a suitable number of
 forwarding clients is calculated. A fixed setting entered at compile time represents
 the preferred amount of tasks each client should receive. To prohibit that one
-client forwards a too big set of tasks, thus producing a ''flat'' forwarding
+client forwards a too big set of tasks, thus producing a 'flat' forwarding
 distribution, another fixed setting is introduced that caps the number of
 clients that can be forwarded to. If one client were to send sets of tasks to a
 large amount of clients, transmitting the initiation data would add network
@@ -88,7 +88,7 @@ waits for a message from the tracker to provide a set of new worker clients. Whe
 message from the tracker is received informing the client about available workers,
 all remaining tasks are distributed evenly among those clients received by the 
 tracker, leaving the external queue empty. This means that in a saturated
-network where all of the connected clients are busy at most of the times, the
+network where all the connected clients are busy at most of the times, the
 chunk of tasks remaining in a job will be passed around when clients become
 available. However, since most clients already have the initiation data, this
 will not induce a significant network latency, since task data tend to be small.
@@ -99,7 +99,7 @@ Even if the worker client would be able to handle many different job processors,
 
 Each job is essentially a serialized 3D scene, which consists of a collection of triangles, a kd-tree (explained in more detail below), materials, light sources and the camera position and orientation. While the job initiator serialize and packages this data, it is up to the job processor to unpack the data and use it for each task.
 
-Each of the tasks in a job, is simply a predefined region of the final image. The job processor runs a shading function for each pixel it has to render, where it essentially traces a ray from the camera origin through each pixel into the scene. The shading function uses the data sent with the job (triangles, kd-tree, material and light information) to shade the pixels in the task region. As soon as a task is finished, the results are repacked and pushed onto the outgoing queue, where the client then takes care of sending it back to the job initiator.
+Each of the tasks in a job, is simply a predefined region of the final image. The job processor runs a shading function for each pixel it has to render, where it essentially traces a ray from the camera origin through each pixel into the scene. The shading function uses the data sent with the job (triangles, kd-tree, material and light information) to shade the pixels in the task region. When a task is finished, the results are repacked and pushed onto the outgoing queue, where the client then takes care of sending it back to the job initiator.
 %- Naïve raytracer implementation\\
 
 \subsection{KD-Tree}
@@ -151,7 +151,7 @@ The tree is constructed offline in a number of passes:
 When the tree is build, it can then be used in ray-primitive intersections when ray tracing.
 
 \section{Tracker}
-When a node connects to the tracker, a new connection is established to the node's incoming socket from the tracker. Iif it succeeds, the first socket is closed in favor of the now outgoing connection, which provides the network with an automated way of testing whether the node is connectable or not. After the connection has been fully established, the node is given an unique ID that it uses whenever it communicates with the tracker and other nodes.
+When a node connects to the tracker, a new connection is established to the node's incoming socket from the tracker. Iif it succeeds, the first socket is closed in favor of the now outgoing connection, which provides the network with an automated way of testing whether the node is connectable or not. After the connection has been fully established, the node is given a unique ID that it uses whenever it communicates with the tracker and other nodes.
 The following types of messages are then used:
 
 \begin{description}
